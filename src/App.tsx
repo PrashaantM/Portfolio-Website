@@ -3,10 +3,13 @@ import Background from './components/Background'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Section from './components/Section'
+import MusicToggle from './components/MusicToggle'
+import { MusicProvider } from './context/MusicProvider'
 import Hero from './sections/Hero'
 import About from './sections/About'
 import Skills from './sections/Skills'
 import Projects from './sections/Projects'
+import Lab from './sections/Lab'
 
 interface PlaceholderSectionProps {
   id: string
@@ -31,7 +34,7 @@ function PlaceholderSection({ id, title, note }: PlaceholderSectionProps) {
 
 function App() {
   return (
-    <>
+    <MusicProvider>
       <SkipLink />
       <Background />
       <Navbar />
@@ -41,11 +44,7 @@ function App() {
         <About />
         <Skills />
         <Projects />
-        <PlaceholderSection
-          id="lab"
-          title="Experimental Lab"
-          note="Placeholder. Built in Phase 10."
-        />
+        <Lab />
         <PlaceholderSection
           id="experience"
           title="Experience"
@@ -64,7 +63,8 @@ function App() {
       </main>
 
       <Footer />
-    </>
+      <MusicToggle />
+    </MusicProvider>
   )
 }
 
