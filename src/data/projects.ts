@@ -97,4 +97,52 @@ export const PROJECTS: Project[] = [
     result: 'Shipped iteratively as a 4-person Agile team with working modular services.',
     github: 'https://github.com/PrashaantM/BestBytes',
   },
+  {
+    id: 'bugzapper',
+    name: 'BugZapper',
+    purpose: 'A 3D browser game with a rendering pipeline built entirely from scratch, no game engine involved.',
+    problem:
+      'Building convincing 3D graphics in the browser usually means reaching for a library like Three.js, which hides how the actual rendering pipeline works underneath it.',
+    solution:
+      'A 3D browser game built directly on raw WebGL and hand-written GLSL shaders, with zero external 3D libraries, handling the full rendering pipeline itself.',
+    architecture: 'Vanilla JavaScript and WebGL, custom GLSL vertex and fragment shaders, no rendering framework or game engine.',
+    decision:
+      'Wrote the shaders and rendering pipeline by hand instead of pulling in an existing 3D library, trading development speed for actually understanding how the graphics pipeline works end to end.',
+    tech: ['JavaScript', 'WebGL', 'GLSL', 'Shaders'],
+    result: 'A playable 3D browser game running at 60 FPS with adaptive difficulty scaling.',
+    github: 'https://github.com/PrashaantM/BugZapper',
+  },
+  {
+    id: 'malware-containment-research',
+    name: 'Malware Containment Research',
+    purpose:
+      'A network science research project (UBC COSC 421 team project) on the most effective way to contain a malware outbreak.',
+    problem:
+      'Standard security practice quarantines high-traffic "hub" nodes first during an outbreak, but that is an assumption, not something the team had seen actually tested against alternatives.',
+    solution:
+      'Modeled 125,000+ NSL-KDD network traffic records as weighted directed graphs, evaluated network vulnerability across 8 centrality measures (including PageRank, betweenness, closeness, and eigenvector centrality), and ran a weighted SIR outbreak simulation to compare node-removal strategies head to head.',
+    architecture: 'R, using igraph for graph modeling and centrality analysis, and tidyverse/ggplot2 for analysis and visualization.',
+    decision:
+      'Tested PageRank centrality as a containment strategy against the conventional degree/traffic-volume approach instead of assuming the standard approach was correct, and backed the comparison with simulation rather than intuition.',
+    tech: ['R', 'igraph', 'Graph Theory', 'SIR Simulation', 'Network Science'],
+    result:
+      'PageRank-based node removal contained outbreaks about 15 to 20 percent more effectively than degree-based removal, and high-betweenness "bottleneck" nodes turned out to matter more than high-volume hub nodes in several network topologies.',
+    github: 'https://github.com/PrashaantM/Malware-Containment-Research',
+  },
+  {
+    id: 'crave',
+    name: 'C.R.A.V.E',
+    purpose:
+      'A mobile cycling app (UBC COSC 341 team project) that combines real-time ride tracking with local discovery and gamification.',
+    problem:
+      'Cycling apps usually pick one lane: fitness tracking or navigation. Neither makes a ride more interesting, and neither gives a rider a reason to come back tomorrow.',
+    solution:
+      'A React Native app combining live GPS ride tracking, route suggestions weighed by distance, safety, and scenery, discovery of nearby restaurants, cafes, and parks along the route, and a badge and monthly leaderboard system to keep people riding.',
+    architecture: 'React Native for the app, the Google Maps API for navigation and real-time tracking, Figma driving the UX process.',
+    decision:
+      'Ran two full rounds of user testing and shipped what the tests actually surfaced instead of the original design: safety warnings before a ride starts, a fixed km versus km/h unit inconsistency, and a reworked rating system after the first round showed people wanted feedback on the places they visited.',
+    tech: ['React Native', 'Google Maps API', 'Figma'],
+    result: 'A working app with real GPS tracking and gamification, refined through two rounds of real user testing rather than shipped on a single guess.',
+    github: 'https://github.com/PrashaantM/C.R.A.V.E',
+  },
 ]
