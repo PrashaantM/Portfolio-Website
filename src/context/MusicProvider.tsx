@@ -44,6 +44,23 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   // Deliberately mount-only: this is the one-time autoplay attempt,
   // not something that should re-run if `trackId`/`volume` change
   // later via the toggle's own setters.
+  //
+  // Phase 17: the very first `attempt()` used to run synchronously on
+  // mount, which meant `.play()` (and the multi-megabyte network fetch
+  // it forces the browser to start) began immediately, racing Hero's
+  // own critical-path render for bandwidth. Measured directly:
+  // Lighthouse's mobile preset (simulated slow 4G) showed the default
+  // track's ~2.7MB transfer overlapping the JS/font/CSS requests the
+  // Hero heading actually depends on, and Largest Contentful Paint
+  // blew out to 17.2s. The default `TRACKS[0]` track is real,
+  // user-supplied audio, not something to shrink or re-encode without
+  // asking, so the fix is about *when* the fetch starts, not the file
+  // itself: the same `requestIdleCallback` deferral `Scene3D.tsx`
+  // already uses for the same reason, so the very first autoplay
+  // attempt waits until the browser has cleared higher-priority work.
+  // Gesture-triggered retries stay immediate: by the time a visitor has
+  // clicked or pressed a key, first paint has already happened, so
+  // there's nothing left to protect.
   useEffect(() => {
     const player = getPlayer()
     player.setVolume(volume)
@@ -73,10 +90,20 @@ export function MusicProvider({ children }: { children: ReactNode }) {
       gestureEvents.forEach((event) => window.removeEventListener(event, onGesture))
     }
 
-    attempt()
+    let idleId: number | undefined
+    let timeoutId: number | undefined
+    if (typeof requestIdleCallback === 'function') {
+      idleId = requestIdleCallback(attempt)
+    } else {
+      timeoutId = window.setTimeout(attempt, 200)
+    }
     gestureEvents.forEach((event) => window.addEventListener(event, onGesture, { once: true }))
 
-    return cleanup
+    return () => {
+      cleanup()
+      if (idleId !== undefined) cancelIdleCallback(idleId)
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId)
+    }
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
