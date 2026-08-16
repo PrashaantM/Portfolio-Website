@@ -19,7 +19,7 @@ const TIERS: IdentityNode[][] = [
       id: 'cs',
       label: 'Computer Science',
       description:
-        'Full-stack development, backend systems, and software architecture. I care more about how the pieces fit together than about any single language.',
+        'Four years of UBC Okanagan lectures, and the thing that actually stuck was staying up rewriting a FastAPI backend until it stopped falling over.',
     },
   ],
   [
@@ -27,26 +27,26 @@ const TIERS: IdentityNode[][] = [
       id: 'ai',
       label: 'AI',
       description:
-        'Building with tools like Claude Code as part of a real workflow, not a shortcut. I still read, test, and understand every change before it ships.',
+        'Claude Code writes fast. I still read every line like it might be lying to me, because sometimes it is.',
     },
     {
       id: 'software',
       label: 'Software',
       description:
-        'Designing and building applications end to end, from a database schema to the screen someone actually uses.',
+        'Built the React dashboard and the API it talks to, so when something breaks there is nowhere to point the finger but at myself.',
     },
     {
       id: 'systems',
       label: 'Systems',
       description:
-        "APIs, databases, background workers. The parts nobody sees that decide whether something holds up under real use.",
+        'Load tested to 100+ concurrent users. That number is real, not a nice round exaggeration I added for the portfolio.',
     },
   ],
   [
     {
       id: 'building',
       label: 'Building',
-      description: "The reason all of this is fun in the first place. I learn by building real things, not by reading about them.",
+      description: "The actual reason I would rather be building something at midnight than doing basically anything else.",
     },
   ],
 ]
@@ -124,20 +124,40 @@ function About() {
             different people apply it the same way.
           </p>
           <p>
-            The project I'm proudest of is an exam platform I built for a
-            UBC Okanagan department. Instructors can build question banks,
-            generate exams with different variants, and see analytics, all
-            running on a backend I load tested to hold up under 100
-            concurrent users. I also build with AI tools like Claude Code
-            now, but every line still gets read, tested, and understood
-            before it ships. This site is the proof, not a slogan.
+            The biggest project I've worked on recently is an exam
+            management platform built as part of my UBC Okanagan capstone
+            for the Earth, Environmental and Geographic Sciences department.
+            The platform helps instructors manage question banks, build
+            exams, import questions, generate multiple exam variants and
+            answer keys, and analyze exam results through a centralized
+            dashboard.
+          </p>
+          <p>
+            I worked across the stack, building React interfaces and
+            FastAPI backend services backed by PostgreSQL, while also
+            designing background processing for computationally intensive
+            tasks. I helped build and test the system for real usage
+            scenarios, including load testing with 100+ concurrent users.
+          </p>
+          <p>
+            I also use AI development tools like Claude Code to accelerate
+            how I work. But I do not treat generated code as a black box. I
+            review it, test it, understand the implementation, and take
+            responsibility for what ultimately ships.
+          </p>
+          <p>
+            This portfolio is where I want to show that work in practice:
+            the systems I've built, the engineering decisions behind them,
+            and what I can actually do beyond a list of technologies.
           </p>
           <p className="text-text-primary font-display border-accent border-l-2 pl-4 font-medium">
             I enjoy learning by building.
           </p>
         </div>
 
-        <IdentityMap />
+        <div className="lg:sticky lg:top-24">
+          <IdentityMap />
+        </div>
       </div>
     </Section>
   )
