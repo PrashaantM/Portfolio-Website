@@ -1,0 +1,18 @@
+# Cloudflare Pages reads this file directly (no build step needed) and
+# applies these headers to every response. Phase 21's security pass.
+#
+# No Content-Security-Policy here on purpose, not an oversight: this
+# site's Motion-driven animations (Hero's glow, MusicToggle's level
+# bars, the ink/sword/flame motifs) render real inline `style="..."`
+# attributes, which a CSP without `style-src 'unsafe-inline'` would
+# simply refuse to apply. A CSP loose enough to allow that isn't
+# providing much real protection, and getting a stricter one exactly
+# right (WebGL texture data: URIs, blob: audio buffers, etc.) needs
+# real testing against every animated component this site actually
+# ships, not a guess. Left for a dedicated follow-up rather than
+# shipping something untested that could silently break the site.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()
