@@ -42,6 +42,13 @@ answer keys, an analytics dashboard), the real stack (React, FastAPI,
 PostgreSQL, background processing for the heavy jobs), and a sharper
 statement on how AI tools fit into the workflow.
 
+A third pass added one more sentence: the paragraph described what the
+platform does but not why variants matter. Generating multiple exam
+variants also cuts down on students copying answers off each other,
+and the result analysis can flag suspicious answer patterns, an
+academic-integrity angle the paragraph was missing entirely. Same
+addition landed in the matching project card in Phase 9.
+
 ## The identity map
 
 The brief (`portfolio-build.md` Phase 7) shows a literal ASCII tree and

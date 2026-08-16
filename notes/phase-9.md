@@ -92,6 +92,25 @@ COSC 421/341 team project"). Didn't imply solo authorship for work
 that was actually done with a team, same as how BestBytes is already
 credited as a 4-person Agile team above.
 
+Two more rounds of edits after the initial write-up:
+
+The MCQ platform's problem/solution only covered half of what it
+actually does. Variant generation and result analysis aren't just
+about saving grading time, they also make copying answers harder and
+can surface answer patterns worth flagging for possible cheating. Both
+fields, plus the matching paragraph in About, now cover that side too
+instead of only the automation angle.
+
+The other six projects' problem/solution/architecture/decision/result
+text was written assuming a reader who already knows terms like
+"branching factor," "alpha-beta pruning," or "centrality measures."
+Rewrote all six to explain what a term does in plain language instead
+of just naming it, for example alpha-beta pruning as "a trick that
+skips over branches that clearly will not matter," or PageRank as "the
+same idea Google uses to rank web pages." No facts changed, only how
+they're explained. A useful test while rewriting: could someone with
+no CS background follow this sentence? If not, it got rewritten.
+
 ## ProjectCard
 
 Shows name, one-sentence purpose, and tech badges by default. A
