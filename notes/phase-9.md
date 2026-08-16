@@ -4,16 +4,33 @@ Replaces the "Featured Projects" placeholder from Phase 5. Three new
 files: `src/data/projects.ts`, `src/components/ProjectCard.tsx`,
 `src/sections/Projects.tsx`.
 
-## Which projects, and why these four
+## Which projects, and why
 
 Phase 9.2 lists a set of example project names, including two
 (DormDash, Super Bug Zapper) that turned out not to be on the resume
-at all. Went with the resume's actual four instead: MCQ Exam
-Management Platform, Full-Stack Job Portal, Game of Amazons AI Agent,
-and BestBytes Movie Database & Review System. That matches the
-resume's own curation and Phase 9's "don't include weak projects just
-to pad the count" instruction better than reaching for names from the
+at all. Started with the resume's actual four: MCQ Exam Management
+Platform, Full-Stack Job Portal, Game of Amazons AI Agent, and
+BestBytes Movie Database & Review System. That matched the resume's
+own curation and Phase 9's "don't include weak projects just to pad
+the count" instruction better than reaching for names from the
 brief's generic example list.
+
+After that first pass shipped, went back through every public repo on
+the GitHub profile (`gh repo list PrashaantM`) to look for other
+strong projects not on the resume. Most had no description or read as
+routine coursework, but three stood out enough to bring the total to
+seven: **BugZapper** (a 3D browser game with a WebGL/GLSL rendering
+pipeline built entirely by hand, no external 3D library, which is
+also literally the brief's own "Super Bug Zapper" example), **Malware
+Containment Research** (a UBC network science course project modeling
+malware propagation as weighted graphs), and **C.R.A.V.E** (a UBC
+mobile cycling app with GPS tracking and gamification). A fourth
+candidate, DormDash-Marketplace, also had a solid description but was
+shape-wise fairly similar to two projects already featured (another
+full-stack marketplace/CRUD app), so it was presented as an option but
+not included. Each of the three that got added covers a skill area
+none of the resume's four projects touch: low-level graphics
+programming, research/data science, and mobile development.
 
 ## Getting the GitHub links right
 
@@ -33,10 +50,22 @@ project bullets:
 - **BestBytes Movie Database & Review System** matched to `BestBytes`
 
 Also checked each repo's `homepageUrl` field and found one real
-deployed demo: the job portal, live on Vercel. Before using any of
-these five URLs, checked that every one actually resolves
-(`curl -I`, all returned 200) instead of assuming a GitHub API result
-is automatically a working link.
+deployed demo: the job portal, live on Vercel. Before using any URL,
+checked that it actually resolves (`curl -I`, all 200) instead of
+assuming a GitHub API result is automatically a working link. Same
+process for the three added later (BugZapper, Malware Containment
+Research, C.R.A.V.E), for eight URLs verified in total.
+
+For those three, went a step further than the one-line GitHub
+description and pulled each repo's actual README (`gh api
+repos/PrashaantM/<repo>/readme`), since two of them turned out to have
+real detail worth using: Malware Containment Research's README spells
+out the exact tech stack (R, igraph, tidyverse), the 8 centrality
+measures tested, and the actual result numbers (PageRank removal ~15
+to 20 percent more effective than degree-based). C.R.A.V.E's README
+documents two specific rounds of user testing and exactly what changed
+between them. Neither of those details were guessable from the
+one-line description alone.
 
 One thing worth flagging: the resume says the Game of Amazons agent
 "placed 10th class-wide," but the `GameOfAmazons` repo's own
@@ -55,6 +84,13 @@ list, specific numbers like "100+ concurrent users" or "cut evaluated
 branches 60%"), and kept problem statements at the level of "what
 general problem does this kind of system have" rather than inventing
 specific unconfirmed backstory about how things used to be done.
+
+Both Malware Containment Research and C.R.A.V.E are explicitly framed
+as team projects (a UBC course project, in both cases), matching how
+their own READMEs describe them ("a personal archival version of a
+COSC 421/341 team project"). Didn't imply solo authorship for work
+that was actually done with a team, same as how BestBytes is already
+credited as a 4-person Agile team above.
 
 ## ProjectCard
 
@@ -85,12 +121,14 @@ folder-plus-branch icon, as a reasonable stand-in.
 ## Verification
 
 - [x] `npm run build` and `npm run lint` clean
-- [x] Verified all 5 URLs (4 GitHub repos, 1 live demo) resolve with
+- [x] Verified all 8 URLs (7 GitHub repos, 1 live demo) resolve with
       `curl -I` before using them
-- [x] Screenshotted the grid at desktop and mobile widths
-- [x] Clicked "How it works" on a card and screenshotted the expanded
-      state to confirm all five fields actually render, not just that
-      the JSX compiles
+- [x] Screenshotted the grid at desktop and mobile widths, including
+      the three added later
+- [x] Clicked "How it works" on multiple cards (including one of the
+      newly added ones) and screenshotted the expanded state to
+      confirm all five fields actually render, not just that the JSX
+      compiles
 - [x] Pulled the actual rendered `href` values out of the page with
       Playwright and diffed them against the URLs used in the data
       file, to catch any copy-paste mismatch between the two
