@@ -1,0 +1,14 @@
+/*
+ * Design tokens for the portfolio, defined as Tailwind v4 theme
+ * variables. Each `--font-*` / `--color-*` / etc. key here automatically
+ * becomes a Tailwind utility (e.g. `--font-display` -> `font-display`,
+ * `--color-accent` -> `bg-accent` / `text-accent` / `border-accent`).
+ */
+@theme {
+  /* Typography: display for headings, body for text, mono for
+     technical/code fragments. Falls back to the OS UI font if the
+     self-hosted variable font fails to load. */
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+}

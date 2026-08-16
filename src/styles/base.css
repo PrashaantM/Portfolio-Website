@@ -1,0 +1,28 @@
+/*
+ * Global element defaults built on the design tokens in theme.css.
+ * Section/component styles should still prefer Tailwind utility
+ * classes; this file only covers the handful of raw elements
+ * (body, headings) that should look right without any classes.
+ */
+@layer base {
+  body {
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  code,
+  pre,
+  kbd {
+    font-family: var(--font-mono);
+  }
+}
