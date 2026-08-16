@@ -27,4 +27,32 @@
   --color-border: #26262c;
   --color-success: #3fa66b;
   --color-warning: #d8a13b;
+
+  /* Radius: restrained, closer to a technical/military-document feel
+     than a soft/rounded one. Two sizes only — cards get a bit more
+     roundness than small interactive elements like buttons/badges. */
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+
+  /* The max-width the page content sits in, past which it stops
+     growing and lets the background breathe on large monitors.
+     Named --width-container rather than using Tailwind's own
+     --container-* namespace (which drives its container-query
+     utilities) to avoid colliding with that. */
+  --width-container: 80rem;
+
+  /* Fluid hero heading size: scales smoothly between mobile and
+     desktop instead of jumping between fixed breakpoint sizes. */
+  --text-hero: clamp(2.75rem, 6vw + 1rem, 6.5rem);
+
+  /* Button heights. Horizontal padding uses Tailwind's normal spacing
+     utilities (e.g. px-4/px-6) rather than a custom token, so a button
+     is built as `h-(--size-button-md) px-6` and stays consistent. */
+  --size-button-sm: 2.25rem;
+  --size-button-md: 2.75rem;
+  --size-button-lg: 3.25rem;
+
+  /* Vertical rhythm between major page sections. Fluid so it doesn't
+     need a separate mobile override. */
+  --space-section: clamp(4rem, 8vw, 8rem);
 }
