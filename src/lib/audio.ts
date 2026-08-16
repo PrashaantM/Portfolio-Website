@@ -8,12 +8,12 @@ export interface Track {
 // the four generated "Unsettling Toy-Lofi" pieces from Phase 11. Not
 // generated this time; these are real files the site owner provided
 // directly, so there is no licensing question to route around the way
-// there was for a found-online track. The dark one is first/default:
-// MusicProvider starts on TRACKS[0] and now attempts to autoplay it on
-// visit (see MusicProvider.tsx).
+// there was for a found-online track. The mysterious one is
+// first/default: MusicProvider starts on TRACKS[0] and now attempts to
+// autoplay it on visit (see MusicProvider.tsx).
 export const TRACKS: Track[] = [
-  { id: 'trap-dark', name: 'Dark Trap', file: '/audio/trap-melody-dark.wav' },
   { id: 'trap-mysterious', name: 'Mysterious Trap', file: '/audio/trap-melody-mysterious.wav' },
+  { id: 'trap-dark', name: 'Dark Trap', file: '/audio/trap-melody-dark.wav' },
 ]
 
 export interface TrackPlayer {
