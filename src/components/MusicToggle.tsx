@@ -48,7 +48,11 @@ function MusicToggle() {
   const activeTrack = TRACKS.find((track) => track.id === trackId) ?? TRACKS[0]
 
   return (
-    <div className="border-border bg-surface/95 rounded-(--radius-card) fixed right-4 bottom-4 z-40 w-56 border p-3 shadow-lg backdrop-blur sm:right-6 sm:bottom-6">
+    <div
+      role="region"
+      aria-label="Music player"
+      className="border-border bg-surface/95 rounded-(--radius-card) fixed right-4 bottom-4 z-40 w-56 border p-3 shadow-lg backdrop-blur sm:right-6 sm:bottom-6"
+    >
       <button
         type="button"
         onClick={toggle}

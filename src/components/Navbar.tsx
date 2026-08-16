@@ -72,7 +72,7 @@ function Navbar() {
 
         <button
           type="button"
-          className="text-text-primary md:hidden"
+          className="text-text-primary -m-2 p-2 md:hidden"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-nav"
           onClick={() => setIsMenuOpen((open) => !open)}

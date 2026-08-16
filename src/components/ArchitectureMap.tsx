@@ -56,20 +56,20 @@ function ArchitectureMap() {
         ))}
       </div>
 
-      <dl
+      <div
         aria-live="polite"
         className="border-border bg-surface rounded-(--radius-card) border p-6"
       >
         <h4 className="text-text-primary font-mono text-sm">{active.label}</h4>
-        <div className="mt-4 space-y-4">
+        <dl className="mt-4 space-y-4">
           {DETAIL_FIELDS.map((field) => (
             <div key={field.key}>
               <dt className="text-text-primary font-mono text-xs">{field.label}</dt>
               <dd className="text-text-secondary mt-1">{active[field.key]}</dd>
             </div>
           ))}
-        </div>
-      </dl>
+        </dl>
+      </div>
     </div>
   )
 }
