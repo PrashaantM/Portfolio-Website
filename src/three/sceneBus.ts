@@ -84,7 +84,9 @@ export function emitEmberDoused() {
 
 export function onEmberDoused(listener: () => void) {
   emberDousedListeners.add(listener)
-  return () => emberDousedListeners.delete(listener)
+  return () => {
+    emberDousedListeners.delete(listener)
+  }
 }
 
 /**

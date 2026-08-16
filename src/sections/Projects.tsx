@@ -35,8 +35,8 @@ function Projects() {
       <div className="divider-ink mt-16" />
 
       <Reveal className="mt-10" id="architecture-deep-dive">
-        <p className="text-accent inline-flex items-center gap-1.5 font-mono text-xs">
-          <Link2 size={12} aria-hidden="true" />
+        <p className="text-text-primary inline-flex items-center gap-1.5 font-mono text-xs">
+          <Link2 size={12} aria-hidden="true" className="text-accent" />
           Traced from MCQ Exam Management Platform above
         </p>
         <h3 className="mt-2">Architecture Deep Dive: MCQ Exam Management Platform</h3>

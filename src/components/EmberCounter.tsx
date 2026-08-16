@@ -10,6 +10,13 @@ import { onEmberDoused } from '../three/sceneBus'
  * clickable. Lives outside the Canvas: DOM text is cheaper and sharper
  * than anything Three.js would render for a HUD number, so `sceneBus`
  * bridges the two, the same pattern `ClickBurst3D` uses for `emitClick`.
+ *
+ * `pointer-events-none` (Phase 16): this is a fixed, always-on-top
+ * overlay with no click handler of its own, and at narrow widths it can
+ * visually sit over whatever scrolls underneath it (a project card's
+ * "How it works" button, most concretely). Without this, that overlap
+ * would silently swallow the click instead of passing it through to the
+ * real button underneath.
  */
 function EmberCounter() {
   const [count, setCount] = useState(0)
@@ -20,12 +27,14 @@ function EmberCounter() {
 
   return (
     <div
-      className="border-border bg-surface/95 rounded-(--radius-card) fixed top-20 right-4 z-40 flex items-center gap-2 border px-3 py-2 font-mono text-xs shadow-lg backdrop-blur sm:right-6"
+      role="region"
+      aria-label="Ember counter"
+      className="border-border bg-surface/95 rounded-(--radius-card) pointer-events-none fixed top-20 right-4 z-40 flex items-center gap-2 border px-2 py-1.5 font-mono text-[10px] shadow-lg backdrop-blur sm:right-6 sm:px-3 sm:py-2 sm:text-xs"
       aria-live="polite"
     >
       <Droplets size={14} className="text-accent" aria-hidden="true" />
       <span className="text-text-primary">EMBERS DOUSED</span>
-      <span className="text-accent tabular-nums">{count}</span>
+      <span className="text-text-primary tabular-nums">{count}</span>
     </div>
   )
 }

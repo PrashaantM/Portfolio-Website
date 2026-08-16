@@ -12,6 +12,18 @@ dist
 dist-ssr
 *.local
 
+# Playwright's own generated run output (traces, last-run state)
+test-results
+playwright-report
+blob-report
+playwright/.cache
+
+# Secrets. Nothing currently reads one (confirmed: no import.meta.env/
+# process.env usage anywhere in src/ or scripts/), but ignored
+# defensively so an accidental one never gets committed.
+.env
+.env.*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

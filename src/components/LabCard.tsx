@@ -45,7 +45,7 @@ function LabCard({ idea }: LabCardProps) {
           <Badge key={tag}>{tag}</Badge>
         ))}
         {idea.funny && (
-          <span className="hover-wiggle border-accent/40 text-accent inline-block rotate-2 rounded-(--radius-button) border border-dashed px-3 py-1 font-mono text-xs">
+          <span className="hover-wiggle border-accent/40 text-text-primary inline-block rotate-2 rounded-(--radius-button) border border-dashed px-3 py-1 font-mono text-xs">
             not serious, promise
           </span>
         )}

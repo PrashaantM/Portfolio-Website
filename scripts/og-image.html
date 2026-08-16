@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      @font-face {
+        font-family: 'Space Grotesk';
+        src: url('../node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2')
+          format('woff2-variations');
+        font-weight: 300 700;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')
+          format('woff2-variations');
+        font-weight: 300 700;
+      }
+      @font-face {
+        font-family: 'JetBrains Mono';
+        src: url('../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2')
+          format('woff2-variations');
+        font-weight: 300 700;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 1200px;
+        height: 630px;
+        background: #0a0a0c;
+        position: relative;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(to right, #26262c 1px, transparent 1px),
+          linear-gradient(to bottom, #26262c 1px, transparent 1px);
+        background-size: 48px 48px;
+        opacity: 0.5;
+      }
+
+      .glow {
+        position: absolute;
+        top: 50%;
+        left: 38%;
+        width: 640px;
+        height: 640px;
+        transform: translate(-50%, -50%);
+        background: #c81e3a;
+        opacity: 0.22;
+        border-radius: 50%;
+        filter: blur(120px);
+      }
+
+      .seal {
+        position: absolute;
+        top: 64px;
+        right: 72px;
+        opacity: 0.85;
+      }
+
+      .content {
+        position: absolute;
+        left: 88px;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 920px;
+      }
+
+      h1 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 600;
+        font-size: 92px;
+        letter-spacing: -0.02em;
+        color: #ededef;
+        line-height: 1.02;
+      }
+
+      p.tagline {
+        margin-top: 28px;
+        font-size: 30px;
+        color: #8b8b93;
+        max-width: 780px;
+        line-height: 1.4;
+      }
+
+      p.meta {
+        margin-top: 32px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 22px;
+        color: #c81e3a;
+        letter-spacing: 0.01em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid"></div>
+    <div class="glow"></div>
+
+    <svg class="seal" width="180" height="180" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="22.5" stroke="#c81e3a" stroke-width="1" opacity="0.7" />
+      <circle cx="24" cy="24" r="18.5" stroke="#c81e3a" stroke-width="1" opacity="0.35" />
+      <path
+        d="M14 32V16h4.5c3 0 4.8 1.6 4.8 4.2 0 2.5-1.8 4.1-4.8 4.1H16"
+        stroke="#ededef"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M27 32V16l5 10 5-10v16"
+        stroke="#ededef"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+
+    <div class="content">
+      <h1>Prashaant Mudgala</h1>
+      <p class="tagline">
+        Computer Science student and software developer who builds
+        ambitious systems and experiments outside the usual student-project box.
+      </p>
+      <p class="meta">Full-Stack Development · Systems · AI-Assisted Engineering</p>
+    </div>
+  </body>
+</html>
