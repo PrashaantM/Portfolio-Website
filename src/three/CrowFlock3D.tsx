@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -17,60 +17,148 @@ const MAX_CONCURRENT = 4
 const SPAWN_MIN_DELAY = 4000
 const SPAWN_MAX_DELAY = 9000
 
-// The exact silhouette from the original hand-drawn `Crow.tsx` (Phase
-// 12, deleted in Phase 15 when this component replaced it): a wide,
-// wings-spread "bird crossing the sky, seen from below" shape, not a
-// side-profile bird. Rasterized once to a texture rather than redrawn
-// as new 3D geometry, so this stays the same artwork rather than a
-// worse ad-hoc approximation of it. Filled white so the texture can be
-// tinted per-material; the real color lives in `CROW_MATERIAL_PROPS`.
-const CROW_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 50">
-  <path d="M60 26 C 50 10, 30 4, 4 14 C 22 18, 38 22, 50 27 C 38 32, 22 36, 4 40 C 30 48, 50 40, 58 30 C 58 34, 60 38, 64 40 C 63 36, 62 32, 62 28 C 70 40, 90 48, 116 40 C 98 36, 82 32, 70 27 C 82 22, 98 18, 116 14 C 90 4, 70 10, 60 26 Z" fill="#ffffff" />
-</svg>
-`.trim()
+// Real flap-cycle reference art (`public/images/crows.jpg`): a 5-column
+// x 2-row sprite sheet, side profile, one full wingbeat across the 10
+// cells. Replaces Phase 15's squash/stretch fake (a single silhouette
+// scaled on Y) with actual per-frame animation.
+const SPRITE_URL = '/images/crows.jpg'
+const SHEET_COLS = 5
+const SHEET_ROWS = 2
+const FRAME_COUNT = SHEET_COLS * SHEET_ROWS
+
+// The 10 poses aren't evenly spaced through the wingbeat — measured as
+// the summed per-pixel alpha difference between each frame and the
+// next, e.g. frame7->8 barely differs (a ~5% share) while the loop
+// seam frame9->0 is the single biggest jump in the whole sheet (~27%).
+// Stepping through frames at a uniform rate, as before, gave that 5%
+// pair the same on-screen time as the 27% pair: the near-duplicate
+// poses sat still relatively longer while the loop seam had to cram
+// its outsized change into a normal-length step — which is exactly
+// what reads as "pause, then a sudden catch-up snap" once per cycle.
+// Weighting each segment's on-screen time by its own share of the
+// total measured change (arc-length reparameterization) instead holds
+// every transition to roughly the same apparent rate of change.
+const FRAME_SEGMENT_WEIGHTS = [3061, 2806, 1966, 1854, 4619, 2204, 1901, 1504, 2459, 8261]
+const FRAME_SEGMENT_TOTAL = FRAME_SEGMENT_WEIGHTS.reduce((sum, w) => sum + w, 0)
+const FRAME_SEGMENT_CUM = FRAME_SEGMENT_WEIGHTS.reduce<number[]>(
+  (cum, w) => [...cum, cum[cum.length - 1] + w],
+  [0],
+)
+
+// Source sheet is 736x574 with a ~64px VectorStock watermark bar
+// across the very bottom (y 510-574) and uneven vertical padding
+// between the two crow rows (row 1's crows sit in y 120-266, row 2's
+// in y 281-390, measured by luminance bounding box). Cropped and
+// re-stacked into two equal-height bands below — rather than sliced as
+// one uniform grid — so both rows are excluded from the watermark and
+// center their crow the same way.
+const SHEET_SOURCE_WIDTH = 736
+const ROW_SOURCE_Y = [110, 256]
+const ROW_HEIGHT = 160
+
+const SHEET_CELL_WIDTH = SHEET_SOURCE_WIDTH / SHEET_COLS
+const PLANE_WIDTH = 0.95
+const PLANE_HEIGHT = PLANE_WIDTH * (ROW_HEIGHT / SHEET_CELL_WIDTH)
 
 // A medium gray, not red: the original 2D crow used `text-secondary`
 // (this exact hex), not the site's accent, and reads as a natural bird
 // silhouette against the dark sky on its own contrast, no artificial
-// glow required. `toneMapped: false` keeps that gray a stable,
-// consistent value regardless of the renderer's tone mapping curve.
-const CROW_MATERIAL_PROPS = {
-  color: '#8b8b93',
-  transparent: true,
-  opacity: 0.92,
-  side: THREE.DoubleSide,
-  depthWrite: false,
-  toneMapped: false,
-} as const
+// glow required.
+const CROW_COLOR = '#8b8b93'
+const CROW_OPACITY = 0.92
 
-const PLANE_WIDTH = 0.95
-const PLANE_HEIGHT = PLANE_WIDTH * (50 / 120)
+// Gentle glide undulation: slow enough, and wide enough, to read as
+// riding air currents rather than a straight-line slide. The bank
+// below is derived from this same wave's rate of change, so rotation
+// and altitude stay physically tied together instead of two
+// independent wobbles that can drift out of phase and look noisy.
+const CROW_BOB_FREQ = 0.35
+const CROW_BOB_AMPLITUDE = 0.28
 
-function createCrowTexture(): Promise<THREE.Texture> {
+// A slow forward/back surge layered on top of the base constant-speed
+// crossing, at a different frequency from the bob above (0.22 vs
+// 0.35) so the two don't lock into one repeating, wind-up-toy-looking
+// cycle. Amplitude is capped well under the base cruise speed (~1
+// unit/s) so the surge never actually reverses travel direction —
+// it just keeps a perfectly straight, constant-velocity line from
+// reading as mechanical.
+const CROW_SURGE_FREQ = 0.22
+const CROW_SURGE_AMPLITUDE = 0.4
+
+// Samples two adjacent sprite cells and blends between them (`uMix`
+// ramps 0->1 as the flap advances) instead of hard-cutting from one
+// pose to the next. A straight frame-index swap — even at a much
+// higher rate — still reads as a slideshow because consecutive poses
+// are quite different silhouettes; crossfading is what actually
+// smooths it out into a continuous-looking wingbeat.
+const CROW_VERTEX_SHADER = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`
+
+const CROW_FRAGMENT_SHADER = /* glsl */ `
+  uniform sampler2D uMap;
+  uniform vec2 uCellSize;
+  uniform vec2 uOffsetA;
+  uniform vec2 uOffsetB;
+  uniform float uMix;
+  uniform vec3 uColor;
+  uniform float uOpacity;
+  varying vec2 vUv;
+
+  void main() {
+    float alphaA = texture2D(uMap, uOffsetA + vUv * uCellSize).a;
+    float alphaB = texture2D(uMap, uOffsetB + vUv * uCellSize).a;
+    float alpha = mix(alphaA, alphaB, uMix) * uOpacity;
+    if (alpha < 0.02) discard;
+    gl_FragColor = vec4(uColor, alpha);
+  }
+`
+
+function createCrowSpriteTexture(): Promise<THREE.Texture> {
   return new Promise((resolve, reject) => {
-    const width = 240
-    const height = 100
-    const canvas = document.createElement('canvas')
-    canvas.width = width
-    canvas.height = height
-    const ctx = canvas.getContext('2d')
     const img = new Image()
-    const blob = new Blob([CROW_SVG], { type: 'image/svg+xml' })
-    const url = URL.createObjectURL(blob)
-
     img.onload = () => {
-      ctx?.drawImage(img, 0, 0, width, height)
-      URL.revokeObjectURL(url)
+      const canvas = document.createElement('canvas')
+      canvas.width = img.width
+      canvas.height = ROW_HEIGHT * SHEET_ROWS
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        reject(new Error('2D canvas context unavailable'))
+        return
+      }
+
+      ROW_SOURCE_Y.forEach((sourceY, row) => {
+        ctx.drawImage(img, 0, sourceY, img.width, ROW_HEIGHT, 0, row * ROW_HEIGHT, img.width, ROW_HEIGHT)
+      })
+
+      // The sheet is a flat JPG (no alpha channel) on a near-uniform
+      // light-gray backdrop (~232 luminance) with dark silhouettes
+      // (~110-150 luminance). Key the background out by luminance and
+      // flatten every opaque pixel to white so the material's `color`
+      // tint above is what determines the on-screen gray, not the
+      // sheet's own photo shading.
+      const image = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      const data = image.data
+      for (let i = 0; i < data.length; i += 4) {
+        const luminance = (data[i] + data[i + 1] + data[i + 2]) / 3
+        const alpha = THREE.MathUtils.clamp(THREE.MathUtils.mapLinear(luminance, 140, 215, 255, 0), 0, 255)
+        data[i] = 255
+        data[i + 1] = 255
+        data[i + 2] = 255
+        data[i + 3] = alpha
+      }
+      ctx.putImageData(image, 0, 0)
+
       const texture = new THREE.CanvasTexture(canvas)
       texture.needsUpdate = true
       resolve(texture)
     }
-    img.onerror = () => {
-      URL.revokeObjectURL(url)
-      reject(new Error('Failed to rasterize crow texture'))
-    }
-    img.src = url
+    img.onerror = () => reject(new Error('Failed to load crow sprite sheet'))
+    img.src = SPRITE_URL
   })
 }
 
@@ -87,23 +175,24 @@ function randomCrow(id: number): CrowInstance {
     // the nearer crows instead of reading as "flying".
     y: 1 + Math.random() * 2,
     z: -3 + Math.random() * 5,
-    duration: 14000 + Math.random() * 12000,
+    // 2.5x the original crossing speed (was 14000-26000).
+    duration: 3000 + Math.random() * 1000,
     spawnedAt: performance.now(),
-    flapSpeed: 6 + Math.random() * 3,
+    // Sprite frames advanced per second; 10 frames per full wingbeat,
+    // so 18-28 fps reads as roughly 1.8-2.8 flaps/sec. Higher than the
+    // old discrete-step version needed, since crossfading (see
+    // `CROW_FRAGMENT_SHADER`) keeps it smooth instead of frantic.
+    flapSpeed: 18 + Math.random() * 10,
   }
 }
 
 /**
- * One crow: the rasterized silhouette on a single flat plane, always
- * built facing +Z (the camera's direction from the scene, given
- * `Scene.tsx`'s fixed `camera={{ position: [0, 0, 10] }}`), so no
- * per-frame billboarding is needed. "Flapping" is a vertical
- * squash/stretch on the whole plane (`scale.y`, via `Math.abs(sin)`
- * for a two-beats-per-cycle down/up stroke) plus a small Z-axis
- * rotation wobble — both stay in the plane facing the camera, unlike
- * rotating a flat silhouette around its travel axis, which would spin
- * it edge-on to the camera and make it disappear. `side:
- * THREE.DoubleSide` on the material (not the geometry) is what keeps
+ * One crow: a single plane sampling one cell of the 5x2 flap-cycle
+ * sprite sheet at a time, stepped forward each frame to play the real
+ * wingbeat instead of faking it with squash/stretch. Built facing +Z
+ * (the camera's direction from the scene, given `Scene.tsx`'s fixed
+ * `camera={{ position: [0, 0, 10] }}`), so no per-frame billboarding is
+ * needed. `side: THREE.DoubleSide` on the material is what keeps
  * leftward-flying crows visible despite the `scale.x = -1` direction
  * flip below reversing the plane's face winding.
  */
@@ -111,28 +200,79 @@ function Crow({ crow, texture }: { crow: CrowInstance; texture: THREE.Texture })
   const groupRef = useRef<THREE.Group>(null)
   const planeRef = useRef<THREE.Mesh>(null)
 
+  // One shared base texture; each crow just samples a different pair
+  // of cells from it via uniforms, so unlike the old per-instance
+  // `texture.clone()` there's nothing here to dispose.
+  const uniforms = useMemo(
+    () => ({
+      uMap: { value: texture },
+      uCellSize: { value: new THREE.Vector2(1 / SHEET_COLS, 1 / SHEET_ROWS) },
+      uOffsetA: { value: new THREE.Vector2() },
+      uOffsetB: { value: new THREE.Vector2() },
+      uMix: { value: 0 },
+      uColor: { value: new THREE.Color(CROW_COLOR) },
+      uOpacity: { value: CROW_OPACITY },
+    }),
+    [texture],
+  )
+
   useFrame((state) => {
     const progress = Math.min(1, (performance.now() - crow.spawnedAt) / crow.duration)
-    const x = THREE.MathUtils.lerp(crow.startX, crow.endX, progress)
-    const bob = Math.sin(state.clock.elapsedTime * 0.8 + crow.id) * 0.15
+    const direction = Math.sign(crow.endX - crow.startX)
+    const surge = Math.sin(state.clock.elapsedTime * CROW_SURGE_FREQ + crow.id * 5) * CROW_SURGE_AMPLITUDE * direction
+    const x = THREE.MathUtils.lerp(crow.startX, crow.endX, progress) + surge
+
+    const bobPhase = state.clock.elapsedTime * CROW_BOB_FREQ + crow.id * 10
+    const bob = Math.sin(bobPhase) * CROW_BOB_AMPLITUDE
+    // d(bob)/dt: how fast it's currently rising or falling, which is
+    // what the bank angle below is derived from.
+    const bobRate = Math.cos(bobPhase) * CROW_BOB_FREQ * CROW_BOB_AMPLITUDE
 
     if (groupRef.current) {
       groupRef.current.position.set(x, crow.y + bob, crow.z)
-      groupRef.current.scale.x = crow.endX > crow.startX ? 1 : -1
+      groupRef.current.scale.x = direction
     }
 
     if (planeRef.current) {
-      const beat = Math.abs(Math.sin(state.clock.elapsedTime * crow.flapSpeed))
-      planeRef.current.scale.y = 0.5 + beat * 0.6
-      planeRef.current.rotation.z = Math.sin(state.clock.elapsedTime * crow.flapSpeed * 0.5) * 0.08
+      planeRef.current.rotation.z = THREE.MathUtils.clamp(bobRate * 1.6, -0.16, 0.16)
     }
+
+    // `flapSpeed` is still "frames per second" on average; dividing by
+    // FRAME_COUNT gives cycles/sec, then FRAME_SEGMENT_TOTAL spreads
+    // that one cycle across each segment's weighted share instead of
+    // 10 equal steps.
+    const cyclesPerSecond = crow.flapSpeed / FRAME_COUNT
+    const rawPhase = state.clock.elapsedTime * cyclesPerSecond + crow.id * 0.37
+    const cyclePhase = rawPhase - Math.floor(rawPhase)
+    const pos = cyclePhase * FRAME_SEGMENT_TOTAL
+
+    let frameA = FRAME_COUNT - 1
+    for (let k = 0; k < FRAME_COUNT; k++) {
+      if (pos < FRAME_SEGMENT_CUM[k + 1]) {
+        frameA = k
+        break
+      }
+    }
+    const frameB = (frameA + 1) % FRAME_COUNT
+
+    uniforms.uMix.value = (pos - FRAME_SEGMENT_CUM[frameA]) / FRAME_SEGMENT_WEIGHTS[frameA]
+    uniforms.uOffsetA.value.set((frameA % SHEET_COLS) / SHEET_COLS, 1 - (Math.floor(frameA / SHEET_COLS) + 1) / SHEET_ROWS)
+    uniforms.uOffsetB.value.set((frameB % SHEET_COLS) / SHEET_COLS, 1 - (Math.floor(frameB / SHEET_COLS) + 1) / SHEET_ROWS)
   })
 
   return (
     <group ref={groupRef}>
       <mesh ref={planeRef}>
         <planeGeometry args={[PLANE_WIDTH, PLANE_HEIGHT]} />
-        <meshBasicMaterial map={texture} {...CROW_MATERIAL_PROPS} />
+        <shaderMaterial
+          vertexShader={CROW_VERTEX_SHADER}
+          fragmentShader={CROW_FRAGMENT_SHADER}
+          uniforms={uniforms}
+          transparent
+          side={THREE.DoubleSide}
+          depthWrite={false}
+          toneMapped={false}
+        />
       </mesh>
     </group>
   )
@@ -153,14 +293,14 @@ function CrowFlock3D() {
 
   useEffect(() => {
     let cancelled = false
-    createCrowTexture()
+    createCrowSpriteTexture()
       .then((tex) => {
         if (!cancelled) setTexture(tex)
       })
       .catch(() => {
-        // No crow texture available (e.g. blob/image loading
-        // blocked); the flock just never spawns rather than erroring
-        // the scene.
+        // No crow texture available (e.g. sprite sheet failed to
+        // load); the flock just never spawns rather than erroring the
+        // scene.
       })
     return () => {
       cancelled = true
