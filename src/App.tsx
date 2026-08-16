@@ -42,27 +42,27 @@ function App() {
         <PlaceholderSection
           id="projects"
           title="Featured Projects"
-          note="Placeholder — built in Phase 9."
+          note="Placeholder. Built in Phase 9."
         />
         <PlaceholderSection
           id="lab"
           title="Experimental Lab"
-          note="Placeholder — built in Phase 10."
+          note="Placeholder. Built in Phase 10."
         />
         <PlaceholderSection
           id="experience"
           title="Experience"
-          note="Placeholder — content arrives in a later phase."
+          note="Placeholder. Content arrives in a later phase."
         />
         <PlaceholderSection
           id="interests"
           title="Interests"
-          note="Placeholder — content arrives in a later phase."
+          note="Placeholder. Content arrives in a later phase."
         />
         <PlaceholderSection
           id="contact"
           title="Contact"
-          note="Placeholder — content arrives in a later phase."
+          note="Placeholder. Content arrives in a later phase."
         />
       </main>
 

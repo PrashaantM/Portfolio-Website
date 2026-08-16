@@ -7,18 +7,19 @@ interface IdentityNode {
   description: string
 }
 
-// Four tiers, top to bottom: what I study -> how I actually practice it
-// -> the throughline -> what shapes how I think outside of code. Not a
-// rigorous tree, just a shape that gives each node a description worth
-// clicking for - see notes/phase-7.md for why this isn't literal ASCII
-// art or a graph-physics library.
+// Three tiers, top to bottom: what I study, how I actually practice
+// it, and the throughline underneath all of it. Not a rigorous tree,
+// just a shape that gives each node a description worth clicking for.
+// See notes/phase-7.md for why this isn't literal ASCII art or a
+// graph-physics library, and why the outside-of-code interests moved
+// out of this map into their own section instead of living here too.
 const TIERS: IdentityNode[][] = [
   [
     {
       id: 'cs',
       label: 'Computer Science',
       description:
-        'Full-stack development, backend systems, and software architecture — I like understanding how the whole system fits together, not just one layer of it.',
+        'Full-stack development, backend systems, and software architecture. I care more about how the pieces fit together than about any single language.',
     },
   ],
   [
@@ -26,53 +27,26 @@ const TIERS: IdentityNode[][] = [
       id: 'ai',
       label: 'AI',
       description:
-        'Using AI tools like Claude Code as part of a real development workflow — reviewing, testing, and owning every change instead of just accepting what it generates. This portfolio is built that way.',
+        'Building with tools like Claude Code as part of a real workflow, not a shortcut. I still read, test, and understand every change before it ships.',
     },
     {
       id: 'software',
       label: 'Software',
       description:
-        'Designing and building applications end to end, from a database schema to the interface someone actually uses.',
+        'Designing and building applications end to end, from a database schema to the screen someone actually uses.',
     },
     {
       id: 'systems',
       label: 'Systems',
       description:
-        "APIs, databases, asynchronous processing, background workers — the parts that don't show up in a demo but decide whether something actually holds up.",
+        "APIs, databases, background workers. The parts nobody sees that decide whether something holds up under real use.",
     },
   ],
   [
     {
       id: 'building',
       label: 'Building',
-      description:
-        "The throughline. I learn by building things end to end rather than reading about them — on both sides of this map.",
-    },
-  ],
-  [
-    {
-      id: 'gym',
-      label: 'Gym / Calisthenics → Discipline',
-      description:
-        'Progress here is slow, measurable, and impossible to shortcut — the same mindset that keeps a long build honest.',
-    },
-    {
-      id: 'anime',
-      label: 'Anime → Inspiration',
-      description:
-        "Demon Slayer, Attack on Titan, Naruto — the visual language of this whole site borrows from what I actually watch, not a generic portfolio template.",
-    },
-    {
-      id: 'drawing',
-      label: 'Drawing → Creativity',
-      description:
-        'Hand-drawn strokes, not generated ones — a different kind of problem-solving than code, and a good reset from it.',
-    },
-    {
-      id: 'deathcore',
-      label: 'Deathcore → Intensity',
-      description:
-        "Lorna Shore, Bad Omens — restraint that suddenly breaks into intensity. That rhythm is basically the design brief for this site's mood.",
+      description: "The reason all of this is fun in the first place. I learn by building real things, not by reading about them.",
     },
   ],
 ]
@@ -129,28 +103,37 @@ function About() {
       <div className="mt-6 grid gap-12 lg:grid-cols-2 lg:items-start">
         <div className="max-w-prose space-y-4 text-lg">
           <p>
-            I want to understand how complete systems fit together — APIs,
-            databases, asynchronous processing, background workers,
-            architecture, deployment — not just the individual languages and
-            frameworks that make them up. I want to make real engineering
-            decisions, take ownership of what I build, and think about
-            performance, scalability, and maintainability instead of just
-            getting something to run once.
+            I'm a Computer Science student at UBC Okanagan, and most of what
+            actually stuck for me came from building things outside of
+            class, not from the classes themselves.
           </p>
           <p>
-            I also use AI coding tools like Claude Code as part of a serious
-            development workflow, while still understanding, reviewing,
-            testing, and owning every line that ships — this site is proof of
-            that, not just a claim about it.
+            Last summer I interned at Tythe Labs, a startup building an
+            on-chain credit protocol. I spent the first half building React
+            components for their dashboard, then moved into the backend and
+            wrote the Python services and REST endpoints those components
+            actually talked to. Seeing both ends of that pipeline changed how
+            I think about frontend work entirely. A button doesn't just need
+            to look right, it needs something real behind it.
+          </p>
+          <p>
+            Before that, I spent a year and a half on a research team,
+            reading and coding through more than 500 academic papers with
+            nine other people. It's tedious work, but it taught me something
+            code doesn't: how to define a rule precisely enough that ten
+            different people apply it the same way.
+          </p>
+          <p>
+            The project I'm proudest of is an exam platform I built for a
+            UBC Okanagan department. Instructors can build question banks,
+            generate exams with different variants, and see analytics, all
+            running on a backend I load tested to hold up under 100
+            concurrent users. I also build with AI tools like Claude Code
+            now, but every line still gets read, tested, and understood
+            before it ships. This site is the proof, not a slogan.
           </p>
           <p className="text-text-primary font-display border-accent border-l-2 pl-4 font-medium">
             I enjoy learning by building.
-          </p>
-          <p>
-            Outside of code, the gym, anime, drawing, and deathcore aren't
-            separate from how I think about engineering — they're where a lot
-            of the same instincts (discipline, restraint before intensity,
-            caring about craft) actually come from.
           </p>
         </div>
 
