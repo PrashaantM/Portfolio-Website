@@ -130,7 +130,10 @@ function About() {
             The platform helps instructors manage question banks, build
             exams, import questions, generate multiple exam variants and
             answer keys, and analyze exam results through a centralized
-            dashboard.
+            dashboard. Generating variants does double duty: it cuts down on
+            students copying answers off each other, and the result analysis
+            can flag answer patterns worth a second look for possible
+            cheating.
           </p>
           <p>
             I worked across the stack, building React interfaces and
