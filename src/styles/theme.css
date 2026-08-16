@@ -1,0 +1,58 @@
+/*
+ * Design tokens for the portfolio, defined as Tailwind v4 theme
+ * variables. Each `--font-*` / `--color-*` / etc. key here automatically
+ * becomes a Tailwind utility (e.g. `--font-display` -> `font-display`,
+ * `--color-accent` -> `bg-accent` / `text-accent` / `border-accent`).
+ */
+@theme {
+  /* Typography: display for headings, body for text, mono for
+     technical/code fragments. Falls back to the OS UI font if the
+     self-hosted variable font fails to load. */
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Color tokens: a dark, restrained red/black/white system rather
+     than a rainbow of accent colors, per the site's visual identity.
+     Named by role (what it's for), not by hue, so a section never has
+     to guess which color to reach for. */
+  --color-background: #0a0a0c;
+  --color-background-secondary: #111114;
+  --color-surface: #17171c;
+  --color-surface-hover: #1e1e24;
+  --color-text-primary: #ededef;
+  --color-text-secondary: #8b8b93;
+  --color-accent: #c81e3a;
+  --color-accent-secondary: #7a1524;
+  --color-border: #26262c;
+  --color-success: #3fa66b;
+  --color-warning: #d8a13b;
+
+  /* Radius: restrained, closer to a technical/military-document feel
+     than a soft/rounded one. Two sizes only — cards get a bit more
+     roundness than small interactive elements like buttons/badges. */
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+
+  /* The max-width the page content sits in, past which it stops
+     growing and lets the background breathe on large monitors.
+     Named --width-container rather than using Tailwind's own
+     --container-* namespace (which drives its container-query
+     utilities) to avoid colliding with that. */
+  --width-container: 80rem;
+
+  /* Fluid hero heading size: scales smoothly between mobile and
+     desktop instead of jumping between fixed breakpoint sizes. */
+  --text-hero: clamp(2.75rem, 6vw + 1rem, 6.5rem);
+
+  /* Button heights. Horizontal padding uses Tailwind's normal spacing
+     utilities (e.g. px-4/px-6) rather than a custom token, so a button
+     is built as `h-(--size-button-md) px-6` and stays consistent. */
+  --size-button-sm: 2.25rem;
+  --size-button-md: 2.75rem;
+  --size-button-lg: 3.25rem;
+
+  /* Vertical rhythm between major page sections. Fluid so it doesn't
+     need a separate mobile override. */
+  --space-section: clamp(4rem, 8vw, 8rem);
+}
