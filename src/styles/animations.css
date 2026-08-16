@@ -1,0 +1,59 @@
+/*
+ * CSS-keyframe half of the Phase 13 animation vocabulary. These two
+ * are hover-triggered rather than scroll-triggered, so plain CSS
+ * `:hover` keyframes are the right tool, avoiding any
+ * IntersectionObserver or scroll-linked-animation browser-support
+ * risk. The scroll-triggered half of the vocabulary (fadeUp, fadeIn,
+ * scaleIn, slideIn, staggerChildren, drawLine) is Motion-driven and
+ * lives in `src/lib/motion.ts`. `inkReveal` is the one exception:
+ * `src/components/InkReveal.tsx` animates a `scaleX` cover rather
+ * than a variant object, for reasons documented there.
+ */
+@layer utilities {
+  /* Glitch: a brief digital stutter on hover, used by the Seal emblem
+     and the Lab section's "CONCEPT" tags. Deliberately hover-gated
+     rather than auto-playing or looping; the brief warns against
+     constant motion noise, and a glitch that never stops reads as a
+     bug, not a style. */
+  @keyframes glitch {
+    0%,
+    100% {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+    20% {
+      transform: translate(-2px, 1px);
+      opacity: 0.8;
+    }
+    40% {
+      transform: translate(2px, -1px);
+      opacity: 0.9;
+    }
+    60% {
+      transform: translate(-1px, 0);
+      opacity: 0.85;
+    }
+  }
+
+  .hover-glitch:hover {
+    animation: glitch 0.4s steps(2, jump-none) 1;
+  }
+
+  /* Wiggle: the Takopi-style hand-drawn/tonal-contrast touch, used
+     once on the Lab's deliberately-humorous idea to signal "this one
+     isn't like the others" without needing an illustration to say so.
+     See notes/phase-12.md. */
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-2deg);
+    }
+    50% {
+      transform: rotate(2deg);
+    }
+  }
+
+  .hover-wiggle:hover {
+    animation: wiggle 0.3s ease-in-out infinite;
+  }
+}

@@ -1,5 +1,9 @@
+import type { LucideIcon } from 'lucide-react'
+import { Braces, Layers, Database, Wrench, BrainCircuit } from 'lucide-react'
+
 export interface SkillCategory {
   name: string
+  icon: LucideIcon
   skills: string[]
 }
 
@@ -14,14 +18,17 @@ export interface SkillCategory {
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
     name: 'Languages',
+    icon: Braces,
     skills: ['Python', 'Java', 'JavaScript', 'TypeScript', 'C++', 'SQL', 'HTML/CSS'],
   },
   {
     name: 'Frameworks & Libraries',
+    icon: Layers,
     skills: ['React', 'Node.js', 'Express', 'FastAPI', 'Tailwind CSS'],
   },
   {
     name: 'Systems & Data',
+    icon: Database,
     skills: [
       'PostgreSQL',
       'MongoDB',
@@ -32,6 +39,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
   {
     name: 'Engineering Practices',
+    icon: Wrench,
     skills: [
       'Docker',
       'GitHub Actions',
@@ -47,6 +55,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
   {
     name: 'AI-Assisted Development',
+    icon: BrainCircuit,
     skills: [
       'Claude Code',
       'Agentic development workflows',

@@ -11,6 +11,16 @@
     color: var(--color-text-primary);
   }
 
+  /* Every nav link, and now the red-thread link on the MCQ project
+     card, jumps straight to an element's exact top edge, which the
+     sticky nav (Navbar.tsx, ~61px tall) then sits directly on top of.
+     Applies to any element with an id rather than just `.section`,
+     since the architecture-deep-dive anchor target is a plain div
+     inside Projects, not a top-level section. */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+
   h1,
   h2,
   h3,

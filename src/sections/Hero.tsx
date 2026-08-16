@@ -1,23 +1,20 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import Container from '../components/Container'
 import Button from '../components/Button'
-
-const EASE = [0.16, 1, 0.3, 1] as const
+import Seal from '../components/Seal'
+import Crow from '../components/motifs/Crow'
+import { fadeUp, staggerContainer } from '../lib/motion'
 
 // Name -> subtitle -> metadata -> CTAs, one after another rather than
 // all at once, per the Phase 6.1 animation plan. Whole sequence lands
-// well under the 1.2s guideline from Phase 26.
-const container = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
-}
+// well under the 1.2s guideline from Phase 26. Built on the Phase 13
+// animation vocabulary (`src/lib/motion.ts`) rather than a local
+// variant pair now that one exists. Driven by `whileInView` rather
+// than an unconditional `animate`, so scrolling back up to the very
+// top replays the sequence instead of leaving it in its settled end
+// state, same as every other scroll-triggered reveal on the site.
+const container = staggerContainer()
+const item = fadeUp
 
 /**
  * Deliberately not built on the shared <Section> wrapper: every other
@@ -31,19 +28,57 @@ function Hero() {
   // it explicitly here and skipping straight to the end state.
   const shouldReduceMotion = useReducedMotion()
 
+  // Phase 13's `parallax` vocabulary item: the ambient glow drifts
+  // down more slowly than the page scrolls past it, reading as depth
+  // rather than a flat layer. Collapsing the output range to a fixed
+  // 0 under reduced motion (rather than skipping the hook) keeps the
+  // hook call unconditional, as React's rules require, while still
+  // pinning the glow in place for anyone who asked for less motion.
+  // Centering is handled by the flex wrapper below rather than the
+  // usual `-translate-x/y-1/2` classes, so this stays a plain numeric
+  // `y` offset instead of a string transform Motion has to parse.
+  const { scrollY } = useScroll()
+  const glowY = useTransform(scrollY, [0, 800], [0, shouldReduceMotion ? 0 : 140])
+
   return (
     <section id="hero" className="relative flex min-h-svh items-center overflow-hidden">
       <div
         aria-hidden="true"
-        className="animate-glow-pulse bg-accent absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-15 blur-3xl"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden"
+      >
+        <motion.div
+          style={{ y: glowY }}
+          className="animate-glow-pulse bg-accent h-[40rem] w-[40rem] rounded-full opacity-15 blur-3xl"
+        />
+      </div>
+
+      {/* A crow drifting slowly across, one long loop rather than
+          anything designed to draw the eye immediately. See
+          notes/phase-12.md for why a crow specifically. */}
+      <Crow
+        size={56}
+        className="crow-drift text-text-secondary pointer-events-none absolute left-0 top-20 sm:top-28"
       />
 
       <Container className="relative">
         <motion.div
           initial={shouldReduceMotion ? false : 'hidden'}
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: !!shouldReduceMotion, amount: 0.3 }}
           variants={container}
         >
+          {/* An original seal/emblem, not a resume detail (see
+              src/components/Seal.tsx): the Naruto/Demon Slayer "seal"
+              motif from Phase 12, placed on the very first screen
+              since Phase 12's whole point is a visual language that
+              says something about the person, not just the work. */}
+          <motion.div
+            variants={item}
+            className="hover-glitch absolute right-0 top-0 opacity-70 transition-opacity hover:opacity-100"
+          >
+            <Seal size={44} />
+          </motion.div>
+
           <motion.h1 variants={item}>Prashaant Mudgala</motion.h1>
 
           <motion.p variants={item} className="text-text-secondary mt-6 max-w-2xl text-lg">
