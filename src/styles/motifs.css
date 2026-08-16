@@ -1,0 +1,51 @@
+/*
+ * The site's recurring visual motifs, kept to a small, deliberate set
+ * so the page reads as one coherent world instead of a collage of
+ * anime references (see the Design rules in portfolio-build.md).
+ * These three are the static, CSS-only foundation; a couple more
+ * (chakra-style particles, a red-thread connector between projects)
+ * are documented in notes/phase-4.md as intentionally deferred to the
+ * Phase 12/13 animation work rather than built here.
+ */
+@layer utilities {
+  /* Thin technical grid overlay - AoT tactical/document motif.
+     Apply to a positioned container as a background layer. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Subtle film grain - the "cinematic, atmospheric" mood from the
+     Lorna Shore / Bad Omens references, without an image asset.
+     Needs `position: relative` on the element it's applied to, since
+     it renders on a ::before layer positioned to fill the parent. */
+  .bg-noise {
+    position: relative;
+  }
+
+  .bg-noise::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Ink-brush-style divider - a stand-in for a hand-drawn brush
+     stroke (Demon Slayer ink/water motif) using a soft gradient
+     fade instead of a hard-edged rule. */
+  .divider-ink {
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-accent) 20%,
+      var(--color-accent) 80%,
+      transparent
+    );
+    opacity: 0.6;
+  }
+}
