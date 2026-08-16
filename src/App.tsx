@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Section from './components/Section'
 import MusicToggle from './components/MusicToggle'
+import EmberCounter from './components/EmberCounter'
 import SwordSlash from './components/motifs/SwordSlash'
 import { MusicProvider } from './context/MusicProvider'
 import Hero from './sections/Hero'
@@ -44,6 +45,7 @@ function App() {
       <Scene3D />
       <InteractionEffects />
       <Navbar />
+      <EmberCounter />
 
       <main id="main-content">
         <Hero />

@@ -56,6 +56,37 @@ export function onNavTransition(listener: Listener<NavTransitionEvent>) {
   return navChannel.subscribe(listener)
 }
 
+type EmberHitTest = (clientX: number, clientY: number) => boolean
+
+let emberHitTest: EmberHitTest | null = null
+
+/**
+ * `EmberField3D` registers itself here so `InteractionEffects`'s single
+ * delegated DOM click handler can ask "did this land on a live ember?"
+ * before falling back to the generic ink-splash feedback — the DOM
+ * layer never needs to know anything about Three.js projection to make
+ * that call.
+ */
+export function registerEmberHitTest(test: EmberHitTest | null) {
+  emberHitTest = test
+}
+
+export function tryEmberHit(clientX: number, clientY: number): boolean {
+  return emberHitTest ? emberHitTest(clientX, clientY) : false
+}
+
+const emberDousedListeners = new Set<() => void>()
+
+/** Fired once per ember `EmberField3D` extinguishes, for `EmberCounter`'s HUD tally to increment off of. */
+export function emitEmberDoused() {
+  emberDousedListeners.forEach((listener) => listener())
+}
+
+export function onEmberDoused(listener: () => void) {
+  emberDousedListeners.add(listener)
+  return () => emberDousedListeners.delete(listener)
+}
+
 /**
  * Scroll velocity, smoothed by exponential decay toward the latest
  * per-frame delta so `ScrollTrail3D` reads a "velocity" rather than a

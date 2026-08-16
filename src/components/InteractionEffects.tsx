@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { playHighTechClick, playInkSplash } from '../lib/sfx'
-import { emitClick } from '../three/sceneBus'
+import { emitClick, tryEmberHit } from '../three/sceneBus'
 
 const INTERACTIVE_SELECTOR = 'a, button, input, select, textarea, [role="button"]'
 
@@ -9,10 +9,13 @@ const INTERACTIVE_SELECTOR = 'a, button, input, select, textarea, [role="button"
  * listener instead of editing every component that renders a button
  * or link. A click on any real interactive element gets the
  * "high-tech" feedback (sound + `ClickBurst3D`'s tech burst);
- * everywhere else gets the "ink splash" feedback. Elements inside
- * `<header>` are skipped entirely: Navbar drives its own bigger
- * transition and sound for nav-link clicks (`NavBurst3D`), and firing
- * both here would double up the sound.
+ * everywhere else gets the "ink splash" feedback, unless the click
+ * actually landed on a live ember (`tryEmberHit`), in which case
+ * `EmberField3D` already handled its own sound/effect and the ink
+ * splash is skipped so the two don't stack. Elements inside `<header>`
+ * are skipped entirely: Navbar drives its own bigger transition and
+ * sound for nav-link clicks (`NavBurst3D`), and firing both here would
+ * double up the sound.
  */
 function InteractionEffects() {
   useEffect(() => {
@@ -26,7 +29,7 @@ function InteractionEffects() {
       if (interactive) {
         playHighTechClick()
         emitClick(event.clientX, event.clientY, 'tech')
-      } else {
+      } else if (!tryEmberHit(event.clientX, event.clientY)) {
         playInkSplash()
         emitClick(event.clientX, event.clientY, 'ink')
       }
