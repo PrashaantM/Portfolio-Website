@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { GraduationCap, BrainCircuit, Code2, Server, Hammer } from 'lucide-react'
 import Section from '../components/Section'
+import SwordSlash from '../components/motifs/SwordSlash'
 
 interface IdentityNode {
   id: string
@@ -110,6 +111,7 @@ function IdentityMap() {
 function About() {
   return (
     <Section id="about">
+      <SwordSlash />
       <h2>About</h2>
 
       <div className="mt-6 grid gap-12 lg:grid-cols-2 lg:items-start">

@@ -3,6 +3,7 @@ import Section from '../components/Section'
 import ProjectCard from '../components/ProjectCard'
 import ArchitectureMap from '../components/ArchitectureMap'
 import Reveal from '../components/Reveal'
+import SwordSlash from '../components/motifs/SwordSlash'
 import { staggerContainer, fadeUp } from '../lib/motion'
 import { motion, useReducedMotion } from 'motion/react'
 import { PROJECTS } from '../data/projects'
@@ -14,6 +15,7 @@ function Projects() {
 
   return (
     <Section id="projects">
+      <SwordSlash />
       <h2>Featured Projects</h2>
 
       <motion.div

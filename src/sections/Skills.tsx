@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react'
 import Section from '../components/Section'
 import Badge from '../components/Badge'
+import SwordSlash from '../components/motifs/SwordSlash'
 import { staggerContainer, fadeUp } from '../lib/motion'
 import { SKILL_CATEGORIES } from '../data/skills'
 
@@ -11,6 +12,7 @@ function Skills() {
 
   return (
     <Section id="skills">
+      <SwordSlash />
       <h2>Skills</h2>
 
       <motion.div
