@@ -55,4 +55,20 @@
   /* Vertical rhythm between major page sections. Fluid so it doesn't
      need a separate mobile override. */
   --space-section: clamp(4rem, 8vw, 8rem);
+
+  /* Hero's ambient background glow: a slow, subtle breathing effect
+     rather than a static gradient, for the "background continues
+     moving subtly" step of the Phase 6 animation plan. Disabled under
+     prefers-reduced-motion in base.css. */
+  --animate-glow-pulse: glow-pulse 8s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
