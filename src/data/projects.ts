@@ -1,6 +1,18 @@
+import type { LucideIcon } from 'lucide-react'
+import {
+  ClipboardCheck,
+  Briefcase,
+  Swords,
+  Clapperboard,
+  Gamepad2,
+  ShieldAlert,
+  Bike,
+} from 'lucide-react'
+
 export interface Project {
   id: string
   name: string
+  icon: LucideIcon
   purpose: string
   problem: string
   solution: string
@@ -10,6 +22,11 @@ export interface Project {
   result: string
   github: string
   demo?: string
+  /** Set only on the one project with a deeper system breakdown
+   *  further down the page (Phase 14). Renders as a small red-thread
+   *  link on the card, the "constellation-like project connections"
+   *  motif Phase 4's own notes deferred to this later animation work. */
+  architectureAnchor?: string
 }
 
 // Source of truth: public/PrashaantMudgala_Resume.pdf for the facts
@@ -21,6 +38,8 @@ export const PROJECTS: Project[] = [
   {
     id: 'mcq-platform',
     name: 'MCQ Exam Management Platform',
+    icon: ClipboardCheck,
+    architectureAnchor: '#architecture-deep-dive',
     purpose:
       'A platform for a UBC Okanagan department that lets instructors build question banks, generate multi-variant exams, and see results from one dashboard.',
     problem:
@@ -51,6 +70,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'job-portal',
     name: 'Full-Stack Job Portal',
+    icon: Briefcase,
     purpose:
       'A role-based job portal where job seekers, employers, and admins each get their own workflow.',
     problem:
@@ -69,6 +89,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'game-of-amazons',
     name: 'Game of Amazons AI Agent',
+    icon: Swords,
     purpose:
       'A Java program that plays the board game Game of Amazons by searching ahead and picking the strongest move it can find.',
     problem:
@@ -87,6 +108,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'bestbytes',
     name: 'BestBytes Movie Database & Review System',
+    icon: Clapperboard,
     purpose: 'A movie review platform built with a FastAPI backend and a 4-person Agile team.',
     problem:
       'Building an app with several big features (logins, a movie catalog, reviews) as a team, without everyone getting stuck waiting on the same piece of code.',
@@ -103,6 +125,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'bugzapper',
     name: 'BugZapper',
+    icon: Gamepad2,
     purpose: 'A 3D browser game with a rendering pipeline built entirely from scratch, no game engine involved.',
     problem:
       'Building 3D graphics in a browser usually means reaching for a library like Three.js, which does the hard work for you but hides how it actually works underneath.',
@@ -119,6 +142,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'malware-containment-research',
     name: 'Malware Containment Research',
+    icon: ShieldAlert,
     purpose:
       'A network science research project (UBC COSC 421 team project) on the most effective way to contain a malware outbreak.',
     problem:
@@ -137,6 +161,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'crave',
     name: 'C.R.A.V.E',
+    icon: Bike,
     purpose:
       'A mobile cycling app (UBC COSC 341 team project) that combines real-time ride tracking with discovering nearby spots and game-like rewards for riding.',
     problem:
