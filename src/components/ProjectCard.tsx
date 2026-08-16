@@ -1,10 +1,31 @@
 import { useState } from 'react'
-import { FolderGit2, ExternalLink, ChevronDown, Link2 } from 'lucide-react'
+import { FolderGit2, ExternalLink, ChevronDown, Link2, History } from 'lucide-react'
 import Badge from './Badge'
 import type { Project } from '../data/projects'
+import githubStats from '../data/github-stats.json'
 
 interface ProjectCardProps {
   project: Project
+}
+
+interface GithubStat {
+  stars: number
+  primaryLanguage: string | null
+  pushedAt: string
+}
+
+const STATS: Record<string, GithubStat> = githubStats
+
+// A build-time snapshot (`scripts/fetch-github-stats.mjs`, Phase 19),
+// not a runtime call to GitHub's API: nothing here can fail, rate
+// limit, or ship a token for a visitor to find. Star counts are
+// fetched into the same JSON but not rendered - every one of these
+// repos currently shows 0, and a row of identical "0 stars" badges
+// would read as filler UI, not a real signal. "Last updated" is the
+// one field that's actually informative right now; surfacing stars
+// too is a one-line change if that ever stops being true.
+function formatUpdated(pushedAt: string) {
+  return new Date(pushedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
 }
 
 type DetailKey = 'problem' | 'solution' | 'architecture' | 'decision' | 'result'
@@ -21,12 +42,21 @@ function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const detailsId = `${project.id}-details`
   const Icon = project.icon
+  const stat = STATS[project.id]
 
   return (
     <div className="border-border bg-surface hover:border-accent rounded-(--radius-card) border p-6 transition-colors hover:-translate-y-1">
-      <div className="flex items-center gap-2.5">
-        <Icon size={18} className="text-accent" aria-hidden="true" />
-        <h3 className="text-lg">{project.name}</h3>
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+        <div className="flex items-center gap-2.5">
+          <Icon size={18} className="text-accent" aria-hidden="true" />
+          <h3 className="text-lg">{project.name}</h3>
+        </div>
+        {stat && (
+          <span className="text-text-secondary inline-flex items-center gap-1 font-mono text-xs">
+            <History size={12} aria-hidden="true" />
+            Updated {formatUpdated(stat.pushedAt)}
+          </span>
+        )}
       </div>
       <p className="text-text-secondary mt-2">{project.purpose}</p>
 
@@ -76,9 +106,9 @@ function ProjectCard({ project }: ProjectCardProps) {
       {project.architectureAnchor && (
         <a
           href={project.architectureAnchor}
-          className="border-accent/40 text-accent mt-4 inline-flex items-center gap-1.5 border-b border-dashed pb-0.5 text-sm"
+          className="border-accent/40 text-text-primary mt-4 inline-flex items-center gap-1.5 border-b border-dashed pb-0.5 text-sm"
         >
-          <Link2 size={14} aria-hidden="true" />
+          <Link2 size={14} aria-hidden="true" className="text-accent" />
           Traced further below: full architecture breakdown
         </a>
       )}
