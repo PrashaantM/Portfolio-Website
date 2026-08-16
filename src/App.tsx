@@ -4,6 +4,9 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Section from './components/Section'
 import Hero from './sections/Hero'
+import About from './sections/About'
+import Skills from './sections/Skills'
+import Projects from './sections/Projects'
 
 interface PlaceholderSectionProps {
   id: string
@@ -35,32 +38,28 @@ function App() {
 
       <main id="main-content">
         <Hero />
-        <PlaceholderSection id="about" title="About" note="Placeholder — built in Phase 7." />
-        <PlaceholderSection id="skills" title="Skills" note="Placeholder — built in Phase 8." />
-        <PlaceholderSection
-          id="projects"
-          title="Featured Projects"
-          note="Placeholder — built in Phase 9."
-        />
+        <About />
+        <Skills />
+        <Projects />
         <PlaceholderSection
           id="lab"
           title="Experimental Lab"
-          note="Placeholder — built in Phase 10."
+          note="Placeholder. Built in Phase 10."
         />
         <PlaceholderSection
           id="experience"
           title="Experience"
-          note="Placeholder — content arrives in a later phase."
+          note="Placeholder. Content arrives in a later phase."
         />
         <PlaceholderSection
           id="interests"
           title="Interests"
-          note="Placeholder — content arrives in a later phase."
+          note="Placeholder. Content arrives in a later phase."
         />
         <PlaceholderSection
           id="contact"
           title="Contact"
-          note="Placeholder — content arrives in a later phase."
+          note="Placeholder. Content arrives in a later phase."
         />
       </main>
 

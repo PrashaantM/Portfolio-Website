@@ -29,7 +29,7 @@
   --color-warning: #d8a13b;
 
   /* Radius: restrained, closer to a technical/military-document feel
-     than a soft/rounded one. Two sizes only — cards get a bit more
+     than a soft/rounded one. Two sizes only. Cards get a bit more
      roundness than small interactive elements like buttons/badges. */
   --radius-card: 0.75rem;
   --radius-button: 0.5rem;
