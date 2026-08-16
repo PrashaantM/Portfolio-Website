@@ -34,6 +34,14 @@ saying anything specific about any of them. Better to say nothing here
 and do it properly when Interests gets built, than say something thin
 in two places.
 
+A second revision replaced the MCQ platform paragraph with a more
+specific, user-provided account of the same project: the capstone
+context (COSC 499, Earth/Environmental/Geographic Sciences dept), the
+actual feature list (question banks, multi-variant exam generation,
+answer keys, an analytics dashboard), the real stack (React, FastAPI,
+PostgreSQL, background processing for the heavy jobs), and a sharper
+statement on how AI tools fit into the workflow.
+
 ## The identity map
 
 The brief (`portfolio-build.md` Phase 7) shows a literal ASCII tree and
@@ -60,6 +68,24 @@ This originally had a fourth tier for the outside-of-code interests
 Discipline or Intensity. Cut for the same reason as the prose above:
 that content deserves its own section, not four compressed nodes
 competing with the technical map for attention.
+
+The node descriptions were also rewritten to have some actual voice
+instead of dryly restating the label. Each one now calls back to a
+specific detail from the prose next to it rather than describing the
+topic in the abstract: clicking Systems surfaces the same 100+
+concurrent user number from the MCQ paragraph with a joke about it
+being a real number and not portfolio padding, and clicking AI
+references reading Claude Code's output "like it might be lying to
+me." Cheap to do since the map and the prose already share the same
+underlying facts, and it makes clicking through the nodes feel like
+part of the same voice as the paragraphs next to it instead of a
+separate, more clinical layer bolted on top.
+
+Once the prose paragraphs grew to seven (from the MCQ rewrite above),
+the five-node map left a large empty gap underneath it on wide
+screens. Made the map column `sticky` at `lg:top-24` so it stays in
+view while the longer text column scrolls past it, instead of
+resizing the map or padding it out with content it doesn't need.
 
 ## Verification
 
@@ -89,4 +115,6 @@ npm run dev
 
 Open **http://localhost:5173** and either scroll down or click
 **About** in the nav. Click through the identity map nodes and watch
-the description box below update each time.
+the description box below update each time. On a wide window, scroll
+slowly through the paragraphs and watch the map stay pinned in place
+next to them instead of scrolling away.
