@@ -2,7 +2,6 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import Container from '../components/Container'
 import Button from '../components/Button'
 import Seal from '../components/Seal'
-import Crow from '../components/motifs/Crow'
 import { fadeUp, staggerContainer } from '../lib/motion'
 
 // Name -> subtitle -> metadata -> CTAs, one after another rather than
@@ -51,14 +50,6 @@ function Hero() {
           className="animate-glow-pulse bg-accent h-[40rem] w-[40rem] rounded-full opacity-15 blur-3xl"
         />
       </div>
-
-      {/* A crow drifting slowly across, one long loop rather than
-          anything designed to draw the eye immediately. See
-          notes/phase-12.md for why a crow specifically. */}
-      <Crow
-        size={56}
-        className="crow-drift text-text-secondary pointer-events-none absolute left-0 top-20 sm:top-28"
-      />
 
       <Container className="relative">
         <motion.div

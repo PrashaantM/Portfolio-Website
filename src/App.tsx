@@ -1,9 +1,13 @@
 import SkipLink from './components/SkipLink'
 import Background from './components/Background'
+import Scene3D from './components/Scene3D'
+import InteractionEffects from './components/InteractionEffects'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Section from './components/Section'
 import MusicToggle from './components/MusicToggle'
+import EmberCounter from './components/EmberCounter'
+import SwordSlash from './components/motifs/SwordSlash'
 import { MusicProvider } from './context/MusicProvider'
 import Hero from './sections/Hero'
 import About from './sections/About'
@@ -26,6 +30,7 @@ interface PlaceholderSectionProps {
 function PlaceholderSection({ id, title, note }: PlaceholderSectionProps) {
   return (
     <Section id={id}>
+      <SwordSlash />
       <h2>{title}</h2>
       <p className="text-text-secondary mt-2">{note}</p>
     </Section>
@@ -37,7 +42,10 @@ function App() {
     <MusicProvider>
       <SkipLink />
       <Background />
+      <Scene3D />
+      <InteractionEffects />
       <Navbar />
+      <EmberCounter />
 
       <main id="main-content">
         <Hero />

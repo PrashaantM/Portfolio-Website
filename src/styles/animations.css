@@ -56,4 +56,38 @@
   .hover-wiggle:hover {
     animation: wiggle 0.3s ease-in-out infinite;
   }
+
+  /* Phase 15 tactile polish for every Button.tsx instance: a light
+     sweep on hover (a soft diagonal highlight translating across, via
+     a pseudo-element rather than animating `background-position` on
+     the button itself, so the button's own background color/gradient
+     is untouched) and a quick scale-down on press, so buttons feel
+     physically pressable even before the click-burst/sound feedback
+     from InteractionEffects lands. Continuous micro-interaction chrome
+     like this stays plain CSS on purpose - only the big spectacle
+     moments (crows/embers/seals/nav-burst/click-burst) route through
+     the WebGL layer in `src/three/`. */
+  .btn-tech {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s ease;
+  }
+
+  .btn-tech::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 40%, rgb(255 255 255 / 25%) 50%, transparent 60%);
+    transform: translateX(-120%);
+    transition: transform 0.5s ease;
+    pointer-events: none;
+  }
+
+  .btn-tech:hover::after {
+    transform: translateX(120%);
+  }
+
+  .btn-tech:active {
+    transform: scale(0.96);
+  }
 }

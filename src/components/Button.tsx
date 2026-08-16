@@ -19,7 +19,7 @@ const VARIANT_CLASSES = {
 function Button({ children, variant = 'primary', className = '', ...anchorProps }: ButtonProps) {
   return (
     <a
-      className={`h-(--size-button-md) rounded-(--radius-button) focus-visible:outline-text-primary inline-flex items-center justify-center px-6 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-offset-2 ${VARIANT_CLASSES[variant]} ${className}`.trim()}
+      className={`btn-tech h-(--size-button-md) rounded-(--radius-button) focus-visible:outline-text-primary inline-flex items-center justify-center px-6 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-offset-2 ${VARIANT_CLASSES[variant]} ${className}`.trim()}
       {...anchorProps}
     >
       {children}

@@ -165,31 +165,4 @@
     }
   }
 
-  /* A crow drifting slowly across the hero, Demon Slayer's Kasugai
-     messenger-crow motif (see Crow.tsx). One long, slow, looping pass
-     rather than anything eye-catching: this is meant to reward
-     noticing it, not compete with the name/CTAs for attention. */
-  .crow-drift {
-    animation: crow-drift 42s linear infinite;
-  }
-
-  @keyframes crow-drift {
-    0% {
-      transform: translateX(-10vw) translateY(0);
-      opacity: 0;
-    }
-    8% {
-      opacity: 0.5;
-    }
-    50% {
-      transform: translateX(55vw) translateY(-18px);
-    }
-    92% {
-      opacity: 0.5;
-    }
-    100% {
-      transform: translateX(120vw) translateY(6px);
-      opacity: 0;
-    }
-  }
 }
