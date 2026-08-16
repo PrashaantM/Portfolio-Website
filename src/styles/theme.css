@@ -11,4 +11,20 @@
   --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Color tokens: a dark, restrained red/black/white system rather
+     than a rainbow of accent colors, per the site's visual identity.
+     Named by role (what it's for), not by hue, so a section never has
+     to guess which color to reach for. */
+  --color-background: #0a0a0c;
+  --color-background-secondary: #111114;
+  --color-surface: #17171c;
+  --color-surface-hover: #1e1e24;
+  --color-text-primary: #ededef;
+  --color-text-secondary: #8b8b93;
+  --color-accent: #c81e3a;
+  --color-accent-secondary: #7a1524;
+  --color-border: #26262c;
+  --color-success: #3fa66b;
+  --color-warning: #d8a13b;
 }

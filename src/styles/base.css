@@ -7,6 +7,8 @@
 @layer base {
   body {
     font-family: var(--font-body);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
   }
 
   h1,
@@ -18,11 +20,32 @@
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: -0.02em;
+    color: var(--color-text-primary);
   }
 
   code,
   pre,
   kbd {
     font-family: var(--font-mono);
+    color: var(--color-text-primary);
+  }
+
+  /* Accent stays out of body-sized text color (#c81e3a only clears
+     WCAG AA contrast at large-text/graphical sizes, ~3.5:1 against the
+     background) and is used as an underline instead, which only needs
+     to clear the lower 3:1 bar for non-text UI elements. */
+  a {
+    color: var(--color-text-primary);
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 0.15em;
+  }
+
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-text-primary);
   }
 }
