@@ -1,10 +1,13 @@
 import { useState } from 'react'
+import type { LucideIcon } from 'lucide-react'
+import { GraduationCap, BrainCircuit, Code2, Server, Hammer } from 'lucide-react'
 import Section from '../components/Section'
 
 interface IdentityNode {
   id: string
   label: string
   description: string
+  icon: LucideIcon
 }
 
 // Three tiers, top to bottom: what I study, how I actually practice
@@ -18,6 +21,7 @@ const TIERS: IdentityNode[][] = [
     {
       id: 'cs',
       label: 'Computer Science',
+      icon: GraduationCap,
       description:
         'Four years of UBC Okanagan lectures, and the thing that actually stuck was staying up rewriting a FastAPI backend until it stopped falling over.',
     },
@@ -26,18 +30,21 @@ const TIERS: IdentityNode[][] = [
     {
       id: 'ai',
       label: 'AI',
+      icon: BrainCircuit,
       description:
         'Claude Code writes fast. I still read every line like it might be lying to me, because sometimes it is.',
     },
     {
       id: 'software',
       label: 'Software',
+      icon: Code2,
       description:
         'Built the React dashboard and the API it talks to, so when something breaks there is nowhere to point the finger but at myself.',
     },
     {
       id: 'systems',
       label: 'Systems',
+      icon: Server,
       description:
         'Load tested to 100+ concurrent users. That number is real, not a nice round exaggeration I added for the portfolio.',
     },
@@ -46,6 +53,7 @@ const TIERS: IdentityNode[][] = [
     {
       id: 'building',
       label: 'Building',
+      icon: Hammer,
       description: "The actual reason I would rather be building something at midnight than doing basically anything else.",
     },
   ],
@@ -65,21 +73,25 @@ function IdentityMap() {
           <div key={tierIndex} className="flex flex-col items-center gap-4">
             {tierIndex > 0 && <div className="bg-border h-8 w-px" aria-hidden="true" />}
             <div className="flex flex-wrap justify-center gap-3">
-              {tier.map((node) => (
-                <button
-                  key={node.id}
-                  type="button"
-                  onClick={() => setActiveId(node.id)}
-                  aria-pressed={activeId === node.id}
-                  className={`rounded-(--radius-button) border px-4 py-2 text-sm transition-colors ${
-                    activeId === node.id
-                      ? 'border-accent bg-accent/10 text-text-primary'
-                      : 'border-border text-text-secondary hover:border-accent'
-                  }`}
-                >
-                  {node.label}
-                </button>
-              ))}
+              {tier.map((node) => {
+                const Icon = node.icon
+                return (
+                  <button
+                    key={node.id}
+                    type="button"
+                    onClick={() => setActiveId(node.id)}
+                    aria-pressed={activeId === node.id}
+                    className={`rounded-(--radius-button) inline-flex items-center gap-2 border px-4 py-2 text-sm transition-colors ${
+                      activeId === node.id
+                        ? 'border-accent bg-accent/10 text-text-primary'
+                        : 'border-border text-text-secondary hover:border-accent'
+                    }`}
+                  >
+                    <Icon size={14} aria-hidden="true" />
+                    {node.label}
+                  </button>
+                )
+              })}
             </div>
           </div>
         ))}

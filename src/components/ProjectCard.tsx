@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FolderGit2, ExternalLink, ChevronDown } from 'lucide-react'
+import { FolderGit2, ExternalLink, ChevronDown, Link2 } from 'lucide-react'
 import Badge from './Badge'
 import type { Project } from '../data/projects'
 
@@ -20,10 +20,14 @@ const DETAIL_FIELDS: { label: string; key: DetailKey }[] = [
 function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const detailsId = `${project.id}-details`
+  const Icon = project.icon
 
   return (
     <div className="border-border bg-surface hover:border-accent rounded-(--radius-card) border p-6 transition-colors hover:-translate-y-1">
-      <h3 className="text-lg">{project.name}</h3>
+      <div className="flex items-center gap-2.5">
+        <Icon size={18} className="text-accent" aria-hidden="true" />
+        <h3 className="text-lg">{project.name}</h3>
+      </div>
       <p className="text-text-secondary mt-2">{project.purpose}</p>
 
       <div className="mt-4 flex flex-wrap gap-2">
@@ -68,6 +72,16 @@ function ProjectCard({ project }: ProjectCardProps) {
           />
         </button>
       </div>
+
+      {project.architectureAnchor && (
+        <a
+          href={project.architectureAnchor}
+          className="border-accent/40 text-accent mt-4 inline-flex items-center gap-1.5 border-b border-dashed pb-0.5 text-sm"
+        >
+          <Link2 size={14} aria-hidden="true" />
+          Traced further below: full architecture breakdown
+        </a>
+      )}
 
       {isExpanded && (
         <dl id={detailsId} className="border-border mt-5 space-y-4 border-t pt-5">
