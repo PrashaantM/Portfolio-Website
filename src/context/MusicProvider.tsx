@@ -5,17 +5,23 @@ import { MusicContext, type MusicContextValue } from './musicContext'
 /**
  * Owns the single `TrackPlayer` instance for the site. Phase 11's rule
  * was "do not autoplay audio by default" and only ever built the
- * player lazily inside `toggle()`. Phase 15 reverses that: the site
- * should now start playing the moment someone visits. Browsers still
- * block audible playback before a user gesture, though, so this is a
- * best-effort autoplay rather than a guarantee: the mount effect below
- * tries `play()` immediately, and only flips `isPlaying` once that
- * promise actually resolves, so the UI never claims audio is playing
- * when the browser silently blocked it. If the immediate attempt is
- * rejected (the common case for a fresh visit), a one-time listener on
- * the very first `pointerdown`/`keydown`/`touchstart` anywhere on the
- * page retries playback, so music starts on whatever the visitor does
- * first rather than requiring them to find the toggle.
+ * player lazily inside `toggle()`. Phase 15 reversed that, and Phase
+ * 15.2 goes further: rather than only trying an audible `play()` and
+ * accepting that a fresh visit will almost always have it rejected,
+ * the mount effect's first attempt starts the track *muted*. That is
+ * not a cosmetic difference - verified directly against a real
+ * `AudioContext` rather than assumed, a muted, gesture-free `play()`
+ * resolves and brings the context up to `running` under browsers'
+ * standard autoplay policy, where an unmuted one is rejected outright.
+ * `unmute()` right after is a plain property/gain change, not a second
+ * autoplay decision, so in the common case music is actually audible
+ * within moments of the page loading with no click required. The
+ * `pointerdown`/`keydown`/`touchstart` listener from Phase 11 stays
+ * armed regardless, both as the fallback for the rarer browser that
+ * blocks even muted playback, and as a guaranteed-safe second call to
+ * `unmute()` in case the immediate one did not actually reach the
+ * speakers - a real user gesture is the one thing every browser's
+ * autoplay policy unconditionally honors.
  */
 export function MusicProvider({ children }: { children: ReactNode }) {
   const playerRef = useRef<TrackPlayer | null>(null)
@@ -25,7 +31,10 @@ export function MusicProvider({ children }: { children: ReactNode }) {
 
   function getPlayer() {
     if (!playerRef.current) {
-      playerRef.current = createTrackPlayer()
+      // The player advances trackId on its own (mysterious x3, dark
+      // x3, repeat - see audio.ts); this keeps React's own trackId
+      // state, and therefore MusicToggle's picker, in sync with it.
+      playerRef.current = createTrackPlayer((nextTrackId) => setTrackId(nextTrackId))
     }
     return playerRef.current
   }
@@ -66,25 +75,43 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     player.setVolume(volume)
     let started = false
 
-    function attempt() {
+    function attemptMuted() {
       if (started) return
       void player
-        .play(trackId)
+        .play(trackId, { muted: true })
         .then(() => {
           started = true
+          player.unmute()
           setIsPlaying(true)
-          cleanup()
+          // Deliberately does not remove the gesture listeners here:
+          // a muted play() resolving proves the browser allowed
+          // *silent* playback, not that the unmute() right above
+          // actually reached the speakers in every browser out there.
+          // The first real gesture is the one thing every autoplay
+          // policy unconditionally honors, so it stays armed as a
+          // safety net until one actually happens.
         })
         .catch(() => {
-          // Blocked by the browser's autoplay policy; the gesture
-          // listeners below will retry on the visitor's first
-          // interaction.
+          // Blocked outright - rare, since muted autoplay is broadly
+          // allowed, but the gesture listener below is still there
+          // for it.
         })
     }
 
     const gestureEvents = ['pointerdown', 'keydown', 'touchstart'] as const
     function onGesture() {
-      attempt()
+      // Safe (and a no-op if there is nothing to unmute) even if a
+      // muted start already ran: this is the guaranteed path.
+      player.unmute()
+      if (started) {
+        cleanup()
+        return
+      }
+      void player.play(trackId).then(() => {
+        started = true
+        setIsPlaying(true)
+        cleanup()
+      })
     }
     function cleanup() {
       gestureEvents.forEach((event) => window.removeEventListener(event, onGesture))
@@ -93,9 +120,9 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     let idleId: number | undefined
     let timeoutId: number | undefined
     if (typeof requestIdleCallback === 'function') {
-      idleId = requestIdleCallback(attempt)
+      idleId = requestIdleCallback(attemptMuted)
     } else {
-      timeoutId = window.setTimeout(attempt, 200)
+      timeoutId = window.setTimeout(attemptMuted, 200)
     }
     gestureEvents.forEach((event) => window.addEventListener(event, onGesture, { once: true }))
 

@@ -10,6 +10,12 @@ import {
   SquareSplitHorizontal,
   Radar,
   Dumbbell,
+  Gamepad2,
+  ScanText,
+  HeartHandshake,
+  DoorClosed,
+  KeyRound,
+  BotMessageSquare,
 } from 'lucide-react'
 
 export interface LabIdea {
@@ -143,5 +149,88 @@ export const LAB_IDEAS: LabIdea[] = [
     visual: 'A side-by-side left/right performance chart, the gap between them tracked over time.',
     tags: ['Fitness Tech', 'Data Tracking'],
     icon: Dumbbell,
+  },
+]
+
+export interface LabBuild {
+  id: string
+  name: string
+  tagline: string
+  description: string
+  tech: string[]
+  icon: LucideIcon
+  github: string
+  demo?: string
+}
+
+// The lab's shipped side, not just its concepts: six smaller, older
+// builds that never made the cut for Featured Projects above but are
+// real, working repos rather than sketches. Sourced directly from each
+// repo's own README/description via `gh` rather than guessed, the same
+// rule Phase 9 used for the featured four (see projects.ts) - and
+// re-checked at write time rather than trusted from memory, since
+// TextScanner turned out to have been rebuilt entirely (Python/OpenCV
+// exercises into a deployed client-side OCR app) since the first pass.
+export const LAB_BUILDS: LabBuild[] = [
+  {
+    id: 'text-scanner',
+    name: 'TextScanner',
+    tagline: 'Drag in an image, get the text back, no server involved.',
+    description:
+      'A client-side OCR tool: drop in a photo, screenshot, or scan, and Tesseract.js reads the text out entirely inside the browser over WebAssembly, no upload and no account. Started as a set of Python and OpenCV exercises before being rebuilt into a deployed app people can actually open and use.',
+    tech: ['JavaScript', 'Tesseract.js', 'WebAssembly'],
+    icon: ScanText,
+    github: 'https://github.com/PrashaantM/TextScanner',
+    demo: 'https://prashaantm.github.io/TextScanner/',
+  },
+  {
+    id: 'enigma',
+    name: 'Enigma',
+    tagline: "A working simulation of WWII's Enigma cipher, rotors and all.",
+    description:
+      'Rebuilds the Enigma machine from scratch in Python: rotors, a reflector, and a plugboard all implemented directly, encrypting and decrypting messages the same way one of the most consequential ciphers in history actually worked.',
+    tech: ['Python', 'Cryptography'],
+    icon: KeyRound,
+    github: 'https://github.com/PrashaantM/Enigma',
+  },
+  {
+    id: 'ai4sg',
+    name: 'AI4SG: Housing Finder',
+    tagline: 'An AI-matched affordable housing finder, built at a social-good hackathon.',
+    description:
+      'Built at the AI for Social Good Hackathon around a real problem: low-income immigrants in BC struggling to find affordable housing across language and information barriers. Housing Finder matches listings to income, family size, and proximity to schools, healthcare, and transit, with multilingual translation built in rather than bolted on.',
+    tech: ['Vue', 'Java', 'JavaScript'],
+    icon: HeartHandshake,
+    github: 'https://github.com/PrashaantM/AI4SG',
+  },
+  {
+    id: 'c2hacks',
+    name: 'C2Hacks AI Study Assistant',
+    tagline: 'A hackathon AI study assistant with a sustainability tips search built in.',
+    description:
+      'Built at C2Hacks: a chatbot that quizzes students on weak topics and explains uploaded notes back to them, paired with a searchable sustainability-tips feature, on a React frontend backed by an Express and OpenAI API server.',
+    tech: ['React', 'Express', 'OpenAI API', 'Firebase'],
+    icon: BotMessageSquare,
+    github: 'https://github.com/PrashaantM/C2Hacks_Hackathon',
+  },
+  {
+    id: 'text-escape-room',
+    name: 'Unconventional Escape Room',
+    tagline: 'A timed, point-and-click escape room built with Pygame.',
+    description:
+      'A graphical escape room built with Pygame: investigate objects around the room like a chair and an elevator, work through the puzzles hidden in them, and get out before the 3-minute timer runs out.',
+    tech: ['Python', 'Pygame'],
+    icon: DoorClosed,
+    github: 'https://github.com/PrashaantM/textEscapeRoom',
+  },
+  {
+    id: 'platformer',
+    name: 'Platformer',
+    tagline: 'A 2D parkour platformer, physics and levels built by hand.',
+    description:
+      'A side-scrolling platformer built directly on Pygame: fight through a hand-built obstacle course to reach the end, with the movement, collision, and level layout all written from scratch rather than pulled from an existing game engine.',
+    tech: ['Python', 'Pygame'],
+    icon: Gamepad2,
+    github: 'https://github.com/PrashaantM/Platformer',
   },
 ]

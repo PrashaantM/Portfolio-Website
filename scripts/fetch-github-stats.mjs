@@ -20,6 +20,12 @@ const REPOS = {
   bugzapper: 'BugZapper',
   'malware-containment-research': 'Malware-Containment-Research',
   crave: 'C.R.A.V.E',
+  platformer: 'Platformer',
+  'text-scanner': 'TextScanner',
+  ai4sg: 'AI4SG',
+  'text-escape-room': 'textEscapeRoom',
+  enigma: 'Enigma',
+  c2hacks: 'C2Hacks_Hackathon',
 }
 
 const stats = {}

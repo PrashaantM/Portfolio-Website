@@ -33,5 +33,35 @@
     "stars": 0,
     "primaryLanguage": "Java",
     "pushedAt": "2026-05-07T13:22:19Z"
+  },
+  "platformer": {
+    "stars": 0,
+    "primaryLanguage": "Python",
+    "pushedAt": "2023-09-08T16:39:17Z"
+  },
+  "text-scanner": {
+    "stars": 0,
+    "primaryLanguage": "JavaScript",
+    "pushedAt": "2026-08-18T10:39:40Z"
+  },
+  "ai4sg": {
+    "stars": 0,
+    "primaryLanguage": "Java",
+    "pushedAt": "2024-09-22T21:49:31Z"
+  },
+  "text-escape-room": {
+    "stars": 0,
+    "primaryLanguage": "Python",
+    "pushedAt": "2025-02-09T13:20:56Z"
+  },
+  "enigma": {
+    "stars": 0,
+    "primaryLanguage": "Python",
+    "pushedAt": "2026-02-04T00:44:37Z"
+  },
+  "c2hacks": {
+    "stars": 0,
+    "primaryLanguage": "JavaScript",
+    "pushedAt": "2024-11-24T07:18:02Z"
   }
 }
