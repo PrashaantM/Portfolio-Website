@@ -3,7 +3,7 @@ import Container from './Container'
 const FOOTER_LINKS = [
   { href: 'https://github.com/PrashaantM', label: 'GitHub' },
   { href: 'https://linkedin.com/in/prashaantmudgala', label: 'LinkedIn' },
-  { href: '/PrashaantMudgala_Resume.pdf', label: 'Resume' },
+  { href: `${import.meta.env.BASE_URL}PrashaantMudgala_Resume.pdf`, label: 'Resume' },
 ]
 
 /**

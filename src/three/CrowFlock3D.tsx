@@ -21,7 +21,10 @@ const SPAWN_MAX_DELAY = 9000
 // x 2-row sprite sheet, side profile, one full wingbeat across the 10
 // cells. Replaces Phase 15's squash/stretch fake (a single silhouette
 // scaled on Y) with actual per-frame animation.
-const SPRITE_URL = '/images/crows.jpg'
+// `BASE_URL`, not a leading `/`: a plain runtime string, so it needs to
+// resolve under GitHub Pages' project-repo subpath itself (see
+// vite.config.ts's `base`), not just a domain root.
+const SPRITE_URL = `${import.meta.env.BASE_URL}images/crows.jpg`
 const SHEET_COLS = 5
 const SHEET_ROWS = 2
 const FRAME_COUNT = SHEET_COLS * SHEET_ROWS

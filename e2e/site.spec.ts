@@ -7,7 +7,11 @@ import AxeBuilder from '@axe-core/playwright'
 // the thing a unit test can't cover: whether the pieces actually work
 // together in a real browser.
 test('open site, navigate, open a project, toggle music, reach contact', async ({ page }) => {
-  await page.goto('/')
+  // './', not '/': baseURL already includes the GitHub Pages subpath
+  // (playwright.config.ts), and a leading '/' is a path-absolute
+  // reference that replaces the whole path, dropping that subpath and
+  // landing on the wrong page entirely.
+  await page.goto('./')
   await expect(page).toHaveTitle(/Prashaant Mudgala/)
 
   await page.getByRole('link', { name: 'Projects' }).first().click()
@@ -37,7 +41,7 @@ test('open site, navigate, open a project, toggle music, reach contact', async (
 })
 
 test('has no critical or serious automated accessibility violations', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('./')
   // Let every whileInView reveal actually fire before scanning a
   // static snapshot; otherwise a card still mid-fade-in reads as a
   // real contrast violation (see notes/phase-15-accessibility.md for

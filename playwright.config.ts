@@ -12,12 +12,15 @@ export default defineConfig({
   fullyParallel: true,
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:5173',
+    // Includes the GitHub Pages base path (vite.config.ts's `base`):
+    // the dev server serves the app there too, not at the domain root,
+    // so a bare page.goto('/') would 404 without it.
+    baseURL: 'http://localhost:5173/Portfolio-Website/',
     trace: 'retain-on-failure',
   },
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:5173',
+    url: 'http://localhost:5173/Portfolio-Website/',
     reuseExistingServer: true,
   },
   projects: [

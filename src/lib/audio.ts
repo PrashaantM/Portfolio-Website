@@ -11,9 +11,15 @@ export interface Track {
 // there was for a found-online track. The mysterious one is
 // first/default: MusicProvider starts on TRACKS[0] and now attempts to
 // autoplay it on visit (see MusicProvider.tsx).
+// `BASE_URL` rather than a leading `/`: these paths are plain runtime
+// strings, not static imports, so Vite's own asset-URL rewriting never
+// sees them. Needs to resolve correctly under GitHub Pages' project-repo
+// subpath (see vite.config.ts), not just a domain root.
+const BASE = import.meta.env.BASE_URL
+
 export const TRACKS: Track[] = [
-  { id: 'trap-mysterious', name: 'Mysterious Trap', file: '/audio/trap-melody-mysterious.wav' },
-  { id: 'trap-dark', name: 'Dark Trap', file: '/audio/trap-melody-dark.wav' },
+  { id: 'trap-mysterious', name: 'Mysterious Trap', file: `${BASE}audio/trap-melody-mysterious.wav` },
+  { id: 'trap-dark', name: 'Dark Trap', file: `${BASE}audio/trap-melody-dark.wav` },
 ]
 
 export interface TrackPlayer {

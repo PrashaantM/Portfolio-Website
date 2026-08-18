@@ -23,7 +23,7 @@ const LINKS = [
     variant: 'secondary' as const,
   },
   {
-    href: '/PrashaantMudgala_Resume.pdf',
+    href: `${import.meta.env.BASE_URL}PrashaantMudgala_Resume.pdf`,
     label: 'Resume',
     icon: FileText,
     variant: 'secondary' as const,
