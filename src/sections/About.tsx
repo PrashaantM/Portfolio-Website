@@ -24,7 +24,7 @@ const TIERS: IdentityNode[][] = [
       label: 'Computer Science',
       icon: GraduationCap,
       description:
-        'Four years of UBC Okanagan lectures, and the thing that actually stuck was staying up rewriting a FastAPI backend until it stopped falling over.',
+        'The computer is always right. Unfortunately, so is the error message 🥀.',
     },
   ],
   [
@@ -33,21 +33,21 @@ const TIERS: IdentityNode[][] = [
       label: 'AI',
       icon: BrainCircuit,
       description:
-        'Claude Code writes fast. I still read every line like it might be lying to me, because sometimes it is.',
+        'The machines are learning. Unfortunately, so am I 💀.',
     },
     {
       id: 'software',
       label: 'Software',
       icon: Code2,
       description:
-        'Built the React dashboard and the API it talks to, so when something breaks there is nowhere to point the finger but at myself.',
+        '“Let me just add a small feature” - famous last words. \n Somehow it has a roadmap and technical debt now.',
     },
     {
       id: 'systems',
       label: 'Systems',
       icon: Server,
       description:
-        'Load tested to 100+ concurrent users. That number is real, not a nice round exaggeration I added for the portfolio.',
+        'There are two hard problems in computer science: naming things, cache invalidation, and distributed systems.',
     },
   ],
   [
@@ -55,7 +55,7 @@ const TIERS: IdentityNode[][] = [
       id: 'building',
       label: 'Building',
       icon: Hammer,
-      description: "The actual reason I would rather be building something at midnight than doing basically anything else.",
+      description: "Give me an idea and an unreasonable amount of time.",
     },
   ],
 ]
