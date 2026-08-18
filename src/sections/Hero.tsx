@@ -85,7 +85,7 @@ function Hero() {
           <motion.div variants={item} className="mt-10 flex flex-wrap gap-4">
             <Button href="#projects">View Projects</Button>
             <Button
-              href="/PrashaantMudgala_Resume.pdf"
+              href={`${import.meta.env.BASE_URL}PrashaantMudgala_Resume.pdf`}
               target="_blank"
               rel="noopener noreferrer"
               variant="secondary"
