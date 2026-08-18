@@ -21,8 +21,8 @@ function Interests() {
       <SwordSlash />
       <h2>Interests</h2>
       <p className="text-text-secondary mt-3 max-w-2xl">
-        The parts of this site that aren't strictly resume material, and
-        where they actually came from.
+        A look at the things I care about outside of school, work, and building things, 
+        and the parts of me that don’t fit neatly on a resume.
       </p>
 
       <motion.div

@@ -41,9 +41,9 @@ function Projects() {
         </p>
         <h3 className="mt-2">Architecture Deep Dive: MCQ Exam Management Platform</h3>
         <p className="text-text-secondary mt-2 max-w-2xl">
-          One project explored down to the system level instead of the
-          usual tech-stack list. Click a piece of the system below to see
-          what it does, why it exists, and one implementation detail worth
+          Most project descriptions stop at “built with React and FastAPI.” 
+          This one goes into what I actually built, why I built it, and how everything fits together.
+          Click a piece of the system below to see what it does, why it exists, and one implementation detail worth
           knowing about it.
         </p>
         <div className="mt-8">
