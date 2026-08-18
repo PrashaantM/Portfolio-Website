@@ -8,42 +8,33 @@ export interface Interest {
   icon: LucideIcon
 }
 
-// Grounded in notes/phase-1.md's own list (gym, anime, drawing,
-// deathcore) and what the rest of this codebase already proves rather
-// than new claims: the hand-drawn motifs in src/components/motifs/
-// (Phase 12), the music system's real influences and its switch to
-// real, self-provided tracks (Phase 11, then Phase 15), and the anime
-// references portfolio-build.md's own Design rules name directly.
-// Nothing here is invented; each description points at something
-// checkable elsewhere in this project instead of a vague claim about
-// being "a fan of anime."
 export const INTERESTS: Interest[] = [
+  {
+    id: 'movies',
+    name: 'Movies & TV Shows',
+    icon: Film,
+    description:
+      'Movies and TV shows are a big source of inspiration for me, especially when it comes to visuals, storytelling, and the way things are presented. I’ll watch something and sometimes come away thinking, “I want to make something that cool.” I learn a lot from them, and they motivate me to keep improving and pushing myself.',
+  },
   {
     id: 'gym',
     name: 'Gym & Calisthenics',
     icon: Dumbbell,
     description:
-      "The part of the week that has nothing to do with a keyboard. No project, no deadline, just showing up and doing the work, which turns out to be a decent way to reset before going back to a hard bug.",
+      'I like lifting and calisthenics, although Poland syndrome makes keeping things balanced a bit more interesting. My right side keeps getting stronger than my left, so apparently even my muscles have decided to compete with each other. I’m mostly just trying to get stronger, do something I genuinely enjoy, and build more confidence along the way.',
   },
   {
-    id: 'anime',
-    name: 'Anime',
-    icon: Film,
-    description:
-      "Demon Slayer, Attack on Titan, Naruto, and Takopi's Original Sin aren't just references picked for a mood board. This site's ink transitions, tactical document framing, ember particles, and the deliberate tonal contrast on Lab's one joke card all trace back to those four specifically.",
-  },
-  {
-    id: 'drawing',
-    name: 'Drawing',
+    id: 'art',
+    name: 'Art',
     icon: PenTool,
     description:
-      'Every crow, sword, ink burst, and seal on this site is a hand-drawn SVG path in src/components/motifs/, not a stock asset or a generated image. This is the one interest that shows up literally in the source code, not just the mood.',
+      'Art is something I come back to every once in a while when I have some free time or feel like creating something just for fun. I’ve always enjoyed drawing and seeing an idea slowly turn into something I can actually look at. Sometimes it turns out great, and sometimes I decide it belongs in the recycling bin.',
   },
   {
     id: 'music',
     name: 'Deathcore & Music',
     icon: AudioWaveform,
     description:
-      "Lorna Shore, Pain Remains, and Bad Omens shaped this site's dark palette and restrained red before a line of layout code existed. The two tracks in the corner music widget are real audio I provided myself, not something pulled off the internet with a licensing question attached.",
+      'Deathcore isn’t all I listen to, but it’s definitely my favourite genre. Lorna Shore is my favourite artist, and I’m always drawn to melancholic music too, regardless of the genre. I listen to a pretty wide mix of music depending on what I’m doing or how I’m feeling.',
   },
 ]
