@@ -48,8 +48,8 @@ describe('SKILL_CATEGORIES', () => {
 })
 
 describe('LAB_IDEAS', () => {
-  it('has ten uniquely numbered ideas', () => {
-    expect(LAB_IDEAS.length).toBe(10)
+  it('has nine uniquely numbered ideas', () => {
+    expect(LAB_IDEAS.length).toBe(9)
     const numbers = LAB_IDEAS.map((idea) => idea.number)
     expect(new Set(numbers).size).toBe(numbers.length)
   })

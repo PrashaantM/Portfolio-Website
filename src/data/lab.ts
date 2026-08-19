@@ -117,19 +117,8 @@ export const LAB_IDEAS: LabIdea[] = [
     icon: PenTool,
   },
   {
-    id: 'window-manager',
-    number: '08',
-    name: 'Split-Screen Window Manager',
-    tagline: 'Too many tabs, too many windows, not enough layout.',
-    concept:
-      'A tool for organizing browser tabs, browser windows, desktop applications, and multiple workspaces into deliberate split-screen layouts, aimed squarely at reducing the chaos of managing too many open things at once rather than adding another tab-hoarding feature on top of it.',
-    visual: 'A drag-and-snap layout grid, windows sliding into place as they are assigned.',
-    tags: ['Desktop Tooling', 'UX', 'Productivity'],
-    icon: SquareSplitHorizontal,
-  },
-  {
     id: 'network-analyzer',
-    number: '09',
+    number: '08',
     name: 'Network Visibility Analyzer',
     tagline: 'Packet-analysis concepts, scoped to networks I actually own.',
     concept:
@@ -140,7 +129,7 @@ export const LAB_IDEAS: LabIdea[] = [
   },
   {
     id: 'workout-tracker',
-    number: '10',
+    number: '09',
     name: 'Adaptive Unilateral Workout Tracker',
     tagline: 'Left and right sides do not always perform the same. Most trackers assume they do.',
     concept:
@@ -162,14 +151,16 @@ export interface LabBuild {
   demo?: string
 }
 
-// The lab's shipped side, not just its concepts: six smaller, older
-// builds that never made the cut for Featured Projects above but are
-// real, working repos rather than sketches. Sourced directly from each
+// The lab's shipped side, not just its concepts: smaller side builds
+// that never made the cut for Featured Projects above but are real,
+// working repos rather than sketches. Sourced directly from each
 // repo's own README/description via `gh` rather than guessed, the same
 // rule Phase 9 used for the featured four (see projects.ts) - and
 // re-checked at write time rather than trusted from memory, since
 // TextScanner turned out to have been rebuilt entirely (Python/OpenCV
 // exercises into a deployed client-side OCR app) since the first pass.
+// Desktop Workspace Manager graduated here from a Concept card (it was
+// idea 08, "Split-Screen Window Manager") once it actually shipped.
 export const LAB_BUILDS: LabBuild[] = [
   {
     id: 'text-scanner',
@@ -224,5 +215,16 @@ export const LAB_BUILDS: LabBuild[] = [
     icon: Gamepad2,
     github: 'https://github.com/PrashaantM/Platformer',
     demo: 'https://prashaantm.github.io/Platformer/',
+  },
+  {
+    id: 'desktop-workspace-manager',
+    name: 'Desktop Workspace Manager',
+    tagline: 'Your computer should remember how you work, not just how your windows are arranged.',
+    description:
+      'A workspace manager built around a semantic split-tree layout engine: regions store a role and a percentage, not fixed pixels, so the same layout reflows sensibly across screen sizes. The signature flow, "Organize My Desktop," groups detected windows into suggested workspaces and previews the result before anything is created. The spec called for a native macOS app with real Accessibility-API window control, which cannot run as a link in a browser, so this build keeps the full layout engine, workspace model, and UI and swaps in a simulated desktop for the one piece that needs OS-level access.',
+    tech: ['React', 'TypeScript', 'Zustand', 'Tailwind'],
+    icon: SquareSplitHorizontal,
+    github: 'https://github.com/PrashaantM/Desktop-Workspace-Manager',
+    demo: 'https://prashaantm.github.io/Desktop-Workspace-Manager/',
   },
 ]

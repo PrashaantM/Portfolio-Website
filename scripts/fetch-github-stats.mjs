@@ -25,7 +25,7 @@ const REPOS = {
   ai4sg: 'AI4SG',
   'text-escape-room': 'textEscapeRoom',
   enigma: 'Enigma',
-  c2hacks: 'C2Hacks_Hackathon',
+  'desktop-workspace-manager': 'Desktop-Workspace-Manager',
 }
 
 const stats = {}

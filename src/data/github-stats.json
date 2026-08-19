@@ -2,7 +2,7 @@
   "mcq-platform": {
     "stars": 0,
     "primaryLanguage": "Python",
-    "pushedAt": "2026-08-13T08:56:38Z"
+    "pushedAt": "2026-08-19T12:31:07Z"
   },
   "job-portal": {
     "stars": 0,
@@ -17,12 +17,12 @@
   "bestbytes": {
     "stars": 0,
     "primaryLanguage": "Python",
-    "pushedAt": "2026-05-07T12:31:58Z"
+    "pushedAt": "2026-08-19T12:31:10Z"
   },
   "bugzapper": {
     "stars": 0,
     "primaryLanguage": "JavaScript",
-    "pushedAt": "2026-05-07T11:01:02Z"
+    "pushedAt": "2026-08-19T08:21:34Z"
   },
   "malware-containment-research": {
     "stars": 0,
@@ -37,12 +37,12 @@
   "platformer": {
     "stars": 0,
     "primaryLanguage": "Python",
-    "pushedAt": "2023-09-08T16:39:17Z"
+    "pushedAt": "2026-08-19T12:28:28Z"
   },
   "text-scanner": {
     "stars": 0,
     "primaryLanguage": "JavaScript",
-    "pushedAt": "2026-08-18T10:39:40Z"
+    "pushedAt": "2026-08-18T11:38:09Z"
   },
   "ai4sg": {
     "stars": 0,
@@ -51,12 +51,17 @@
   },
   "text-escape-room": {
     "stars": 0,
-    "primaryLanguage": "Python",
-    "pushedAt": "2025-02-09T13:20:56Z"
+    "primaryLanguage": "JavaScript",
+    "pushedAt": "2026-08-19T09:16:49Z"
   },
   "enigma": {
     "stars": 0,
-    "primaryLanguage": "Python",
-    "pushedAt": "2026-02-04T00:44:37Z"
+    "primaryLanguage": "HTML",
+    "pushedAt": "2026-08-18T11:37:04Z"
+  },
+  "desktop-workspace-manager": {
+    "stars": 0,
+    "primaryLanguage": "TypeScript",
+    "pushedAt": "2026-08-19T12:46:05Z"
   }
 }
