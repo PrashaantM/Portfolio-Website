@@ -149,6 +149,8 @@ export interface LabBuild {
   icon: LucideIcon
   github: string
   demo?: string
+  /** Pill text on the card, defaults to 'BUILT' when omitted. */
+  status?: string
 }
 
 // The lab's shipped side, not just its concepts: smaller side builds
@@ -226,5 +228,6 @@ export const LAB_BUILDS: LabBuild[] = [
     icon: SquareSplitHorizontal,
     github: 'https://github.com/PrashaantM/Desktop-Workspace-Manager',
     demo: 'https://prashaantm.github.io/Desktop-Workspace-Manager/',
+    status: 'IN PROGRESS',
   },
 ]

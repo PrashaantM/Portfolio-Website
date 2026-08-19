@@ -52,7 +52,7 @@ function LabBuildCard({ build, accent }: LabBuildCardProps) {
       <div className="flex items-start justify-between gap-3">
         <span className="border-success/40 bg-success/10 text-success inline-flex items-center gap-1 rounded-full border px-2.5 py-1 font-mono text-[0.65rem] tracking-wide">
           <CheckCircle2 size={11} aria-hidden="true" />
-          BUILT
+          {build.status ?? 'BUILT'}
         </span>
         <Icon size={18} className={`shrink-0 ${accent.icon}`} aria-hidden="true" />
       </div>
