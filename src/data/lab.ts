@@ -212,6 +212,7 @@ export const LAB_BUILDS: LabBuild[] = [
     tech: ['Python', 'Pygame'],
     icon: DoorClosed,
     github: 'https://github.com/PrashaantM/textEscapeRoom',
+    demo: 'https://prashaantm.github.io/textEscapeRoom/',
   },
   {
     id: 'platformer',

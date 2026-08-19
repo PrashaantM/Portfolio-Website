@@ -32,11 +32,11 @@ function formatUpdated(pushedAt: string) {
  * of depth belongs to the featured projects, not to smaller side
  * builds that just need to be shown as real.
  *
- * `accent` (a color Lab.tsx assigns from a small rotating palette by
- * grid position, see `lib/labAccents.ts`) colors this card's icon, top
- * edge, and hover glow, so a 15-card grid reads as distinct specimens
- * instead of every card sharing the site's one red accent. The green
- * "BUILT" pill stays fixed regardless of which accent a card gets -
+ * `accent` (a shade of the site's own red, assigned by grid position
+ * from `lib/labAccents.ts`'s `BUILD_ACCENTS`) colors this card's icon,
+ * top edge, and hover glow, so the Built grid reads as one color-coded
+ * red family while Concepts stay deliberately uncolored. The green
+ * "BUILT" pill stays fixed regardless of which shade a card gets -
  * that color is the one that always means "shipped."
  */
 function LabBuildCard({ build, accent }: LabBuildCardProps) {

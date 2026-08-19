@@ -1,11 +1,9 @@
 import { Lightbulb } from 'lucide-react'
 import Badge from './Badge'
 import type { LabIdea } from '../data/lab'
-import type { LabAccent } from '../lib/labAccents'
 
 interface LabCardProps {
   idea: LabIdea
-  accent: LabAccent
 }
 
 /**
@@ -19,24 +17,15 @@ interface LabCardProps {
  * the whole grid in as a group, and wrapping each card in its own
  * `Reveal` on top of that would animate every card twice.
  *
- * `accent` (see `LabBuildCard`'s docs and `lib/labAccents.ts`) colors
- * this card's icon, top edge, and hover glow the same way, so CONCEPT
- * cards get the same per-card variety as BUILT ones. The amber pill
- * stays fixed regardless of accent - that color is the one that always
- * means "not shipped yet."
+ * Unlike `LabBuildCard`, this card takes no `accent` - concepts stay
+ * uncolored on purpose, all sharing one dashed red border, so color
+ * alone tells the shipped ones apart from the sketches.
  */
-function LabCard({ idea, accent }: LabCardProps) {
+function LabCard({ idea }: LabCardProps) {
   const Icon = idea.icon
 
   return (
-    <div
-      className={`frame-tactical border-border bg-surface/60 flex h-full flex-col rounded-(--radius-card) border border-dashed p-6 transition-all duration-300 hover:-translate-y-1 ${accent.hoverBorder} ${accent.hoverGlow}`}
-    >
-      <div
-        className={`-mx-6 -mt-6 mb-5 h-1.5 rounded-t-(--radius-card) opacity-70 ${accent.bar}`}
-        aria-hidden="true"
-      />
-
+    <div className="frame-tactical border-accent/50 bg-surface/60 hover:border-accent flex h-full flex-col rounded-(--radius-card) border border-dashed p-6 transition-all duration-300 hover:-translate-y-1">
       <div className="flex items-start justify-between gap-3">
         <span className="border-warning/40 bg-warning/10 text-warning inline-flex items-center gap-1 rounded-full border border-dashed px-2.5 py-1 font-mono text-[0.65rem] tracking-wide">
           <Lightbulb size={11} aria-hidden="true" />
@@ -44,7 +33,7 @@ function LabCard({ idea, accent }: LabCardProps) {
         </span>
         <Icon
           size={18}
-          className={`shrink-0 ${accent.icon} ${idea.funny ? 'hover-wiggle' : ''}`}
+          className={`text-text-secondary shrink-0 ${idea.funny ? 'hover-wiggle' : ''}`}
           aria-hidden="true"
         />
       </div>

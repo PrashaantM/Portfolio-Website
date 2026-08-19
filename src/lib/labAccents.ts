@@ -5,47 +5,46 @@ export interface LabAccent {
   hoverGlow: string
 }
 
-// A small set of curated hues distinct from the site's semantic colors
-// (red accent, green success/BUILT, amber warning/CONCEPT), so each Lab
-// card reads as its own specimen at a glance instead of all fifteen
-// sharing one accent. Written as complete literal class strings (not
-// built from a runtime hex variable) so Tailwind's build-time scanner
-// picks them up. Five colors against a 3-column grid never repeats on
-// an adjacent card: index % 5 never lands the same color twice in the
-// same row or column for this section's actual card count.
-export const LAB_ACCENTS: LabAccent[] = [
+// Shades of the site's own red accent (`--color-accent` #c81e3a and
+// `--color-accent-secondary` #7a1524 in theme.css), darkest to
+// lightest, so the "Built" grid reads as one color-coded family rather
+// than borrowing hues from elsewhere. Written as complete literal
+// class strings (not built from a runtime hex variable) so Tailwind's
+// build-time scanner picks them up. Concepts deliberately get no
+// per-card accent at all - see LabCard's fixed dashed-red styling.
+export const BUILD_ACCENTS: LabAccent[] = [
   {
-    icon: 'text-[#3fa6a3]',
-    bar: 'bg-[#3fa6a3]',
-    hoverBorder: 'hover:border-[#3fa6a3]',
-    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#3fa6a3]',
+    icon: 'text-[#7a1524]',
+    bar: 'bg-[#7a1524]',
+    hoverBorder: 'hover:border-[#7a1524]',
+    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#7a1524]',
   },
   {
-    icon: 'text-[#5b8fd6]',
-    bar: 'bg-[#5b8fd6]',
-    hoverBorder: 'hover:border-[#5b8fd6]',
-    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#5b8fd6]',
+    icon: 'text-[#9c1e2e]',
+    bar: 'bg-[#9c1e2e]',
+    hoverBorder: 'hover:border-[#9c1e2e]',
+    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#9c1e2e]',
   },
   {
-    icon: 'text-[#9179d6]',
-    bar: 'bg-[#9179d6]',
-    hoverBorder: 'hover:border-[#9179d6]',
-    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#9179d6]',
+    icon: 'text-[#c81e3a]',
+    bar: 'bg-[#c81e3a]',
+    hoverBorder: 'hover:border-[#c81e3a]',
+    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#c81e3a]',
   },
   {
-    icon: 'text-[#d1699a]',
-    bar: 'bg-[#d1699a]',
-    hoverBorder: 'hover:border-[#d1699a]',
-    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#d1699a]',
+    icon: 'text-[#e14a5a]',
+    bar: 'bg-[#e14a5a]',
+    hoverBorder: 'hover:border-[#e14a5a]',
+    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#e14a5a]',
   },
   {
-    icon: 'text-[#c47a45]',
-    bar: 'bg-[#c47a45]',
-    hoverBorder: 'hover:border-[#c47a45]',
-    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#c47a45]',
+    icon: 'text-[#ef7a6a]',
+    bar: 'bg-[#ef7a6a]',
+    hoverBorder: 'hover:border-[#ef7a6a]',
+    hoverGlow: 'hover:shadow-[0_0_28px_-10px_#ef7a6a]',
   },
 ]
 
-export function labAccentFor(index: number): LabAccent {
-  return LAB_ACCENTS[index % LAB_ACCENTS.length]
+export function buildAccentFor(index: number): LabAccent {
+  return BUILD_ACCENTS[index % BUILD_ACCENTS.length]
 }

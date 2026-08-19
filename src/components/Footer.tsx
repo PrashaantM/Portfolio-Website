@@ -17,7 +17,7 @@ function Footer() {
   return (
     <footer className="border-border border-t">
       <Container className="text-text-secondary flex flex-col items-center gap-4 py-10 text-sm sm:flex-row sm:justify-between">
-        <p>&copy; {year} Prashaant Mudgala. Built by hand, one phase at a time.</p>
+        <p>&copy; {year} Prashaant Mudgala. Thanks for stopping by. If you found a bug, no you didn't.</p>
         <nav className="flex items-center gap-6">
           {FOOTER_LINKS.map((link) => (
             <a
