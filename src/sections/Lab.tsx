@@ -8,6 +8,7 @@ import InkReveal from '../components/InkReveal'
 import SwordSlash from '../components/motifs/SwordSlash'
 import FlameBreath from '../components/motifs/FlameBreath'
 import { staggerContainer, fadeUp } from '../lib/motion'
+import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { LAB_IDEAS, LAB_BUILDS } from '../data/lab'
 import { buildAccentFor } from '../lib/labAccents'
 
@@ -32,6 +33,7 @@ const gridContainer = staggerContainer(0.08, 0.1)
  */
 function Lab() {
   const shouldReduceMotion = useReducedMotion()
+  const isPhoneLandscape = usePhoneLandscape()
 
   return (
     <Section id="lab" className="relative overflow-hidden">
@@ -56,7 +58,7 @@ function Lab() {
         <motion.div
           initial={shouldReduceMotion ? false : 'hidden'}
           whileInView="visible"
-          viewport={{ once: !!shouldReduceMotion, amount: 0.1 }}
+          viewport={{ once: !!shouldReduceMotion, amount: isPhoneLandscape ? 0 : 0.1 }}
           variants={gridContainer}
           className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
@@ -73,7 +75,7 @@ function Lab() {
         <motion.div
           initial={shouldReduceMotion ? false : 'hidden'}
           whileInView="visible"
-          viewport={{ once: !!shouldReduceMotion, amount: 0.1 }}
+          viewport={{ once: !!shouldReduceMotion, amount: isPhoneLandscape ? 0 : 0.1 }}
           variants={gridContainer}
           className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >

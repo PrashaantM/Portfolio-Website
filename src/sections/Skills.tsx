@@ -3,12 +3,14 @@ import Section from '../components/Section'
 import Badge from '../components/Badge'
 import SwordSlash from '../components/motifs/SwordSlash'
 import { staggerContainer, fadeUp } from '../lib/motion'
+import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { SKILL_CATEGORIES } from '../data/skills'
 
 const gridContainer = staggerContainer(0.08, 0.05)
 
 function Skills() {
   const shouldReduceMotion = useReducedMotion()
+  const isPhoneLandscape = usePhoneLandscape()
 
   return (
     <Section id="skills">
@@ -18,7 +20,7 @@ function Skills() {
       <motion.div
         initial={shouldReduceMotion ? false : 'hidden'}
         whileInView="visible"
-        viewport={{ once: !!shouldReduceMotion, amount: 0.15 }}
+        viewport={{ once: !!shouldReduceMotion, amount: isPhoneLandscape ? 0 : 0.15 }}
         variants={gridContainer}
         className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >

@@ -3,6 +3,7 @@ import Section from '../components/Section'
 import DrawLine from '../components/DrawLine'
 import SwordSlash from '../components/motifs/SwordSlash'
 import { staggerContainer, fadeUp } from '../lib/motion'
+import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { EXPERIENCE } from '../data/experience'
 
 const listContainer = staggerContainer(0.1, 0.05)
@@ -22,6 +23,7 @@ const listContainer = staggerContainer(0.1, 0.05)
  */
 function Experience() {
   const shouldReduceMotion = useReducedMotion()
+  const isPhoneLandscape = usePhoneLandscape()
 
   return (
     <Section id="experience">
@@ -34,7 +36,7 @@ function Experience() {
       <motion.div
         initial={shouldReduceMotion ? false : 'hidden'}
         whileInView="visible"
-        viewport={{ once: !!shouldReduceMotion, amount: 0.1 }}
+        viewport={{ once: !!shouldReduceMotion, amount: isPhoneLandscape ? 0 : 0.1 }}
         variants={listContainer}
         className="mt-10 flex max-w-3xl flex-col"
       >

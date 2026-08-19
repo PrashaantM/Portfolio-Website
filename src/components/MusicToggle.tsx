@@ -51,24 +51,53 @@ function MusicToggle() {
     <div
       role="region"
       aria-label="Music player"
-      className="border-border bg-surface/95 rounded-(--radius-card) fixed right-4 bottom-4 z-40 w-56 border p-3 shadow-lg backdrop-blur sm:right-6 sm:bottom-6"
+      // At desktop widths this is untouched: fixed w-56 pill, unconditionally.
+      // Below `sm` (every portrait phone in this site's test matrix, all
+      // <640px wide) and in phone-landscape (667-932px wide, so `sm:`
+      // alone wouldn't reach it - see the custom variant in theme.css) it
+      // was covering trailing text/tags/links in whatever section happened
+      // to be scrolled to, since a 224px-wide panel is a large fraction of
+      // any phone screen in either orientation. Idle, it collapses to an
+      // icon-only tap target on both (`w-auto` + the button's own fixed
+      // size below); playing, it still needs room for the volume slider
+      // and track picker, so it only narrows to `w-48`, with extra
+      // vertical compaction in phone-landscape specifically since a short
+      // screen's problem is height (the panel can reach up into Hero's
+      // CTAs), not width.
+      className={`border-border bg-surface/95 rounded-(--radius-card) fixed right-4 bottom-4 z-40 border shadow-lg backdrop-blur sm:right-6 sm:bottom-6 ${
+        isPlaying
+          ? 'w-56 p-3 max-sm:w-44 max-sm:p-2 phone-landscape:w-48 phone-landscape:p-2'
+          : 'w-56 p-3 max-sm:w-auto max-sm:p-0 phone-landscape:w-auto phone-landscape:p-0'
+      }`}
     >
       <button
         type="button"
         onClick={toggle}
         aria-pressed={isPlaying}
-        className="text-text-primary hover:text-accent inline-flex items-center gap-2 font-mono text-xs transition-colors"
+        // The 44px square tap target only applies while idle, where this
+        // button is the panel's *entire* visible content (a floating
+        // action button). Once playing, the panel already has several
+        // other controls below it, so forcing the same fixed height here
+        // would only add back the vertical space the rest of this
+        // component is trying to save - a plain compact row is enough.
+        className={`text-text-primary hover:text-accent inline-flex items-center gap-2 font-mono text-xs transition-colors ${
+          isPlaying
+            ? ''
+            : 'max-sm:h-11 max-sm:w-11 max-sm:justify-center phone-landscape:h-11 phone-landscape:w-11 phone-landscape:justify-center'
+        }`}
       >
         {isPlaying ? (
           <Pause size={14} aria-hidden="true" />
         ) : (
           <Music size={14} aria-hidden="true" />
         )}
-        {isPlaying ? activeTrack.name.toUpperCase() : 'MUSIC OFF'}
+        <span className={isPlaying ? 'max-sm:sr-only' : 'max-sm:sr-only phone-landscape:sr-only'}>
+          {isPlaying ? activeTrack.name.toUpperCase() : 'MUSIC OFF'}
+        </span>
       </button>
 
       {isPlaying && (
-        <div className="mt-3 space-y-3">
+        <div className="mt-3 space-y-3 max-sm:mt-2 max-sm:space-y-1.5 phone-landscape:mt-2 phone-landscape:space-y-1.5">
           <div className="flex items-center gap-3">
             <div className="flex h-4 items-end gap-0.5" aria-hidden="true">
               {Array.from({ length: BAR_COUNT }, (_, index) => (

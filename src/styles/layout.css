@@ -13,6 +13,18 @@
   .section {
     padding-block: var(--space-section);
   }
+
+  /* --space-section is width-driven (clamp(4rem, 8vw, 8rem)), so on a
+     phone turned sideways (wide but short) it can reach ~4.5-5rem per
+     edge - up to a third of the whole viewport spent on section
+     padding alone. Scoped to short-landscape only (see the
+     phone-landscape custom variant in theme.css); portrait phones and
+     every desktop viewport keep the fluid value untouched. */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .section {
+      padding-block: 2.5rem;
+    }
+  }
 }
 
 @layer base {

@@ -63,6 +63,14 @@
   --animate-glow-pulse: glow-pulse 8s ease-in-out infinite;
 }
 
+/* Matches every phone-landscape viewport this site targets (667x375
+   through 932x430) without matching any realistic desktop window,
+   since desktop viewports are essentially never under 500px tall.
+   Used wherever a rule tuned for tall portrait/desktop viewports
+   needs a mobile-only landscape override - see usePhoneLandscape.ts
+   for the same condition on the JS/Motion side. */
+@custom-variant phone-landscape (@media (max-height: 500px) and (orientation: landscape));
+
 @keyframes glow-pulse {
   0%,
   100% {

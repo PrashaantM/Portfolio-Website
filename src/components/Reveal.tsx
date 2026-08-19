@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { motion, useReducedMotion, type TargetAndTransition, type Variants } from 'motion/react'
 import { fadeUp } from '../lib/motion'
+import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 
 interface RevealProps {
   children: ReactNode
@@ -49,13 +50,20 @@ function withDelay(variant: Variants, delay: number): Variants {
  */
 function Reveal({ children, variant = fadeUp, className, delay = 0, amount = 0.3, id }: RevealProps) {
   const shouldReduceMotion = useReducedMotion()
+  // On a phone-landscape viewport a tall child (e.g. Projects' whole
+  // Architecture Deep Dive block, ArchitectureMap included) can be
+  // taller than the entire viewport, so no scroll position ever gets
+  // `amount` of its area on-screen at once and it stays invisible
+  // forever. Dropping to "any pixel visible" only on those viewports
+  // fixes that without changing the trigger point anywhere else.
+  const isPhoneLandscape = usePhoneLandscape()
 
   return (
     <motion.div
       id={id}
       initial={shouldReduceMotion ? false : 'hidden'}
       whileInView="visible"
-      viewport={{ once: !!shouldReduceMotion, amount }}
+      viewport={{ once: !!shouldReduceMotion, amount: isPhoneLandscape ? 0 : amount }}
       variants={withDelay(variant, delay)}
       className={className}
     >

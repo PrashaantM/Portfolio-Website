@@ -29,7 +29,18 @@ function EmberCounter() {
     <div
       role="region"
       aria-label="Ember counter"
-      className="border-border bg-surface/95 rounded-(--radius-card) pointer-events-none fixed top-20 right-4 z-40 flex items-center gap-2 border px-2 py-1.5 font-mono text-[10px] shadow-lg backdrop-blur sm:right-6 sm:px-3 sm:py-2 sm:text-xs"
+      // Pure flavor (see the file-level comment above), so on phones it's
+      // hidden rather than repositioned: fixed at top-20/right-4, it sits
+      // right where a jump-scrolled section heading lands (scroll-margin-top
+      // matches the navbar height), and collides with headings that wrap to
+      // two lines on a narrow screen - e.g. Projects' "Architecture Deep
+      // Dive: MCQ Exam Management Platform". It also has no z-index
+      // priority over the open mobile-nav dropdown, so it visibly
+      // disappears/reappears as that opens and closes. Hidden below `sm`
+      // (portrait) and in phone-landscape (667-932px wide, so `sm:` alone
+      // wouldn't reach it) rather than chasing a new safe position for a
+      // decorative badge with "no gameplay stakes" per its own author.
+      className="border-border bg-surface/95 rounded-(--radius-card) pointer-events-none fixed top-20 right-4 z-40 flex items-center gap-2 border px-2 py-1.5 font-mono text-[10px] shadow-lg backdrop-blur max-sm:hidden phone-landscape:hidden sm:right-6 sm:px-3 sm:py-2 sm:text-xs"
       aria-live="polite"
     >
       <Droplets size={14} className="text-accent" aria-hidden="true" />

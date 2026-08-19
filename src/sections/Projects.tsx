@@ -6,12 +6,14 @@ import Reveal from '../components/Reveal'
 import SwordSlash from '../components/motifs/SwordSlash'
 import { staggerContainer, fadeUp } from '../lib/motion'
 import { motion, useReducedMotion } from 'motion/react'
+import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { PROJECTS } from '../data/projects'
 
 const gridContainer = staggerContainer(0.08, 0.05)
 
 function Projects() {
   const shouldReduceMotion = useReducedMotion()
+  const isPhoneLandscape = usePhoneLandscape()
 
   return (
     <Section id="projects">
@@ -21,7 +23,7 @@ function Projects() {
       <motion.div
         initial={shouldReduceMotion ? false : 'hidden'}
         whileInView="visible"
-        viewport={{ once: !!shouldReduceMotion, amount: 0.1 }}
+        viewport={{ once: !!shouldReduceMotion, amount: isPhoneLandscape ? 0 : 0.1 }}
         variants={gridContainer}
         className="mt-8 grid gap-6 lg:grid-cols-2"
       >

@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'motion/react'
 import Section from '../components/Section'
 import SwordSlash from '../components/motifs/SwordSlash'
 import { staggerContainer, fadeUp } from '../lib/motion'
+import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { INTERESTS } from '../data/interests'
 
 const gridContainer = staggerContainer(0.08, 0.05)
@@ -15,20 +16,21 @@ const gridContainer = staggerContainer(0.08, 0.05)
  */
 function Interests() {
   const shouldReduceMotion = useReducedMotion()
+  const isPhoneLandscape = usePhoneLandscape()
 
   return (
     <Section id="interests">
       <SwordSlash />
       <h2>Interests</h2>
       <p className="text-text-secondary mt-3 max-w-2xl">
-        A look at the things I care about outside of school, work, and building things, 
+        A look at the things I care about outside of school, work, and building things,
         and the parts of me that don’t fit neatly on a resume.
       </p>
 
       <motion.div
         initial={shouldReduceMotion ? false : 'hidden'}
         whileInView="visible"
-        viewport={{ once: !!shouldReduceMotion, amount: 0.15 }}
+        viewport={{ once: !!shouldReduceMotion, amount: isPhoneLandscape ? 0 : 0.15 }}
         variants={gridContainer}
         className="mt-8 grid gap-6 sm:grid-cols-2"
       >
