@@ -1,10 +1,12 @@
-import { FolderGit2, ExternalLink, History } from 'lucide-react'
+import { CheckCircle2, FolderGit2, ExternalLink, History } from 'lucide-react'
 import Badge from './Badge'
 import type { LabBuild } from '../data/lab'
+import type { LabAccent } from '../lib/labAccents'
 import githubStats from '../data/github-stats.json'
 
 interface LabBuildCardProps {
   build: LabBuild
+  accent: LabAccent
 }
 
 interface GithubStat {
@@ -20,25 +22,39 @@ function formatUpdated(pushedAt: string) {
 }
 
 /**
- * `LabCard`'s opposite number: a solid border and a "BUILT" label
- * instead of the dashed border and "CONCEPT" label, since these are
- * real, shipped repos rather than sketches - the same visual category
- * as `ProjectCard` above, which is why this skips `frame-tactical`
- * (reserved, per `motifs.css`, for things explicitly labeled
- * concept/spec). Lighter than `ProjectCard` on purpose: no expandable
- * problem/solution/architecture breakdown, since that level of depth
- * belongs to the four projects chosen for Featured Projects, not to
- * six smaller side builds that just need to be shown as real.
+ * `LabCard`'s opposite number: a solid border and a green "BUILT" pill
+ * instead of the dashed border and amber "CONCEPT" pill, since these
+ * are real, shipped repos rather than sketches - the same visual
+ * category as `ProjectCard` above, which is why this skips
+ * `frame-tactical` (reserved, per `motifs.css`, for things explicitly
+ * labeled concept/spec). Lighter than `ProjectCard` on purpose: no
+ * expandable problem/solution/architecture breakdown, since that level
+ * of depth belongs to the featured projects, not to smaller side
+ * builds that just need to be shown as real.
+ *
+ * `accent` (a color Lab.tsx assigns from a small rotating palette by
+ * grid position, see `lib/labAccents.ts`) colors this card's icon, top
+ * edge, and hover glow, so a 15-card grid reads as distinct specimens
+ * instead of every card sharing the site's one red accent. The green
+ * "BUILT" pill stays fixed regardless of which accent a card gets -
+ * that color is the one that always means "shipped."
  */
-function LabBuildCard({ build }: LabBuildCardProps) {
+function LabBuildCard({ build, accent }: LabBuildCardProps) {
   const Icon = build.icon
   const stat = STATS[build.id]
 
   return (
-    <div className="border-border bg-surface/60 hover:border-accent flex h-full flex-col rounded-(--radius-card) border p-6 transition-colors hover:-translate-y-1">
+    <div
+      className={`border-border bg-surface/60 flex h-full flex-col rounded-(--radius-card) border p-6 transition-all duration-300 hover:-translate-y-1 ${accent.hoverBorder} ${accent.hoverGlow}`}
+    >
+      <div className={`-mx-6 -mt-6 mb-5 h-1.5 rounded-t-(--radius-card) ${accent.bar}`} aria-hidden="true" />
+
       <div className="flex items-start justify-between gap-3">
-        <span className="text-accent font-mono text-xs">BUILT</span>
-        <Icon size={18} className="text-accent shrink-0" aria-hidden="true" />
+        <span className="border-success/40 bg-success/10 text-success inline-flex items-center gap-1 rounded-full border px-2.5 py-1 font-mono text-[0.65rem] tracking-wide">
+          <CheckCircle2 size={11} aria-hidden="true" />
+          BUILT
+        </span>
+        <Icon size={18} className={`shrink-0 ${accent.icon}`} aria-hidden="true" />
       </div>
 
       <h3 className="mt-3 text-lg">{build.name}</h3>

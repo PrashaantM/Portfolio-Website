@@ -66,6 +66,7 @@ export const PROJECTS: Project[] = [
     result:
       'Validated under 100+ concurrent users and high-volume data workloads without falling over.',
     github: 'https://github.com/PrashaantM/Generate67-capstone-team-6',
+    demo: 'https://prashaantm.github.io/Generate67-capstone-team-6/',
   },
   {
     id: 'job-portal',
@@ -104,6 +105,7 @@ export const PROJECTS: Project[] = [
     result:
       'Alpha-beta pruning cut the number of positions the agent had to check by 60%, and the agent placed 10th out of the whole class in a competitive tournament.',
     github: 'https://github.com/PrashaantM/GameOfAmazons',
+    demo: 'https://prashaantm.github.io/GameOfAmazons/',
   },
   {
     id: 'bestbytes',
@@ -121,6 +123,7 @@ export const PROJECTS: Project[] = [
     tech: ['Python', 'FastAPI', 'React', 'Docker', 'REST APIs', 'Agile/Scrum'],
     result: 'Shipped in stages as a 4-person Agile team, with each service working on its own.',
     github: 'https://github.com/PrashaantM/BestBytes',
+    demo: 'https://prashaantm.github.io/BestBytes/',
   },
   {
     id: 'bugzapper',
@@ -138,6 +141,7 @@ export const PROJECTS: Project[] = [
     tech: ['JavaScript', 'WebGL', 'GLSL', 'Shaders'],
     result: 'A playable 3D browser game running at 60 FPS with adaptive difficulty scaling.',
     github: 'https://github.com/PrashaantM/BugZapper',
+    demo: 'https://prashaantm.github.io/BugZapper/',
   },
   {
     id: 'malware-containment-research',

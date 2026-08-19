@@ -9,13 +9,23 @@ import SwordSlash from '../components/motifs/SwordSlash'
 import FlameBreath from '../components/motifs/FlameBreath'
 import { staggerContainer, fadeUp } from '../lib/motion'
 import { LAB_IDEAS, LAB_BUILDS } from '../data/lab'
+import { labAccentFor } from '../lib/labAccents'
 
 const gridContainer = staggerContainer(0.08, 0.1)
+
+// One combined, ordered list (builds first, then ideas) so accent
+// colors are assigned by final grid position rather than restarting
+// per type - which is what keeps two adjacent cards from ever landing
+// on the same color at the builds/ideas boundary.
+const LAB_ITEMS = [
+  ...LAB_BUILDS.map((build) => ({ type: 'build' as const, build })),
+  ...LAB_IDEAS.map((idea) => ({ type: 'idea' as const, idea })),
+]
 
 /**
  * Replaces the "Experimental Lab" placeholder from Phase 5. Originally
  * just ten ideas from `notes/phase-10.md`'s brief, each styled as a
- * concept rather than a shipped feature; Phase 15.2 adds six real,
+ * concept rather than a shipped feature; Phase 15.2 adds five real,
  * shipped side projects (`LAB_BUILDS`) into the same grid ahead of
  * them, each carrying `LabBuildCard`'s solid-border "BUILT" styling
  * rather than `LabCard`'s dashed-border "CONCEPT" one so the two kinds
@@ -43,10 +53,10 @@ function Lab() {
         </InkReveal>
         <Reveal delay={0.1}>
           <p className="text-text-secondary mt-3 max-w-2xl">
-            Six of these are real, shipped projects. The other ten are concepts
-            that have not shipped yet: a problem worth solving, a rough shape
-            for the solution, and a sketch of what it would look like on
-            screen.
+            Five of these are real, shipped projects, marked <span className="text-success">BUILT</span> in
+            green. The other ten are concepts that have not shipped yet, marked{' '}
+            <span className="text-warning">CONCEPT</span> in amber: a problem worth solving, a rough shape
+            for the solution, and a sketch of what it would look like on screen.
           </p>
         </Reveal>
 
@@ -57,14 +67,13 @@ function Lab() {
           variants={gridContainer}
           className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {LAB_BUILDS.map((build) => (
-            <motion.div key={build.id} variants={fadeUp}>
-              <LabBuildCard build={build} />
-            </motion.div>
-          ))}
-          {LAB_IDEAS.map((idea) => (
-            <motion.div key={idea.id} variants={fadeUp}>
-              <LabCard idea={idea} />
+          {LAB_ITEMS.map((item, index) => (
+            <motion.div key={item.type === 'build' ? item.build.id : item.idea.id} variants={fadeUp}>
+              {item.type === 'build' ? (
+                <LabBuildCard build={item.build} accent={labAccentFor(index)} />
+              ) : (
+                <LabCard idea={item.idea} accent={labAccentFor(index)} />
+              )}
             </motion.div>
           ))}
         </motion.div>

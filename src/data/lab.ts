@@ -15,7 +15,6 @@ import {
   HeartHandshake,
   DoorClosed,
   KeyRound,
-  BotMessageSquare,
 } from 'lucide-react'
 
 export interface LabIdea {
@@ -192,6 +191,7 @@ export const LAB_BUILDS: LabBuild[] = [
     tech: ['Python', 'Cryptography'],
     icon: KeyRound,
     github: 'https://github.com/PrashaantM/Enigma',
+    demo: 'https://prashaantm.github.io/Enigma/',
   },
   {
     id: 'ai4sg',
@@ -202,16 +202,6 @@ export const LAB_BUILDS: LabBuild[] = [
     tech: ['Vue', 'Java', 'JavaScript'],
     icon: HeartHandshake,
     github: 'https://github.com/PrashaantM/AI4SG',
-  },
-  {
-    id: 'c2hacks',
-    name: 'C2Hacks AI Study Assistant',
-    tagline: 'A hackathon AI study assistant with a sustainability tips search built in.',
-    description:
-      'Built at C2Hacks: a chatbot that quizzes students on weak topics and explains uploaded notes back to them, paired with a searchable sustainability-tips feature, on a React frontend backed by an Express and OpenAI API server.',
-    tech: ['React', 'Express', 'OpenAI API', 'Firebase'],
-    icon: BotMessageSquare,
-    github: 'https://github.com/PrashaantM/C2Hacks_Hackathon',
   },
   {
     id: 'text-escape-room',
@@ -232,5 +222,6 @@ export const LAB_BUILDS: LabBuild[] = [
     tech: ['Python', 'Pygame'],
     icon: Gamepad2,
     github: 'https://github.com/PrashaantM/Platformer',
+    demo: 'https://prashaantm.github.io/Platformer/',
   },
 ]

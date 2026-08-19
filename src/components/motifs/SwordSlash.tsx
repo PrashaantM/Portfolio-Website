@@ -26,6 +26,11 @@ function nextSwordImage() {
   return image
 }
 
+const SLASH_DURATION_SECONDS = 2
+// Impact/ink-burst lands at the same fraction of the way through the
+// swing as before the duration changed (0.48s into the old 0.55s total).
+const IMPACT_DELAY_MS = Math.round((SLASH_DURATION_SECONDS * 1000 * 0.48) / 0.55)
+
 /**
  * The Lab section's entrance: a sword slashes across, then ink
  * particles burst at the point it "lands", timed to land just before
@@ -37,16 +42,15 @@ function nextSwordImage() {
  * The slashing sword itself is one of the three real, user-supplied
  * artworks in `SWORD_IMAGES` (an SVG placeholder before this), picked
  * fresh via `nextSwordImage()` at the instant each slash starts so it
- * alternates rather than always drawing the same one. The choreography
- * around it - the `motion.div`'s x/y/opacity/rotate path and timing -
- * is untouched: deliberately still only plain numeric values, not
- * percentage strings or anything like `clipPath`. `notes/phase-13.md`
- * documents a real bug in this project's Motion version where a
- * "complex" string-valued animation silently never plays when
- * triggered by an IntersectionObserver-driven state change; numeric
- * transforms never showed that problem under any trigger, so this
- * stays inside that proven-safe territory rather than risking a
- * repeat.
+ * alternates rather than always drawing the same one. The `motion.div`'s
+ * x/y/opacity/rotate path stays plain numeric values (`halfViewportWidth`
+ * is a number computed once, not a percentage string, and nothing here
+ * uses `clipPath`). `notes/phase-13.md` documents a real bug in this
+ * project's Motion version where a "complex" string-valued animation
+ * silently never plays when triggered by an IntersectionObserver-driven
+ * state change; numeric transforms never showed that problem under any
+ * trigger, so this stays inside that proven-safe territory rather than
+ * risking a repeat.
  */
 function SwordSlash({ className = '' }: SwordSlashProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -54,6 +58,11 @@ function SwordSlash({ className = '' }: SwordSlashProps) {
   const isInView = useInView(containerRef, { once: !!shouldReduceMotion, amount: 0.4 })
   const [showImpact, setShowImpact] = useState(false)
   const [swordImage, setSwordImage] = useState(SWORD_IMAGES[0])
+  // Read once: how far the sword has to travel to reach the actual
+  // screen edges rather than just this section's (narrower, centered)
+  // container. Paired with the full-bleed wrapper below, whose own
+  // `left-1/2` resolves to the viewport's center, not the container's.
+  const [halfViewportWidth] = useState(() => (typeof window === 'undefined' ? 520 : window.innerWidth / 2))
 
   useEffect(() => {
     if (!isInView || shouldReduceMotion) {
@@ -61,7 +70,7 @@ function SwordSlash({ className = '' }: SwordSlashProps) {
       return
     }
     setSwordImage(nextSwordImage())
-    const timer = setTimeout(() => setShowImpact(true), 480)
+    const timer = setTimeout(() => setShowImpact(true), IMPACT_DELAY_MS)
     return () => clearTimeout(timer)
   }, [isInView, shouldReduceMotion])
 
@@ -75,26 +84,28 @@ function SwordSlash({ className = '' }: SwordSlashProps) {
       aria-hidden="true"
       className={`pointer-events-none relative h-20 ${className}`}
     >
-      {/* Only the sword's own off-screen-to-off-screen travel needs
-          clipping (it starts and ends well past this container's
-          edges). Scoped to this inner wrapper rather than the whole
-          component: the ink burst below needs to render past this
-          same h-20 box without being cut off by it. Extended well
-          beyond the visible h-20 band vertically (the outer container
-          stays h-20 for the section's own spacing) since these are
-          full sword illustrations, tall enough that the old thin SVG
-          silhouette's tight band would clip them mid-swing. */}
-      <div className="absolute inset-x-0 -top-32 -bottom-32 overflow-hidden">
+      {/* Full-bleed: breaks out of this section's centered, max-width
+          container to span the actual browser viewport edge-to-edge
+          (the standard `left-1/2` + negative `50vw` margin trick),
+          rather than clipping to a section that's usually narrower
+          than the screen. `Container` centers every section in the
+          viewport, so this wrapper's own horizontal center still lines
+          up with the sword's travel and the ink burst below. Extended
+          well beyond the visible h-20 band vertically (the outer
+          container stays h-20 for the section's own spacing) since
+          these are full sword illustrations, tall enough that the old
+          thin SVG silhouette's tight band would clip them mid-swing. */}
+      <div className="absolute left-1/2 -ml-[50vw] w-screen -top-32 -bottom-32 overflow-hidden">
         <motion.div
           className="absolute left-1/2 top-1/2"
           style={{ rotate: -26 }}
-          initial={{ x: -520, y: -60, opacity: 0 }}
+          initial={{ x: -halfViewportWidth, y: -60, opacity: 0 }}
           animate={
             isInView
-              ? { x: 520, y: 60, opacity: [0, 1, 1, 0] }
-              : { x: -520, y: -60, opacity: 0 }
+              ? { x: halfViewportWidth, y: 60, opacity: [0, 1, 1, 0] }
+              : { x: -halfViewportWidth, y: -60, opacity: 0 }
           }
-          transition={{ duration: 0.55, ease: [0.6, 0, 0.85, 0.2] }}
+          transition={{ duration: SLASH_DURATION_SECONDS, ease: [0.6, 0, 0.85, 0.2] }}
         >
           <img src={swordImage} alt="" draggable={false} loading="lazy" className="h-32 w-auto select-none" />
         </motion.div>

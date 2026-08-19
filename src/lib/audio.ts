@@ -1,4 +1,4 @@
-import { createDrumLoop, type DrumLoop } from './drumLoop'
+import { createHeartbeatLoop, type HeartbeatLoop } from './heartbeatLoop'
 
 export interface Track {
   id: string
@@ -61,9 +61,9 @@ export interface TrackPlayer {
 /** How long the outgoing and incoming plays overlap at a loop point. */
 const OVERLAP_SECONDS = 2.0
 
-/** The drum bus's own level, mixed under the melody's gain of up to 1
- *  into the same master bus - a supporting layer, not a competing one. */
-const DRUM_LEVEL = 0.4
+/** The heartbeat bus's own level, mixed under the melody's gain of up to
+ *  1 into the same master bus - a supporting layer, not a competing one. */
+const HEARTBEAT_LEVEL = 0.4
 
 /**
  * Two `<audio>` elements, each routed through Web Audio into its own
@@ -72,7 +72,7 @@ const DRUM_LEVEL = 0.4
  * second, so the loop point is a blend rather than a hard cut with an
  * audible gap (a plain `loop = true` `<audio>` element's loop point
  * has a brief but noticeable pause/restart). A single `AnalyserNode`
- * sits after both elements' gains (and the drum loop's own gain) are
+ * sits after both elements' gains (and the heartbeat loop's own gain) are
  * summed into a shared `master` gain, so `getAmplitude()` keeps reading
  * the actual combined output regardless of what is currently audible.
  *
@@ -88,8 +88,8 @@ export function createTrackPlayer(onTrackChange?: (trackId: string) => void): Tr
   let master: GainNode | null = null
   let analyser: AnalyserNode | null = null
   let dataArray: Uint8Array<ArrayBuffer> | null = null
-  let drumGain: GainNode | null = null
-  let drumLoop: DrumLoop | null = null
+  let heartbeatGain: GainNode | null = null
+  let heartbeatLoop: HeartbeatLoop | null = null
 
   let scheduledTrackId: string | null = null
   /** Which track id is currently loaded into each element, so the
@@ -106,8 +106,8 @@ export function createTrackPlayer(onTrackChange?: (trackId: string) => void): Tr
   let detachWatcher: (() => void) | null = null
 
   function ensure() {
-    if (ctx && els && gains && master && analyser && drumGain && drumLoop) {
-      return { ctx, els, gains, master, analyser, drumGain, drumLoop }
+    if (ctx && els && gains && master && analyser && heartbeatGain && heartbeatLoop) {
+      return { ctx, els, gains, master, analyser, heartbeatGain, heartbeatLoop }
     }
 
     const newCtx = new AudioContext()
@@ -128,26 +128,26 @@ export function createTrackPlayer(onTrackChange?: (trackId: string) => void): Tr
       source.connect(newGains[i]).connect(newMaster)
     })
 
-    const newDrumGain = newCtx.createGain()
-    newDrumGain.gain.value = DRUM_LEVEL
-    newDrumGain.connect(newMaster)
-    const newDrumLoop = createDrumLoop(newCtx, newDrumGain)
+    const newHeartbeatGain = newCtx.createGain()
+    newHeartbeatGain.gain.value = HEARTBEAT_LEVEL
+    newHeartbeatGain.connect(newMaster)
+    const newHeartbeatLoop = createHeartbeatLoop(newCtx, newHeartbeatGain)
 
     ctx = newCtx
     els = newEls
     gains = newGains
     master = newMaster
     analyser = newAnalyser
-    drumGain = newDrumGain
-    drumLoop = newDrumLoop
+    heartbeatGain = newHeartbeatGain
+    heartbeatLoop = newHeartbeatLoop
     return {
       ctx: newCtx,
       els: newEls,
       gains: newGains,
       master: newMaster,
       analyser: newAnalyser,
-      drumGain: newDrumGain,
-      drumLoop: newDrumLoop,
+      heartbeatGain: newHeartbeatGain,
+      heartbeatLoop: newHeartbeatLoop,
     }
   }
 
@@ -225,10 +225,15 @@ export function createTrackPlayer(onTrackChange?: (trackId: string) => void): Tr
 
   function play(trackId: string, options: { muted?: boolean } = {}) {
     const track = TRACKS.find((candidate) => candidate.id === trackId) ?? TRACKS[0]
-    const { ctx: activeCtx, els: activeEls, gains: activeGains, drumGain: activeDrumGain, drumLoop: activeDrumLoop } =
-      ensure()
+    const {
+      ctx: activeCtx,
+      els: activeEls,
+      gains: activeGains,
+      heartbeatGain: activeHeartbeatGain,
+      heartbeatLoop: activeHeartbeatLoop,
+    } = ensure()
     if (activeCtx.state === 'suspended') void activeCtx.resume()
-    activeDrumLoop.start()
+    activeHeartbeatLoop.start()
 
     if (scheduledTrackId !== track.id) {
       detachWatcher?.()
@@ -252,7 +257,7 @@ export function createTrackPlayer(onTrackChange?: (trackId: string) => void): Tr
       gainB.gain.cancelScheduledValues(now)
       gainA.gain.setValueAtTime(isMutedStart ? 0 : 1, now)
       gainB.gain.setValueAtTime(0, now)
-      activeDrumGain.gain.setValueAtTime(isMutedStart ? 0 : DRUM_LEVEL, now)
+      activeHeartbeatGain.gain.setValueAtTime(isMutedStart ? 0 : HEARTBEAT_LEVEL, now)
 
       armCrossfadeWatcher()
       return elA.play()
@@ -265,7 +270,7 @@ export function createTrackPlayer(onTrackChange?: (trackId: string) => void): Tr
   }
 
   function unmute() {
-    if (!isMutedStart || !ctx || !els || !gains || !drumGain) return
+    if (!isMutedStart || !ctx || !els || !gains || !heartbeatGain) return
     isMutedStart = false
     els.forEach((el) => {
       el.muted = false
@@ -275,14 +280,14 @@ export function createTrackPlayer(onTrackChange?: (trackId: string) => void): Tr
     activeGain.gain.cancelScheduledValues(now)
     activeGain.gain.setValueAtTime(activeGain.gain.value, now)
     activeGain.gain.linearRampToValueAtTime(1, now + 0.6)
-    drumGain.gain.cancelScheduledValues(now)
-    drumGain.gain.setValueAtTime(drumGain.gain.value, now)
-    drumGain.gain.linearRampToValueAtTime(DRUM_LEVEL, now + 0.6)
+    heartbeatGain.gain.cancelScheduledValues(now)
+    heartbeatGain.gain.setValueAtTime(heartbeatGain.gain.value, now)
+    heartbeatGain.gain.linearRampToValueAtTime(HEARTBEAT_LEVEL, now + 0.6)
   }
 
   function stop() {
     els?.forEach((el) => el.pause())
-    drumLoop?.stop()
+    heartbeatLoop?.stop()
   }
 
   function setVolume(volume: number) {
