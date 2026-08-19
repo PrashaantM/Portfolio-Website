@@ -19,6 +19,10 @@ function Projects() {
     <Section id="projects">
       <SwordSlash />
       <h2>Featured Projects</h2>
+      <p className="text-text-secondary mt-2 text-sm">
+        Live demos run on sample data. Each project&apos;s GitHub README has instructions for running it locally with
+        real data.
+      </p>
 
       <motion.div
         initial={shouldReduceMotion ? false : 'hidden'}
