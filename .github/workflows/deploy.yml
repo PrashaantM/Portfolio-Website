@@ -29,6 +29,8 @@ jobs:
       - run: npm run lint
       - run: npm run test
       - run: npm run build
+      - run: npx playwright install --with-deps chrome
+      - run: npm run prerender
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

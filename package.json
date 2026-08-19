@@ -11,6 +11,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
+    "prerender": "node scripts/prerender.mjs",
     "fetch:github": "node scripts/fetch-github-stats.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
