@@ -9,7 +9,7 @@ import { motion, useReducedMotion } from 'motion/react'
 import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { PROJECTS } from '../data/projects'
 
-const gridContainer = staggerContainer(0.08, 0.05)
+const gridContainer = staggerContainer(0.05, 0.03)
 
 function Projects() {
   const shouldReduceMotion = useReducedMotion()

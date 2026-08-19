@@ -6,7 +6,7 @@ import { staggerContainer, fadeUp } from '../lib/motion'
 import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { EXPERIENCE } from '../data/experience'
 
-const listContainer = staggerContainer(0.1, 0.05)
+const listContainer = staggerContainer(0.05, 0.03)
 
 /**
  * Replaces the "Experience" placeholder from Phase 5. A vertical,

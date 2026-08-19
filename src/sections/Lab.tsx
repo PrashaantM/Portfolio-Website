@@ -12,7 +12,7 @@ import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { LAB_IDEAS, LAB_BUILDS } from '../data/lab'
 import { buildAccentFor } from '../lib/labAccents'
 
-const gridContainer = staggerContainer(0.08, 0.1)
+const gridContainer = staggerContainer(0.05, 0.05)
 
 /**
  * Replaces the "Experimental Lab" placeholder from Phase 5. Originally

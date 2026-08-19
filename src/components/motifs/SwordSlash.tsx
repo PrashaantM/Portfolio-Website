@@ -26,7 +26,7 @@ function nextSwordImage() {
   return image
 }
 
-const SLASH_DURATION_SECONDS = 2
+const SLASH_DURATION_SECONDS = 0.5
 // Impact/ink-burst lands at the same fraction of the way through the
 // swing as before the duration changed (0.48s into the old 0.55s total).
 const IMPACT_DELAY_MS = Math.round((SLASH_DURATION_SECONDS * 1000 * 0.48) / 0.55)

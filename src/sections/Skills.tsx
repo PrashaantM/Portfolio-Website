@@ -6,7 +6,7 @@ import { staggerContainer, fadeUp } from '../lib/motion'
 import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { SKILL_CATEGORIES } from '../data/skills'
 
-const gridContainer = staggerContainer(0.08, 0.05)
+const gridContainer = staggerContainer(0.05, 0.03)
 
 function Skills() {
   const shouldReduceMotion = useReducedMotion()

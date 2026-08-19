@@ -5,7 +5,7 @@ import { staggerContainer, fadeUp } from '../lib/motion'
 import { usePhoneLandscape } from '../lib/usePhoneLandscape'
 import { INTERESTS } from '../data/interests'
 
-const gridContainer = staggerContainer(0.08, 0.05)
+const gridContainer = staggerContainer(0.05, 0.03)
 
 /**
  * Replaces the "Interests" placeholder from Phase 5. Same card-grid

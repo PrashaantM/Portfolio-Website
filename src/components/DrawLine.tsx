@@ -30,7 +30,7 @@ function DrawLine({
   className,
   stroke = 'var(--color-accent)',
   strokeWidth = 2,
-  duration = 0.8,
+  duration = 0.4,
   delay = 0,
 }: DrawLineProps) {
   const shouldReduceMotion = useReducedMotion()

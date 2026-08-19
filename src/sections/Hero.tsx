@@ -6,7 +6,7 @@ import { fadeUp, staggerContainer } from '../lib/motion'
 
 // Name -> subtitle -> metadata -> CTAs, one after another rather than
 // all at once, per the Phase 6.1 animation plan. Whole sequence lands
-// well under the 1.2s guideline from Phase 26. Built on the Phase 13
+// well under the 500ms guideline from Phase 26. Built on the Phase 13
 // animation vocabulary (`src/lib/motion.ts`) rather than a local
 // variant pair now that one exists. Driven by `whileInView` rather
 // than an unconditional `animate`, so scrolling back up to the very

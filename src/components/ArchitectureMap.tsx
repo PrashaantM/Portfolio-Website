@@ -107,7 +107,7 @@ function ArchitectureMap() {
           key={active.id}
           initial={shouldReduceMotion ? false : 'hidden'}
           animate="visible"
-          variants={staggerContainer(0.06, 0)}
+          variants={staggerContainer(0.04, 0)}
           className="mt-4 grid gap-3 sm:grid-cols-2"
         >
           {DETAIL_FIELDS.map((field, index) => (
