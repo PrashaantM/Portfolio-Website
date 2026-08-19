@@ -6,12 +6,12 @@ export interface LabAccent {
 }
 
 // Shades of the site's own red accent (`--color-accent` #c81e3a and
-// `--color-accent-secondary` #7a1524 in theme.css), darkest to
-// lightest, so the "Built" grid reads as one color-coded family rather
-// than borrowing hues from elsewhere. Written as complete literal
-// class strings (not built from a runtime hex variable) so Tailwind's
-// build-time scanner picks them up. Concepts deliberately get no
-// per-card accent at all - see LabCard's fixed dashed-red styling.
+// `--color-accent-secondary` #7a1524 in theme.css), darkest to lightest,
+// so the "Built" grid in Lab.tsx reads as one color-coded family rather
+// than borrowing hues from elsewhere. Written as complete literal class
+// strings, not built from a runtime hex variable, so Tailwind's
+// build-time scanner can pick them up statically. Concepts deliberately
+// get no per-card accent at all; see LabCard's fixed dashed-red styling.
 export const BUILD_ACCENTS: LabAccent[] = [
   {
     icon: 'text-[#7a1524]',

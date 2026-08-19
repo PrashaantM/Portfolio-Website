@@ -15,20 +15,17 @@ import { buildAccentFor } from '../lib/labAccents'
 const gridContainer = staggerContainer(0.05, 0.05)
 
 /**
- * Replaces the "Experimental Lab" placeholder from Phase 5. Originally
- * just ten ideas from `notes/phase-10.md`'s brief, each styled as a
- * concept rather than a shipped feature; Phase 15.2 added five real,
- * shipped side projects (`LAB_BUILDS`), and this later pass split the
- * two into their own labeled subsections instead of one merged grid -
- * Built cards color-coded in shades of the site's red accent
- * (`buildAccentFor`, see `lib/labAccents.ts`), Concept cards left
- * uncolored with a plain dashed red border, so which kind a card is
- * reads at a glance before anyone reads a word of copy. `ParticleField`
- * runs behind the section as the Naruto ember motif from Phase 12, and
- * each subsection's cards enter as their own staggered `whileInView`
- * group. `SwordSlash` and `FlameBreath` (Phase 12/13's sword-slash and
- * flame-breathing additions) sit here specifically: Lab is the site's
- * one section built to carry a bigger visual moment without competing
+ * Lab.tsx renders two subsections from src/data/lab.ts: shipped side
+ * projects (`LAB_BUILDS`) under "Built", and unshipped experiments
+ * (`LAB_IDEAS`) under "Concepts". They're kept as separate labeled
+ * grids rather than one merged one so which kind a card is reads at a
+ * glance: Built cards are color-coded in shades of the site's red
+ * accent (`buildAccentFor`, see `lib/labAccents.ts`), while Concept
+ * cards stay uncolored with a plain dashed red border. `ParticleField`
+ * runs behind the section as an ember motif, and each subsection's
+ * cards enter as their own staggered `whileInView` group. `SwordSlash`
+ * and `FlameBreath` sit here specifically: Lab is the site's one
+ * section built to carry a bigger visual moment without competing
  * with the more resume-facing sections above it.
  */
 function Lab() {

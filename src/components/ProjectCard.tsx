@@ -16,14 +16,14 @@ interface GithubStat {
 
 const STATS: Record<string, GithubStat> = githubStats
 
-// A build-time snapshot (`scripts/fetch-github-stats.mjs`, Phase 19),
-// not a runtime call to GitHub's API: nothing here can fail, rate
-// limit, or ship a token for a visitor to find. Star counts are
-// fetched into the same JSON but not rendered - every one of these
-// repos currently shows 0, and a row of identical "0 stars" badges
-// would read as filler UI, not a real signal. "Last updated" is the
-// one field that's actually informative right now; surfacing stars
-// too is a one-line change if that ever stops being true.
+// A build-time snapshot (`scripts/fetch-github-stats.mjs`), not a
+// runtime call to GitHub's API: nothing here can fail, rate limit, or
+// ship a token for a visitor to find. Star counts are fetched into
+// the same JSON but not rendered, since every one of these repos
+// currently shows 0, and a row of identical "0 stars" badges would
+// read as filler UI, not a real signal. "Last updated" is the one
+// field that's actually informative right now; surfacing stars too is
+// a one-line change if that ever stops being true.
 function formatUpdated(pushedAt: string) {
   return new Date(pushedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
 }
@@ -38,6 +38,13 @@ const DETAIL_FIELDS: { label: string; key: DetailKey }[] = [
   { label: 'Result', key: 'result' },
 ]
 
+/**
+ * A featured project's summary card: name, purpose, tech badges, and
+ * links, with an expandable "How it works" panel for the deeper
+ * problem/solution/architecture/decision/result breakdown. `LabCard`
+ * and `LabBuildCard` are styled as lighter variants of this for the
+ * Lab section's concepts and smaller builds.
+ */
 function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const detailsId = `${project.id}-details`

@@ -26,17 +26,13 @@ export interface LabIdea {
   visual: string
   tags: string[]
   icon: LucideIcon
-  /** Marks the one deliberately-humorous idea (Phase 10's own
-   *  "contrast between serious engineering and this idea" note) for
-   *  the Takopi-style tonal-contrast treatment in LabCard. */
+  /** Marks the one deliberately-humorous idea, so LabCard can give it
+   *  a distinct tonal-contrast treatment against the serious ones. */
   funny?: boolean
 }
 
-// Source: portfolio-build.md Phase 10.1-10.10. Rewritten in the
-// site's own voice rather than copied, since the brief describes each
-// idea in outline form (concept bullets, "possible visual"), not
-// ready-to-publish prose. Nothing invented beyond what the brief
-// already specifies for each idea. See notes/phase-10.md.
+// Feeds Lab.tsx's "Concepts" grid: unshipped experiments and weird
+// ideas, each styled as a concept rather than a finished feature.
 export const LAB_IDEAS: LabIdea[] = [
   {
     id: 'song-mashup',
@@ -153,16 +149,11 @@ export interface LabBuild {
   status?: string
 }
 
-// The lab's shipped side, not just its concepts: smaller side builds
-// that never made the cut for Featured Projects above but are real,
-// working repos rather than sketches. Sourced directly from each
-// repo's own README/description via `gh` rather than guessed, the same
-// rule Phase 9 used for the featured four (see projects.ts) - and
-// re-checked at write time rather than trusted from memory, since
-// TextScanner turned out to have been rebuilt entirely (Python/OpenCV
-// exercises into a deployed client-side OCR app) since the first pass.
-// Desktop Workspace Manager graduated here from a Concept card (it was
-// idea 08, "Split-Screen Window Manager") once it actually shipped.
+// Feeds Lab.tsx's "Built" grid: smaller side builds that never made
+// the cut for Featured Projects (see src/data/projects.ts) but are
+// real, working repos rather than sketches. Sourced directly from each
+// repo's own README/description rather than guessed. Desktop Workspace
+// Manager moved here from LAB_IDEAS once it actually shipped.
 export const LAB_BUILDS: LabBuild[] = [
   {
     id: 'text-scanner',

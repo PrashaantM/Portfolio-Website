@@ -1,16 +1,15 @@
 /**
- * Phase 15's interaction sound effects: ink-splash, high-tech click,
- * and nav-transition whoosh. Same "no sourced audio" rule as the
- * background tracks (see notes/phase-11.md) applies here too, so every
- * sound is synthesized. Unlike the background tracks these are built
- * in real time on a shared `AudioContext` rather than pre-rendered
- * offline, since they're one-shots triggered on demand rather than
- * static loopable files worth comparing ahead of time.
+ * Interaction sound effects: ink-splash, high-tech click, and
+ * nav-transition whoosh. Used by `InteractionEffects` (click sounds) and
+ * `Navbar` (nav-transition whoosh). Every sound is synthesized on a
+ * shared `AudioContext` rather than played from an audio file, since
+ * these are short one-shots triggered on demand rather than loopable
+ * background tracks.
  *
  * Every exported function here is only ever called from inside a real
- * click handler (InteractionEffects, Navbar), which is itself a user
- * gesture, so constructing/resuming the `AudioContext` here never hits
- * the autoplay restriction `MusicProvider` has to work around.
+ * click handler, which is itself a user gesture, so constructing or
+ * resuming the `AudioContext` here never hits the autoplay restriction
+ * that `MusicProvider` has to work around for background music.
  */
 
 let sfxCtx: AudioContext | null = null

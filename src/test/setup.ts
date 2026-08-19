@@ -53,8 +53,8 @@ class MockResizeObserver implements ResizeObserver {
 window.ResizeObserver = MockResizeObserver
 
 // jsdom doesn't implement layout, so `scrollIntoView` (Navbar's own
-// nav-click handler, every section anchor) has nothing real to do -
-// stubbed to a no-op rather than left to log jsdom's "not implemented"
+// nav-click handler, every section anchor) has nothing real to do.
+// Stubbed to a no-op rather than left to log jsdom's "not implemented"
 // warning on every test that clicks a nav link.
 Element.prototype.scrollIntoView = () => {}
 

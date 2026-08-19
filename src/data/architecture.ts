@@ -7,14 +7,15 @@ export interface ArchitectureNode {
   detail: string
 }
 
-// Phase 14's own spec: click a node, reveal technology, responsibility,
-// why it exists, and an interesting implementation detail. Content
-// grounded entirely in the MCQ Exam Management Platform's existing
-// entry in `src/data/projects.ts` (architecture and decision fields);
-// nothing new invented here beyond framing the same facts per node.
-// The MCQ platform is the flagship project with the most detailed
-// architecture on record, which is why it is the one this section
-// walks through rather than adding a shallower map for every project.
+// Feeds ArchitectureMap (rendered inside Projects.tsx's "Architecture
+// Deep Dive"): click a node, reveal its technology, responsibility, why
+// it exists, and an implementation detail. Content is grounded entirely
+// in the MCQ Exam Management Platform's own entry in
+// `src/data/projects.ts` (its architecture and decision fields);
+// nothing here goes beyond framing those same facts per node. The MCQ
+// platform is the flagship project with the most detailed architecture
+// on record, which is why it's the one this section walks through
+// rather than adding a shallower map for every project.
 export const ARCHITECTURE_NODES: ArchitectureNode[] = [
   {
     id: 'frontend',

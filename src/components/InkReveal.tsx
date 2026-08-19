@@ -15,13 +15,12 @@ interface InkRevealProps {
  * than one more fade-up.
  *
  * Built as a sliding cover (`scaleX`, a transform) rather than an
- * animated `clipPath`, which was the first approach tried here.
- * Isolated testing (see notes/phase-13.md) traced a real bug in this
- * project's Motion version (13.1.0): a `clipPath` animation never
- * plays when the trigger is any IntersectionObserver-driven state
- * change, whether that is Motion's own `whileInView`/`useInView` or a
- * hand-rolled `IntersectionObserver`. A plain `setTimeout`-triggered
- * `clipPath` animation works fine, which narrows the bug to the
+ * animated `clipPath`. This project's Motion version (13.1.0) has a
+ * real bug where a `clipPath` animation never plays when the trigger
+ * is any IntersectionObserver-driven state change, whether that's
+ * Motion's own `whileInView`/`useInView` or a hand-rolled
+ * `IntersectionObserver`; a plain `setTimeout`-triggered `clipPath`
+ * animation works fine, which narrows the bug to the
  * viewport-detection path specifically. `scaleX` sidesteps it
  * entirely and reuses the exact mechanism already proven reliable
  * everywhere else on the site (Skills, Projects, Lab's own fadeUp

@@ -4,11 +4,10 @@ import Button from '../components/Button'
 import Seal from '../components/Seal'
 import { fadeUp, staggerContainer } from '../lib/motion'
 
-// Name -> subtitle -> metadata -> CTAs, one after another rather than
-// all at once, per the Phase 6.1 animation plan. Whole sequence lands
-// well under the 500ms guideline from Phase 26. Built on the Phase 13
-// animation vocabulary (`src/lib/motion.ts`) rather than a local
-// variant pair now that one exists. Driven by `whileInView` rather
+// Name -> subtitle -> metadata -> CTAs animate in one after another
+// rather than all at once. The whole sequence stays well under 500ms.
+// Built on the shared animation vocabulary in `src/lib/motion.ts`
+// rather than a local variant pair. Driven by `whileInView` rather
 // than an unconditional `animate`, so scrolling back up to the very
 // top replays the sequence instead of leaving it in its settled end
 // state, same as every other scroll-triggered reveal on the site.
@@ -23,19 +22,19 @@ const item = fadeUp
  */
 function Hero() {
   // Motion doesn't read the CSS prefers-reduced-motion override in
-  // base.css (that only covers CSS animations/transitions) - checking
-  // it explicitly here and skipping straight to the end state.
+  // base.css (that only covers CSS animations/transitions), so it's
+  // checked explicitly here to skip straight to the end state.
   const shouldReduceMotion = useReducedMotion()
 
-  // Phase 13's `parallax` vocabulary item: the ambient glow drifts
-  // down more slowly than the page scrolls past it, reading as depth
-  // rather than a flat layer. Collapsing the output range to a fixed
-  // 0 under reduced motion (rather than skipping the hook) keeps the
-  // hook call unconditional, as React's rules require, while still
-  // pinning the glow in place for anyone who asked for less motion.
-  // Centering is handled by the flex wrapper below rather than the
-  // usual `-translate-x/y-1/2` classes, so this stays a plain numeric
-  // `y` offset instead of a string transform Motion has to parse.
+  // The ambient glow drifts down more slowly than the page scrolls
+  // past it, reading as depth rather than a flat layer. Collapsing the
+  // output range to a fixed 0 under reduced motion (rather than
+  // skipping the hook) keeps the hook call unconditional, as React's
+  // rules require, while still pinning the glow in place for anyone
+  // who asked for less motion. Centering is handled by the flex
+  // wrapper below rather than the usual `-translate-x/y-1/2` classes,
+  // so this stays a plain numeric `y` offset instead of a string
+  // transform Motion has to parse.
   const { scrollY } = useScroll()
   const glowY = useTransform(scrollY, [0, 800], [0, shouldReduceMotion ? 0 : 140])
 
@@ -59,10 +58,9 @@ function Hero() {
           variants={container}
         >
           {/* An original seal/emblem, not a resume detail (see
-              src/components/Seal.tsx): the Naruto/Demon Slayer "seal"
-              motif from Phase 12, placed on the very first screen
-              since Phase 12's whole point is a visual language that
-              says something about the person, not just the work. */}
+              src/components/Seal.tsx). Placed on the very first
+              screen since this visual language is meant to say
+              something about the person, not just the work. */}
           <motion.div
             variants={item}
             className="hover-glitch absolute right-0 top-0 opacity-70 transition-opacity hover:opacity-100"

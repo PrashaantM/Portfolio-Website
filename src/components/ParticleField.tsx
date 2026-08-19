@@ -27,9 +27,9 @@ function createParticles(): Particle[] {
  * upward behind a section, generated once via `useMemo` so the random
  * layout doesn't reshuffle on every re-render. The drift itself is
  * pure CSS (`.particle-ember` in motifs.css). The only JS here reads
- * Phase 11's live music amplitude each frame and brightens the whole
- * field slightly in time with it (Phase 11.2), skipped entirely when
- * music is off or reduced motion is requested.
+ * the live music amplitude each frame and brightens the whole field
+ * slightly in time with it, skipped entirely when music is off or
+ * reduced motion is requested.
  */
 function ParticleField() {
   const particles = useMemo(createParticles, [])

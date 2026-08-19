@@ -1,10 +1,10 @@
 /**
- * Phase 15's bridge between plain DOM components (InteractionEffects,
- * Navbar) and the lazy-loaded WebGL scene (`src/three/*`). A tiny
- * pub/sub, not a new state-management dependency: matches the
- * "expose a function, poll/subscribe from `useFrame`" idiom the site
- * already uses for `MusicContext.getAmplitude()`, rather than reaching
- * for Redux/Zustand for what is, at most, a handful of listeners.
+ * Bridge between plain DOM components (InteractionEffects, Navbar) and
+ * the lazy-loaded WebGL scene (`src/three/*`). A tiny pub/sub, not a
+ * new state-management dependency: matches the "expose a function,
+ * poll/subscribe from `useFrame`" idiom the site already uses for
+ * `MusicContext.getAmplitude()`, rather than reaching for
+ * Redux/Zustand for what is, at most, a handful of listeners.
  */
 
 export type ClickKind = 'ink' | 'tech'
@@ -63,7 +63,7 @@ let emberHitTest: EmberHitTest | null = null
 /**
  * `EmberField3D` registers itself here so `InteractionEffects`'s single
  * delegated DOM click handler can ask "did this land on a live ember?"
- * before falling back to the generic ink-splash feedback — the DOM
+ * before falling back to the generic ink-splash feedback. The DOM
  * layer never needs to know anything about Three.js projection to make
  * that call.
  */

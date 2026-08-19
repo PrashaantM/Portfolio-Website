@@ -5,10 +5,9 @@ export interface HeartbeatLoop {
 
 // Two low thumps ("lub-dub") close together, then a long quiet gap before
 // the next pair, with the gap length randomized each time rather than
-// fixed - an occasional pulse under a track, not a musical beat, which is
-// what makes it read as ominous rather than as a drum pattern. Replaces an
-// earlier steady 100 BPM kick/hihat loop the site used to run continuously;
-// this is deliberately sparse instead.
+// fixed. That randomized sparseness is deliberate: it reads as an
+// occasional pulse under a track rather than a musical beat or drum
+// pattern.
 const LUB_DUB_GAP_SECONDS = 0.28
 const MIN_INTERVAL_SECONDS = 2.6
 const MAX_INTERVAL_SECONDS = 4.4
@@ -29,15 +28,15 @@ function playThump(ctx: AudioContext, destination: AudioNode, time: number, peak
 }
 
 /**
- * A from-scratch "lub-dub" heartbeat, synthesized rather than a sample:
- * nothing licensed to clear, same reasoning as the drum loop this
- * replaces. Runs into whatever `destination` node the caller hands it
- * (`audio.ts`'s `heartbeatGain`, mixed into the same master bus as the
- * melody), independent of which of the two tracks is currently playing.
+ * A from-scratch "lub-dub" heartbeat, synthesized with oscillators rather
+ * than a sample so there is no licensed audio to clear. Runs into whatever
+ * `destination` node the caller hands it (`audio.ts` passes its own
+ * `heartbeatGain`, mixed into the same master bus as the melody),
+ * independent of which of the two tracks is currently playing.
  *
- * Scheduled with `setTimeout` re-arming itself after every beat with a
- * freshly randomized interval, rather than `setInterval` on a fixed
- * period - the irregular gap is the point, not an implementation detail.
+ * Re-arms itself with `setTimeout` after every beat using a freshly
+ * randomized interval, rather than `setInterval` on a fixed period, since
+ * the irregular gap between beats is the point.
  */
 export function createHeartbeatLoop(ctx: AudioContext, destination: AudioNode): HeartbeatLoop {
   let running = false

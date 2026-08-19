@@ -5,11 +5,10 @@ import { LAB_IDEAS } from './lab'
 import { EXPERIENCE } from './experience'
 import { INTERESTS } from './interests'
 
-// Phase 20's "important data transformations" case: every card/section
-// on this site is a straight map over one of these arrays, so a blank
-// field or a broken URL here would silently ship as a blank spot or a
-// dead link on the live site rather than fail anywhere loud. These
-// tests exist to fail loud instead.
+// Every card/section on this site is a straight map over one of these
+// arrays, so a blank field or a broken URL here would silently ship as
+// a blank spot or a dead link on the live site rather than fail
+// anywhere loud. These tests exist to fail loud instead.
 
 describe('PROJECTS', () => {
   it('has no duplicate ids', () => {

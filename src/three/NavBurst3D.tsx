@@ -24,11 +24,11 @@ interface Spark {
 // `buildLobePoints`) since each ray plane straddles the burst's origin
 // with no position offset (`rotation-z` below), so both halves need to
 // read as flame rather than just one end. `halfWidth` is a fraction of
-// the plane's own half-width — a texture can only mask *within*
-// existing geometry, not extend past it, which is why the ray plane's
-// width goes from 0.06 to 0.16 below: at the original hairline width
-// there was no room for a silhouette to read as anything but a
-// slightly notched line.
+// the plane's own half-width, since a texture can only mask *within*
+// existing geometry, not extend past it. That's why the ray plane's
+// width goes from 0.06 to 0.16 below: a much thinner plane leaves no
+// room for the silhouette to read as anything but a slightly notched
+// line.
 const FLAME_RAY_PROFILE: Array<[number, number]> = [
   [0, 0.05],
   [0.12, 0.5],
@@ -205,10 +205,8 @@ function NavBurstInstance({
  * closes) sells extra weight without the disc/rays doing all the work
  * alone.
  *
- * A soft additive-glow-sprite version of this was tried in its place
- * and reverted: asked for specifically, this flat-geometry version
- * ("blocky" but "exactly what I wanted") is the intended look, not a
- * placeholder for something softer.
+ * The flat, hard-edged disc and rays are the intended look, not a
+ * placeholder for a softer glow-sprite treatment.
  */
 function NavBurst3D() {
   const { camera, size } = useThree()

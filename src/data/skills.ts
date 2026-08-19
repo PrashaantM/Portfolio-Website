@@ -7,14 +7,12 @@ export interface SkillCategory {
   skills: string[]
 }
 
-// Source of truth: the Technical Skills section of
-// public/PrashaantMudgala_Resume.pdf, regrouped by what each group is
-// actually for rather than the resume's flat Languages/Frameworks/
-// Databases/Tools split - matches Phase 8's "group by what you can
-// actually do" instruction. The AI-Assisted Development category isn't
-// on the resume itself, but it's the most concretely defensible one
-// here: this whole site is the evidence, documented commit-by-commit
-// in notes/.
+// Feeds Skills.tsx's card grid. Source of truth is the Technical
+// Skills section of public/PrashaantMudgala_Resume.pdf, regrouped by
+// what each group is actually for rather than the resume's flat
+// Languages/Frameworks/Databases/Tools split. The AI-Assisted
+// Development category isn't on the resume itself, but it's the most
+// concretely defensible one here: this whole site is the evidence.
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
     name: 'Languages',

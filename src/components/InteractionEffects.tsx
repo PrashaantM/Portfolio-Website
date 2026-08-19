@@ -5,9 +5,9 @@ import { emitClick, tryEmberHit } from '../three/sceneBus'
 const INTERACTIVE_SELECTOR = 'a, button, input, select, textarea, [role="button"]'
 
 /**
- * Phase 15's global click classifier: one delegated `document`
- * listener instead of editing every component that renders a button
- * or link. A click on any real interactive element gets the
+ * Global click classifier: one delegated `document` listener instead
+ * of editing every component that renders a button or link. A click
+ * on any real interactive element gets the
  * "high-tech" feedback (sound + `ClickBurst3D`'s tech burst);
  * everywhere else gets the "ink splash" feedback, unless the click
  * actually landed on a live ember (`tryEmberHit`), in which case

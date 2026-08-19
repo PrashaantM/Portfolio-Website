@@ -19,8 +19,8 @@ const SPAWN_MAX_DELAY = 9000
 
 // Real flap-cycle reference art (`public/images/crows.jpg`): a 5-column
 // x 2-row sprite sheet, side profile, one full wingbeat across the 10
-// cells. Replaces Phase 15's squash/stretch fake (a single silhouette
-// scaled on Y) with actual per-frame animation.
+// cells, stepped through each frame to drive actual per-frame
+// animation instead of faking a wingbeat with a scaled silhouette.
 // `BASE_URL`, not a leading `/`: a plain runtime string, so it needs to
 // resolve under GitHub Pages' project-repo subpath itself (see
 // vite.config.ts's `base`), not just a domain root.
@@ -29,15 +29,15 @@ const SHEET_COLS = 5
 const SHEET_ROWS = 2
 const FRAME_COUNT = SHEET_COLS * SHEET_ROWS
 
-// The 10 poses aren't evenly spaced through the wingbeat — measured as
+// The 10 poses aren't evenly spaced through the wingbeat, measured as
 // the summed per-pixel alpha difference between each frame and the
-// next, e.g. frame7->8 barely differs (a ~5% share) while the loop
-// seam frame9->0 is the single biggest jump in the whole sheet (~27%).
-// Stepping through frames at a uniform rate, as before, gave that 5%
-// pair the same on-screen time as the 27% pair: the near-duplicate
-// poses sat still relatively longer while the loop seam had to cram
-// its outsized change into a normal-length step — which is exactly
-// what reads as "pause, then a sudden catch-up snap" once per cycle.
+// next: frame7->8 barely differs (a ~5% share) while the loop seam
+// frame9->0 is the single biggest jump in the whole sheet (~27%).
+// Stepping through frames at a uniform rate would give that 5% pair
+// the same on-screen time as the 27% pair, so the near-duplicate poses
+// would sit still relatively longer while the loop seam has to cram
+// its outsized change into a normal-length step, which is exactly what
+// reads as "pause, then a sudden catch-up snap" once per cycle.
 // Weighting each segment's on-screen time by its own share of the
 // total measured change (arc-length reparameterization) instead holds
 // every transition to roughly the same apparent rate of change.
@@ -52,8 +52,8 @@ const FRAME_SEGMENT_CUM = FRAME_SEGMENT_WEIGHTS.reduce<number[]>(
 // across the very bottom (y 510-574) and uneven vertical padding
 // between the two crow rows (row 1's crows sit in y 120-266, row 2's
 // in y 281-390, measured by luminance bounding box). Cropped and
-// re-stacked into two equal-height bands below — rather than sliced as
-// one uniform grid — so both rows are excluded from the watermark and
+// re-stacked into two equal-height bands below, rather than sliced as
+// one uniform grid, so both rows are excluded from the watermark and
 // center their crow the same way.
 const SHEET_SOURCE_WIDTH = 736
 const ROW_SOURCE_Y = [110, 256]
@@ -63,10 +63,9 @@ const SHEET_CELL_WIDTH = SHEET_SOURCE_WIDTH / SHEET_COLS
 const PLANE_WIDTH = 0.95
 const PLANE_HEIGHT = PLANE_WIDTH * (ROW_HEIGHT / SHEET_CELL_WIDTH)
 
-// A medium gray, not red: the original 2D crow used `text-secondary`
-// (this exact hex), not the site's accent, and reads as a natural bird
-// silhouette against the dark sky on its own contrast, no artificial
-// glow required.
+// A medium gray, matching the site's `text-secondary` token rather
+// than its red accent, reads as a natural bird silhouette against the
+// dark sky on its own contrast, no artificial glow required.
 const CROW_COLOR = '#8b8b93'
 const CROW_OPACITY = 0.92
 
@@ -82,16 +81,16 @@ const CROW_BOB_AMPLITUDE = 0.28
 // crossing, at a different frequency from the bob above (0.22 vs
 // 0.35) so the two don't lock into one repeating, wind-up-toy-looking
 // cycle. Amplitude is capped well under the base cruise speed (~1
-// unit/s) so the surge never actually reverses travel direction —
-// it just keeps a perfectly straight, constant-velocity line from
+// unit/s) so the surge never actually reverses travel direction, it
+// just keeps a perfectly straight, constant-velocity line from
 // reading as mechanical.
 const CROW_SURGE_FREQ = 0.22
 const CROW_SURGE_AMPLITUDE = 0.4
 
 // Samples two adjacent sprite cells and blends between them (`uMix`
 // ramps 0->1 as the flap advances) instead of hard-cutting from one
-// pose to the next. A straight frame-index swap — even at a much
-// higher rate — still reads as a slideshow because consecutive poses
+// pose to the next. A straight frame-index swap, even at a much
+// higher rate, still reads as a slideshow because consecutive poses
 // are quite different silhouettes; crossfading is what actually
 // smooths it out into a continuous-looking wingbeat.
 const CROW_VERTEX_SHADER = /* glsl */ `
@@ -178,13 +177,15 @@ function randomCrow(id: number): CrowInstance {
     // the nearer crows instead of reading as "flying".
     y: 1 + Math.random() * 2,
     z: -3 + Math.random() * 5,
-    // 2.5x the original crossing speed (was 14000-26000).
+    // Crossing takes 3-4 seconds, brisk enough to read as purposeful
+    // flight rather than a slow drift.
     duration: 3000 + Math.random() * 1000,
     spawnedAt: performance.now(),
     // Sprite frames advanced per second; 10 frames per full wingbeat,
-    // so 18-28 fps reads as roughly 1.8-2.8 flaps/sec. Higher than the
-    // old discrete-step version needed, since crossfading (see
-    // `CROW_FRAGMENT_SHADER`) keeps it smooth instead of frantic.
+    // so 18-28 fps reads as roughly 1.8-2.8 flaps/sec. This can run
+    // faster than a plain discrete frame-step would need, since
+    // crossfading (see `CROW_FRAGMENT_SHADER`) keeps it smooth instead
+    // of frantic.
     flapSpeed: 18 + Math.random() * 10,
   }
 }
@@ -204,8 +205,8 @@ function Crow({ crow, texture }: { crow: CrowInstance; texture: THREE.Texture })
   const planeRef = useRef<THREE.Mesh>(null)
 
   // One shared base texture; each crow just samples a different pair
-  // of cells from it via uniforms, so unlike the old per-instance
-  // `texture.clone()` there's nothing here to dispose.
+  // of cells from it via uniforms, so there's no per-instance texture
+  // clone to dispose.
   const uniforms = useMemo(
     () => ({
       uMap: { value: texture },
@@ -282,12 +283,10 @@ function Crow({ crow, texture }: { crow: CrowInstance; texture: THREE.Texture })
 }
 
 /**
- * 3-4 crows crossing the scene on independent randomized timers,
- * Phase 15's sitewide replacement for Hero's single flat `.crow-drift`
- * silhouette (removed from `Hero.tsx`). Spawn/despawn state lives
- * entirely in this component; nothing else needs to react to a given
- * crow's lifecycle, so there's no reason to route it through
- * `sceneBus`.
+ * Sitewide ambient flock: 3-4 crows crossing the scene on independent
+ * randomized timers. Spawn/despawn state lives entirely in this
+ * component; nothing else needs to react to a given crow's lifecycle,
+ * so there's no reason to route it through `sceneBus`.
  */
 function CrowFlock3D() {
   const [texture, setTexture] = useState<THREE.Texture | null>(null)

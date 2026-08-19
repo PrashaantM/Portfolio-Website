@@ -8,11 +8,11 @@ import { INTERESTS } from '../data/interests'
 const gridContainer = staggerContainer(0.05, 0.03)
 
 /**
- * Replaces the "Interests" placeholder from Phase 5. Same card-grid
- * visual weight as `Skills.tsx` on purpose: the brief's own Design
- * rules say interests should "influence the visual language without
- * overwhelming" the portfolio, so this section reads as one more
- * category grid, not a tonal departure into a different kind of page.
+ * Interests.tsx renders a card grid of personal interests from
+ * src/data/interests.ts. It deliberately shares the same card-grid
+ * visual weight as `Skills.tsx`, so this section reads as one more
+ * category grid rather than a tonal departure into a different kind
+ * of page.
  */
 function Interests() {
   const shouldReduceMotion = useReducedMotion()

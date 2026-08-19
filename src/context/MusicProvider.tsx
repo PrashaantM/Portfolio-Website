@@ -3,25 +3,25 @@ import { createTrackPlayer, TRACKS, type TrackPlayer } from '../lib/audio'
 import { MusicContext, type MusicContextValue } from './musicContext'
 
 /**
- * Owns the single `TrackPlayer` instance for the site. Phase 11's rule
- * was "do not autoplay audio by default" and only ever built the
- * player lazily inside `toggle()`. Phase 15 reversed that, and Phase
- * 15.2 goes further: rather than only trying an audible `play()` and
+ * Owns the single `TrackPlayer` instance for the site and exposes it
+ * to the rest of the app via `MusicContext` (see musicContext.ts).
+ *
+ * On mount, it attempts to start background music automatically rather
+ * than waiting for a click. Rather than trying an audible `play()` and
  * accepting that a fresh visit will almost always have it rejected,
- * the mount effect's first attempt starts the track *muted*. That is
- * not a cosmetic difference - verified directly against a real
- * `AudioContext` rather than assumed, a muted, gesture-free `play()`
- * resolves and brings the context up to `running` under browsers'
- * standard autoplay policy, where an unmuted one is rejected outright.
- * `unmute()` right after is a plain property/gain change, not a second
- * autoplay decision, so in the common case music is actually audible
- * within moments of the page loading with no click required. The
- * `pointerdown`/`keydown`/`touchstart` listener from Phase 11 stays
- * armed regardless, both as the fallback for the rarer browser that
- * blocks even muted playback, and as a guaranteed-safe second call to
- * `unmute()` in case the immediate one did not actually reach the
- * speakers - a real user gesture is the one thing every browser's
- * autoplay policy unconditionally honors.
+ * the mount effect's first attempt starts the track *muted*. That
+ * matters because a muted, gesture-free `play()` resolves and brings
+ * the AudioContext up to `running` under browsers' standard autoplay
+ * policy, where an unmuted one is rejected outright. `unmute()` right
+ * after is a plain property/gain change, not a second autoplay
+ * decision, so in the common case music is actually audible within
+ * moments of the page loading with no click required. A
+ * `pointerdown`/`keydown`/`touchstart` listener stays armed regardless,
+ * both as a fallback for the rarer browser that blocks even muted
+ * playback, and as a guaranteed-safe second call to `unmute()` in case
+ * the immediate one did not actually reach the speakers: a real user
+ * gesture is the one thing every browser's autoplay policy
+ * unconditionally honors.
  */
 export function MusicProvider({ children }: { children: ReactNode }) {
   const playerRef = useRef<TrackPlayer | null>(null)
@@ -31,9 +31,9 @@ export function MusicProvider({ children }: { children: ReactNode }) {
 
   function getPlayer() {
     if (!playerRef.current) {
-      // The player advances trackId on its own (mysterious x3, dark
-      // x3, repeat - see audio.ts); this keeps React's own trackId
-      // state, and therefore MusicToggle's picker, in sync with it.
+      // The player advances trackId on its own as tracks finish (see
+      // audio.ts); this callback keeps React's own trackId state, and
+      // therefore MusicToggle's picker, in sync with it.
       playerRef.current = createTrackPlayer((nextTrackId) => setTrackId(nextTrackId))
     }
     return playerRef.current
@@ -54,22 +54,17 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   // not something that should re-run if `trackId`/`volume` change
   // later via the toggle's own setters.
   //
-  // Phase 17: the very first `attempt()` used to run synchronously on
-  // mount, which meant `.play()` (and the multi-megabyte network fetch
-  // it forces the browser to start) began immediately, racing Hero's
-  // own critical-path render for bandwidth. Measured directly:
-  // Lighthouse's mobile preset (simulated slow 4G) showed the default
-  // track's ~2.7MB transfer overlapping the JS/font/CSS requests the
-  // Hero heading actually depends on, and Largest Contentful Paint
-  // blew out to 17.2s. The default `TRACKS[0]` track is real,
-  // user-supplied audio, not something to shrink or re-encode without
-  // asking, so the fix is about *when* the fetch starts, not the file
-  // itself: the same `requestIdleCallback` deferral `Scene3D.tsx`
-  // already uses for the same reason, so the very first autoplay
-  // attempt waits until the browser has cleared higher-priority work.
-  // Gesture-triggered retries stay immediate: by the time a visitor has
-  // clicked or pressed a key, first paint has already happened, so
-  // there's nothing left to protect.
+  // The first autoplay attempt is deferred via `requestIdleCallback`
+  // (the same deferral `Scene3D.tsx` uses for the same reason) rather
+  // than run synchronously on mount. Starting `.play()` immediately
+  // forces a multi-megabyte network fetch of the default track that
+  // competes with Hero's own critical-path render for bandwidth,
+  // which measurably hurt Largest Contentful Paint on slow
+  // connections. Deferring until the browser has cleared
+  // higher-priority work fixes the timing without touching the audio
+  // file itself. Gesture-triggered retries stay immediate: by the time
+  // a visitor has clicked or pressed a key, first paint has already
+  // happened, so there's nothing left to protect.
   useEffect(() => {
     const player = getPlayer()
     player.setVolume(volume)
@@ -92,7 +87,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
           // safety net until one actually happens.
         })
         .catch(() => {
-          // Blocked outright - rare, since muted autoplay is broadly
+          // Blocked outright: rare, since muted autoplay is broadly
           // allowed, but the gesture listener below is still there
           // for it.
         })

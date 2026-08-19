@@ -12,7 +12,7 @@ const VARIANT_CLASSES = {
 }
 
 /**
- * Always an <a> - every current use case is navigation (a section
+ * Always an <a>: every current use case is navigation (a section
  * anchor, an external link), not an in-page action, so there's no
  * <button type="button"> case to support yet.
  */

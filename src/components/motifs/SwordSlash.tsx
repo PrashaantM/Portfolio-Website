@@ -34,23 +34,22 @@ const IMPACT_DELAY_MS = Math.round((SLASH_DURATION_SECONDS * 1000 * 0.48) / 0.55
 /**
  * The Lab section's entrance: a sword slashes across, then ink
  * particles burst at the point it "lands", timed to land just before
- * `InkReveal` wipes the heading in next to it. Three of this round's
- * requested pieces (an original sword image, a sword-slash animation,
- * ink particles) working as one sequence rather than three
- * disconnected additions.
+ * `InkReveal` wipes the heading in next to it. An original sword
+ * image, a sword-slash animation, and ink particles working as one
+ * sequence rather than three disconnected pieces.
  *
- * The slashing sword itself is one of the three real, user-supplied
- * artworks in `SWORD_IMAGES` (an SVG placeholder before this), picked
- * fresh via `nextSwordImage()` at the instant each slash starts so it
- * alternates rather than always drawing the same one. The `motion.div`'s
- * x/y/opacity/rotate path stays plain numeric values (`halfViewportWidth`
- * is a number computed once, not a percentage string, and nothing here
- * uses `clipPath`). `notes/phase-13.md` documents a real bug in this
- * project's Motion version where a "complex" string-valued animation
- * silently never plays when triggered by an IntersectionObserver-driven
- * state change; numeric transforms never showed that problem under any
- * trigger, so this stays inside that proven-safe territory rather than
- * risking a repeat.
+ * The slashing sword itself is one of three real, user-supplied
+ * artworks in `SWORD_IMAGES`, picked fresh via `nextSwordImage()` at
+ * the instant each slash starts so it alternates rather than always
+ * drawing the same one. The `motion.div`'s x/y/opacity/rotate path
+ * stays plain numeric values (`halfViewportWidth` is a number
+ * computed once, not a percentage string, and nothing here uses
+ * `clipPath`), because this project's Motion version has a real bug
+ * where a "complex" string-valued animation silently never plays when
+ * triggered by an IntersectionObserver-driven state change; numeric
+ * transforms never showed that problem under any trigger, so this
+ * stays inside that proven-safe territory rather than risking a
+ * repeat.
  */
 function SwordSlash({ className = '' }: SwordSlashProps) {
   const containerRef = useRef<HTMLDivElement>(null)

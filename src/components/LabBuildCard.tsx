@@ -24,7 +24,7 @@ function formatUpdated(pushedAt: string) {
 /**
  * `LabCard`'s opposite number: a solid border and a green "BUILT" pill
  * instead of the dashed border and amber "CONCEPT" pill, since these
- * are real, shipped repos rather than sketches - the same visual
+ * are real, shipped repos rather than sketches, the same visual
  * category as `ProjectCard` above, which is why this skips
  * `frame-tactical` (reserved, per `motifs.css`, for things explicitly
  * labeled concept/spec). Lighter than `ProjectCard` on purpose: no
@@ -36,8 +36,8 @@ function formatUpdated(pushedAt: string) {
  * from `lib/labAccents.ts`'s `BUILD_ACCENTS`) colors this card's icon,
  * top edge, and hover glow, so the Built grid reads as one color-coded
  * red family while Concepts stay deliberately uncolored. The green
- * "BUILT" pill stays fixed regardless of which shade a card gets -
- * that color is the one that always means "shipped."
+ * "BUILT" pill stays fixed regardless of which shade a card gets,
+ * since that color is the one that always means "shipped."
  */
 function LabBuildCard({ build, accent }: LabBuildCardProps) {
   const Icon = build.icon

@@ -96,9 +96,9 @@ function SealPlane({ seal, texture }: { seal: SealInstance; texture: THREE.Textu
 /**
  * The site's `Seal` emblem, rasterized to a texture once and reused,
  * fading in/out as a couple of large, faint, slowly-rotating watermark
- * planes at randomized positions — "seal patterns that come and go"
- * rendered as ambient sitewide background rather than the interactive
- * corner emblem in `Hero.tsx`, which is untouched.
+ * planes at randomized positions: ambient "seal patterns that come and
+ * go" rendered sitewide in the background, separate from the
+ * interactive corner emblem in `Hero.tsx`, which is untouched.
  */
 function SealField3D() {
   const [texture, setTexture] = useState<THREE.Texture | null>(null)

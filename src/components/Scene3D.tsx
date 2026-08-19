@@ -13,29 +13,30 @@ function supportsWebGL() {
 }
 
 /**
- * The gate in front of Phase 15's WebGL layer, kept separate from
+ * The gate in front of the WebGL layer, kept separate from
  * `src/three/Scene.tsx` itself so the check happens *before* that
  * chunk is even fetched: `React.lazy`'s dynamic `import()` only fires
  * once `<Scene />` actually renders, so a visitor with
  * `prefers-reduced-motion` set or no WebGL support never downloads any
  * of `src/three/*`, not just never sees it rendered. Progressive
- * enhancement, not a hard requirement — this site must never show a
+ * enhancement, not a hard requirement: this site must never show a
  * blank/broken page to a recruiter on an old machine.
  *
- * Phase 17: the mount effect used to flip `canRender` synchronously on
- * the very first render, which meant the ~990KB `Scene` chunk's
- * download-parse-execute cycle started immediately and competed with
- * Hero's own entrance animation for main-thread time. Measured with
- * Lighthouse against a production build: Total Blocking Time was 670ms
- * and the Hero heading (the actual Largest Contentful Paint element,
- * confirmed via Lighthouse's own LCP-element trace, not assumed) didn't
- * finish painting until 3.4s, well past when its own 0.5s fade-up
- * animation should have completed. `requestIdleCallback` (falling back
- * to a short `setTimeout` on Safari, which doesn't implement it) defers
- * the same check and the same dynamic import it triggers until the
- * browser has already gotten through the initial paint and any
- * higher-priority work, so the heavy chunk downloads and evaluates
- * without racing the content a visitor actually came to see first.
+ * The mount effect defers the render check with `requestIdleCallback`
+ * instead of flipping `canRender` synchronously on the first render.
+ * Flipping it synchronously starts the ~990KB `Scene` chunk's
+ * download-parse-execute cycle immediately, competing with Hero's own
+ * entrance animation for main-thread time; measured with Lighthouse
+ * against a production build, that pushed Total Blocking Time to
+ * 670ms and delayed the Hero heading (the page's actual Largest
+ * Contentful Paint element) from finishing paint until 3.4s, well
+ * past when its own 0.5s fade-up animation should have completed.
+ * `requestIdleCallback` (falling back to a short `setTimeout` on
+ * Safari, which doesn't implement it) defers the same check and the
+ * dynamic import it triggers until the browser has already gotten
+ * through the initial paint and any higher-priority work, so the
+ * heavy chunk downloads and evaluates without racing the content a
+ * visitor actually came to see first.
  */
 function Scene3D() {
   const shouldReduceMotion = useReducedMotion()

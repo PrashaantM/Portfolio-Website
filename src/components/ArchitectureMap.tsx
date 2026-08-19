@@ -51,18 +51,15 @@ function DetailTile({
 }
 
 /**
- * Phase 14's interactive architecture map, walked through for the MCQ
- * Exam Management Platform specifically. Same click-a-node,
- * read-the-panel-below interaction as About's `IdentityMap` (Phase 7),
- * upgraded with two things that exist now and didn't then: a real
- * drawn connector (Phase 13's `DrawLine`) between each tier instead of
- * a static div, and four data fields per node instead of one
- * paragraph, matching Phase 14's exact spec (technology,
+ * Interactive architecture map for the MCQ Exam Management Platform.
+ * Same click-a-node, read-the-panel-below interaction as About's
+ * `IdentityMap`, with a drawn `DrawLine` connector between each tier
+ * instead of a static div, and four data fields per node (technology,
  * responsibility, why it exists, an interesting implementation
- * detail). One vertical column at every width rather than a separate
- * mobile layout: the interaction already works identically at 320px
- * and 1440px, so there is no real mobile-specific behavior to design
- * around here.
+ * detail) instead of one paragraph. One vertical column at every
+ * width rather than a separate mobile layout: the interaction already
+ * works identically at 320px and 1440px, so there is no real
+ * mobile-specific behavior to design around here.
  */
 function ArchitectureMap() {
   const [activeId, setActiveId] = useState(ARCHITECTURE_NODES[0].id)

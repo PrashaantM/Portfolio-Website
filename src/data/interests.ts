@@ -8,6 +8,7 @@ export interface Interest {
   icon: LucideIcon
 }
 
+// Feeds Interests.tsx's card grid.
 export const INTERESTS: Interest[] = [
   {
     id: 'movies',

@@ -4,13 +4,13 @@ interface SealProps {
 }
 
 /**
- * An original geometric seal/emblem: the Naruto/Demon Slayer "seal"
- * motif from Phase 12, stood in with a double ring and an angular "PM"
- * monogram instead of any borrowed kanji or copyrighted mark (the
- * brief's own rule: "do not use copyrighted character images... prefer
- * original motifs that communicate the inspiration"). Pairs with the
- * `.hover-glitch` utility from Phase 13 wherever it's used as an
- * interactive accent rather than pure decoration.
+ * An original geometric seal/emblem standing in for the Naruto/Demon
+ * Slayer "seal" motif: a double ring and an angular "PM" monogram
+ * instead of any borrowed kanji or copyrighted mark (the brief's own
+ * rule: "do not use copyrighted character images... prefer original
+ * motifs that communicate the inspiration"). Pairs with the
+ * `.hover-glitch` utility wherever it's used as an interactive accent
+ * rather than pure decoration.
  */
 function Seal({ size = 40, className = '' }: SealProps) {
   return (

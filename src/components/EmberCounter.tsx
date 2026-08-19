@@ -4,19 +4,20 @@ import { onEmberDoused } from '../three/sceneBus'
 
 /**
  * A playful lifetime tally of embers clicked out in the WebGL
- * background (`EmberField3D`) — pure flavor, no gameplay stakes, and
- * deliberately always visible (not gated behind first use) since the
- * whole point is to tip a visitor off that the drifting embers are
- * clickable. Lives outside the Canvas: DOM text is cheaper and sharper
- * than anything Three.js would render for a HUD number, so `sceneBus`
- * bridges the two, the same pattern `ClickBurst3D` uses for `emitClick`.
+ * background (`EmberField3D`), pure flavor with no gameplay stakes,
+ * and deliberately always visible (not gated behind first use) since
+ * the whole point is to tip a visitor off that the drifting embers
+ * are clickable. Lives outside the Canvas: DOM text is cheaper and
+ * sharper than anything Three.js would render for a HUD number, so
+ * `sceneBus` bridges the two, the same pattern `ClickBurst3D` uses
+ * for `emitClick`.
  *
- * `pointer-events-none` (Phase 16): this is a fixed, always-on-top
- * overlay with no click handler of its own, and at narrow widths it can
- * visually sit over whatever scrolls underneath it (a project card's
- * "How it works" button, most concretely). Without this, that overlap
- * would silently swallow the click instead of passing it through to the
- * real button underneath.
+ * `pointer-events-none` because this is a fixed, always-on-top
+ * overlay with no click handler of its own, and at narrow widths it
+ * can visually sit over whatever scrolls underneath it (a project
+ * card's "How it works" button, most concretely). Without this, that
+ * overlap would silently swallow the click instead of passing it
+ * through to the real button underneath.
  */
 function EmberCounter() {
   const [count, setCount] = useState(0)
@@ -33,7 +34,7 @@ function EmberCounter() {
       // hidden rather than repositioned: fixed at top-20/right-4, it sits
       // right where a jump-scrolled section heading lands (scroll-margin-top
       // matches the navbar height), and collides with headings that wrap to
-      // two lines on a narrow screen - e.g. Projects' "Architecture Deep
+      // two lines on a narrow screen, e.g. Projects' "Architecture Deep
       // Dive: MCQ Exam Management Platform". It also has no z-index
       // priority over the open mobile-nav dropdown, so it visibly
       // disappears/reappears as that opens and closes. Hidden below `sm`

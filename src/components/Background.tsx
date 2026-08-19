@@ -1,10 +1,10 @@
 /**
  * Fixed, full-viewport background layer sitting behind all content:
  * the base color (set on `body` in base.css) plus the grid and noise
- * motifs from Phase 4. Both motifs are already tuned to be faint on
- * their own (see motifs.css) so they read as texture rather than
- * decoration. Not interactive, so it's hidden from screen readers and
- * never intercepts clicks.
+ * motifs. Both motifs are already tuned to be faint on their own (see
+ * motifs.css) so they read as texture rather than decoration. Not
+ * interactive, so it's hidden from screen readers and never
+ * intercepts clicks.
  */
 function Background() {
   return (

@@ -22,18 +22,18 @@ export interface Project {
   result: string
   github: string
   demo?: string
-  /** Set only on the one project with a deeper system breakdown
-   *  further down the page (Phase 14). Renders as a small red-thread
-   *  link on the card, the "constellation-like project connections"
-   *  motif Phase 4's own notes deferred to this later animation work. */
+  /** Set only on the project with a deeper system breakdown further
+   *  down the page (see src/data/architecture.ts and Projects.tsx's
+   *  "Architecture Deep Dive"). Renders as a small link on the card
+   *  pointing to that section. */
   architectureAnchor?: string
 }
 
-// Source of truth: public/PrashaantMudgala_Resume.pdf for the facts
-// (stack, features, numbers), and `gh repo list PrashaantM` for the
-// actual GitHub URLs, matched by each repo's own description against
-// the resume's project descriptions rather than guessed. See
-// notes/phase-9.md for the exact lookups.
+// Feeds Projects.tsx's featured-projects grid. Source of truth is
+// public/PrashaantMudgala_Resume.pdf for the facts (stack, features,
+// numbers), and each repo's own README/description for the actual
+// GitHub URLs, matched against the resume's project descriptions
+// rather than guessed.
 export const PROJECTS: Project[] = [
   {
     id: 'mcq-platform',

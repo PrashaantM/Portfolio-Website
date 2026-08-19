@@ -31,15 +31,15 @@ const LINKS = [
 ]
 
 /**
- * Replaces the "Contact" placeholder from Phase 5, and the site's last
- * section before the footer. Deliberately no form: there's no backend
- * anywhere in this project, so a form here would need its own abuse
- * protection (Phase 21's own rule) for a feature that direct links
- * already cover without one. Phone number left off on purpose too,
- * even though it's on the resume: email/LinkedIn/GitHub is the
- * standard set for a public page anyone on the internet can reach, the
- * resume PDF one click away still has the phone number for anyone who
- * gets that far.
+ * Contact.tsx is the site's last section before the footer, rendering
+ * direct links to email, LinkedIn, GitHub, and the resume PDF.
+ * Deliberately no contact form: there's no backend in this project, so
+ * a form would need its own abuse protection for a feature direct
+ * links already cover without one. Phone number is left off the page
+ * on purpose too, even though it's on the resume: email/LinkedIn/
+ * GitHub is the standard set for a public page anyone on the internet
+ * can reach, and the resume PDF one click away still has the phone
+ * number for anyone who gets that far.
  */
 function Contact() {
   return (

@@ -1,10 +1,13 @@
 import type { Variants } from 'motion/react'
 
 /**
- * The site's animation vocabulary (Phase 13): a small, named set of
- * variants that every later phase reuses instead of hand-timing a new
- * animation per element. `EASE` moves here from Hero (Phase 6), which
- * was the only thing defining it before this phase existed.
+ * Shared animation vocabulary for the whole site: a small, named set of
+ * Motion variants that components reuse instead of hand-timing a new
+ * animation per element. Consumed by `Reveal`, `InkReveal`, `DrawLine`,
+ * `ArchitectureMap`, and the section components (Hero, Skills, Projects,
+ * Lab, Experience, Interests). `EASE` is the one easing curve used across
+ * all of them, so motion feels consistent regardless of which variant a
+ * given element uses.
  */
 export const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -34,11 +37,11 @@ export const slideInRight: Variants = {
 }
 
 /**
- * Factory rather than a fixed constant: every current use (Hero's CTA
+ * Builds a "children reveal one after another" container variant.
+ * A factory rather than a fixed constant because each caller (Hero's CTA
  * stack, Lab's card grid, Architecture's node tiers) wants the same
- * "children reveal one after another" behavior but at different
- * speeds, so the timing is a parameter instead of three near-duplicate
- * variant objects.
+ * staggered-reveal behavior at a different speed, so the timing is a
+ * parameter instead of several near-duplicate variant objects.
  */
 export function staggerContainer(stagger = 0.06, delayChildren = 0.05): Variants {
   return {

@@ -8,6 +8,8 @@ import { SKILL_CATEGORIES } from '../data/skills'
 
 const gridContainer = staggerContainer(0.05, 0.03)
 
+// Skills.tsx renders a card grid of skill categories from
+// src/data/skills.ts.
 function Skills() {
   const shouldReduceMotion = useReducedMotion()
   const isPhoneLandscape = usePhoneLandscape()

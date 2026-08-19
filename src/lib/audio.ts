@@ -6,16 +6,15 @@ export interface Track {
   file: string
 }
 
-// Two user-supplied trap-melody / music-box tracks (Phase 15), replacing
-// the four generated "Unsettling Toy-Lofi" pieces from Phase 11. Not
-// generated this time; these are real files the site owner provided
-// directly, so there is no licensing question to route around the way
-// there was for a found-online track. The mysterious one is
-// first/default: MusicProvider starts on TRACKS[0] and now attempts to
+// Two user-supplied trap-melody / music-box tracks. These are real audio
+// files the site owner provided directly rather than generated audio, so
+// there is no licensing question to route around. The mysterious track is
+// first and default: MusicProvider starts on TRACKS[0] and attempts to
 // autoplay it on visit (see MusicProvider.tsx).
+//
 // `BASE_URL` rather than a leading `/`: these paths are plain runtime
 // strings, not static imports, so Vite's own asset-URL rewriting never
-// sees them. Needs to resolve correctly under GitHub Pages' project-repo
+// sees them. They need to resolve correctly under GitHub Pages' project-repo
 // subpath (see vite.config.ts), not just a domain root.
 const BASE = import.meta.env.BASE_URL
 
@@ -25,7 +24,8 @@ export const TRACKS: Track[] = [
 ]
 
 /** How many full loops a track gets before the player advances to the
- *  other one (Phase 15.2's request: mysterious x3, dark x3, repeat). */
+ *  other one: three loops of the mysterious track, three of the dark
+ *  one, repeating indefinitely. */
 const REPEATS_PER_TRACK = 3
 
 export interface TrackPlayer {
@@ -62,7 +62,7 @@ export interface TrackPlayer {
 const OVERLAP_SECONDS = 2.0
 
 /** The heartbeat bus's own level, mixed under the melody's gain of up to
- *  1 into the same master bus - a supporting layer, not a competing one. */
+ *  1 into the same master bus: a supporting layer, not a competing one. */
 const HEARTBEAT_LEVEL = 0.4
 
 /**
@@ -78,7 +78,7 @@ const HEARTBEAT_LEVEL = 0.4
  *
  * `onTrackChange` fires whenever the loop counter (below) rolls the
  * active track over from one to the other, so `MusicProvider` can keep
- * its own `trackId` state - and therefore the picker in `MusicToggle` -
+ * its own `trackId` state, and therefore the picker in `MusicToggle`,
  * in sync with a switch this module decided to make on its own.
  */
 export function createTrackPlayer(onTrackChange?: (trackId: string) => void): TrackPlayer {
@@ -160,7 +160,7 @@ export function createTrackPlayer(onTrackChange?: (trackId: string) => void): Tr
    * Watches whichever element is currently "active" for its
    * `currentTime` crossing into the last `OVERLAP_SECONDS` of its
    * `duration`, then ramps it out while starting and ramping in the
-   * other element - and re-arms itself on the new active element, so
+   * other element, and re-arms itself on the new active element, so
    * this keeps alternating indefinitely. Every crossing also counts as
    * one completed loop; once that count reaches `REPEATS_PER_TRACK`,
    * the element being started next loads the *other* track instead of

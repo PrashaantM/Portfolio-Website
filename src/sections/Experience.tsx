@@ -9,17 +9,16 @@ import { EXPERIENCE } from '../data/experience'
 const listContainer = staggerContainer(0.05, 0.03)
 
 /**
- * Replaces the "Experience" placeholder from Phase 5. A vertical,
- * always-readable list rather than the click-a-node pattern
- * `IdentityMap`/`ArchitectureMap` use elsewhere: those two are built
- * around a handful of short labels worth clicking through one at a
- * time, but a resume timeline is content someone actually wants to
- * read straight down, so hiding it behind clicks would work against
- * the section's own job. `DrawLine` (Phase 13) still connects each
- * entry to the next, the same "these are linked in sequence" idea
- * `ArchitectureMap` uses between tiers, and `.frame-tactical` (Phase 12's
- * AoT document motif) frames each entry like a service record rather
- * than a plain card.
+ * Experience.tsx renders a vertical timeline of work/leadership history
+ * from src/data/experience.ts. It uses a plain always-readable list
+ * rather than the click-a-node pattern `IdentityMap`/`ArchitectureMap`
+ * use elsewhere: those two work with a handful of short labels worth
+ * clicking through one at a time, but a resume timeline is content
+ * someone actually wants to read straight down, so hiding it behind
+ * clicks would work against the section's own job. `DrawLine` connects
+ * each entry to the next, the same "these are linked in sequence" idea
+ * `ArchitectureMap` uses between tiers, and `.frame-tactical` frames
+ * each entry like a document rather than a plain card.
  */
 function Experience() {
   const shouldReduceMotion = useReducedMotion()

@@ -12,15 +12,15 @@ export interface ExperienceEntry {
   bullets: string[]
 }
 
-// Source of truth: public/PrashaantMudgala_Resume.pdf, same rule as
-// every other content file in src/data/. Bullets are rewritten in this
-// site's own voice rather than copied resume fragments (same approach
-// Phase 9 used for project descriptions), but every number, date, and
-// title matches the resume exactly. Two of these five (Tythe Labs and
-// the research role) are also covered narratively in About.tsx; that
-// overlap is expected, the same way a resume and a LinkedIn About
-// section cover some of the same ground from different angles. This
-// section is the scannable, dated version.
+// Feeds Experience.tsx's timeline. Source of truth is
+// public/PrashaantMudgala_Resume.pdf, same rule as every other content
+// file in src/data/. Bullets are rewritten in this site's own voice
+// rather than copied resume fragments, but every number, date, and
+// title matches the resume exactly. Two of these five entries (Tythe
+// Labs and the research role) are also covered narratively in
+// About.tsx; that overlap is expected, the same way a resume and a
+// LinkedIn About section cover some of the same ground from different
+// angles. This section is the scannable, dated version.
 export const EXPERIENCE: ExperienceEntry[] = [
   {
     id: 'tythe-labs',

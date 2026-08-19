@@ -11,6 +11,10 @@ import { PROJECTS } from '../data/projects'
 
 const gridContainer = staggerContainer(0.05, 0.03)
 
+// Projects.tsx renders the featured-projects grid from
+// src/data/projects.ts, plus an "Architecture Deep Dive" that walks
+// through the MCQ Exam Management Platform's system design using
+// `ArchitectureMap`, which pulls from src/data/architecture.ts.
 function Projects() {
   const shouldReduceMotion = useReducedMotion()
   const isPhoneLandscape = usePhoneLandscape()

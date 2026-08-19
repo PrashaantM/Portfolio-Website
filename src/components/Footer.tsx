@@ -7,9 +7,9 @@ const FOOTER_LINKS = [
 ]
 
 /**
- * Name, tagline, copyright, real GitHub/LinkedIn/resume links (Phase
- * 23, once Contact had established these are the right three, phone
- * number deliberately excluded), and a way back to the top.
+ * Name, tagline, copyright, real GitHub/LinkedIn/resume links (phone
+ * number deliberately excluded, matching what Contact links to), and
+ * a way back to the top.
  */
 function Footer() {
   const year = new Date().getFullYear()

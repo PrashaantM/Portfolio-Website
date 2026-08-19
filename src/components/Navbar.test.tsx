@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event'
 import Navbar from './Navbar'
 
 // playNavSlash constructs a real AudioContext, which jsdom doesn't
-// implement (see notes/phase-20.md). sceneBus is left real: it's plain
-// pub/sub with no browser API dependency, so there's nothing to mock.
+// implement. sceneBus is left real: it's plain pub/sub with no
+// browser API dependency, so there's nothing to mock.
 vi.mock('../lib/sfx', () => ({ playNavSlash: vi.fn() }))
 
 describe('Navbar', () => {

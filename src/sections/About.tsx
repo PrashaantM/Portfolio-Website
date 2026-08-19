@@ -14,9 +14,8 @@ interface IdentityNode {
 // Three tiers, top to bottom: what I study, how I actually practice
 // it, and the throughline underneath all of it. Not a rigorous tree,
 // just a shape that gives each node a description worth clicking for.
-// See notes/phase-7.md for why this isn't literal ASCII art or a
-// graph-physics library, and why the outside-of-code interests moved
-// out of this map into their own section instead of living here too.
+// Outside-of-code interests live in their own section (Interests.tsx)
+// rather than as a tier here.
 const TIERS: IdentityNode[][] = [
   [
     {
@@ -108,6 +107,9 @@ function IdentityMap() {
   )
 }
 
+// About.tsx renders the bio copy and the clickable identity map above.
+// Content here is inline rather than pulled from src/data/, since it's
+// prose specific to this section rather than a list of structured entries.
 function About() {
   return (
     <Section id="about">

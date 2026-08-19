@@ -14,15 +14,14 @@ interface DrawLineProps {
 }
 
 /**
- * The `drawLine` item from Phase 13's vocabulary: a path that draws
- * itself on rather than simply fading in, used wherever the site needs
- * to show a *connection* rather than just an element appearing -
- * Architecture's node connectors (Phase 14) and the Naruto-style
- * energy-trail connectors in Lab (Phase 12/10). Animates
- * `pathLength` 0 -> 1 rather than a `stroke-dashoffset` hack, since
- * Motion computes that from the path's real geometry automatically.
- * Redraws every time it re-enters the viewport, locked to drawing
- * once under reduced motion, same reasoning as `Reveal`.
+ * A path that draws itself on rather than simply fading in, used
+ * wherever the site needs to show a *connection* rather than just an
+ * element appearing: Architecture's node connectors and the
+ * Naruto-style energy-trail connectors in Lab. Animates `pathLength`
+ * 0 -> 1 rather than a `stroke-dashoffset` hack, since Motion computes
+ * that from the path's real geometry automatically. Redraws every
+ * time it re-enters the viewport, locked to drawing once under
+ * reduced motion, same reasoning as `Reveal`.
  */
 function DrawLine({
   path,

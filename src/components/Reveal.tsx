@@ -35,8 +35,8 @@ function withDelay(variant: Variants, delay: number): Variants {
 }
 
 /**
- * Scroll-triggered entrance, built on the Phase 13 vocabulary instead
- * of every section hand-rolling its own `whileInView` config. Replays
+ * Scroll-triggered entrance, shared so sections don't each hand-roll
+ * their own `whileInView` config. Replays
  * every time the element leaves and re-enters the viewport
  * (`viewport={{ once: false }}`), so scrolling away and back plays
  * the reveal again instead of leaving it in its already-settled end

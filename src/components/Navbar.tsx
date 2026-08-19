@@ -16,23 +16,23 @@ const NAV_LINKS = [
 
 /**
  * Sticky top nav. Below the `md` breakpoint the link list collapses
- * behind a menu button instead of shrinking to fit - a full
- * horizontal link row has no room on a phone, so it becomes a
- * different interaction rather than a smaller version of the same one.
+ * behind a menu button instead of shrinking to fit: a full horizontal
+ * link row has no room on a phone, so it becomes a different
+ * interaction rather than a smaller version of the same one.
  */
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   /**
-   * Phase 15's "hinokami kagura"-style transition: instead of jumping
-   * straight to the target, emit the burst's origin (the clicked
-   * link's own position) into the WebGL scene via `sceneBus`, play the
-   * whoosh, and only then scroll — 180ms in, partway through the
-   * ~700ms flash `NavBurst3D` renders, so the jump is hidden under the
-   * flash rather than happening before or after it. `href` stays a
-   * real anchor throughout (`preventDefault` only fires once this
-   * handler actually runs), so navigation still works even if
-   * something here fails.
+   * A "hinokami kagura"-style transition: instead of jumping straight
+   * to the target, emit the burst's origin (the clicked link's own
+   * position) into the WebGL scene via `sceneBus`, play the whoosh,
+   * and only then scroll, 180ms in, partway through the ~700ms flash
+   * `NavBurst3D` renders, so the jump is hidden under the flash rather
+   * than happening before or after it. `href` stays a real anchor
+   * throughout (`preventDefault` only fires once this handler
+   * actually runs), so navigation still works even if something here
+   * fails.
    */
   function handleNavClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
     event.preventDefault()

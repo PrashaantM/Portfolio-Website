@@ -13,7 +13,7 @@ import ScrollTrail3D from './ScrollTrail3D'
  * `src/components/Scene3D.tsx`, which is what actually decides
  * whether to fetch this chunk at all (reduced-motion / no-WebGL
  * visitors never trigger the import). Everything here composes into
- * one fixed, transparent, `pointer-events-none` `<Canvas>` — a
+ * one fixed, transparent, `pointer-events-none` `<Canvas>`, a
  * backdrop, never something that can block interaction with the real
  * page underneath it.
  */

@@ -10,14 +10,14 @@ interface LabCardProps {
  * Deliberately styled apart from `ProjectCard`: dashed border instead
  * of solid, an amber "CONCEPT" pill instead of green "BUILT", and a
  * "Possible visual" line treated as a sketch note rather than a
- * screenshot caption. Phase 10's own instruction is explicit, "each
- * idea should look like a concept rather than a completed product," so
- * the visual language has to say that before anyone reads a word of
- * copy. No entrance animation of its own: `Lab.tsx` already staggers
- * the whole grid in as a group, and wrapping each card in its own
- * `Reveal` on top of that would animate every card twice.
+ * screenshot caption. Each idea should look like a concept rather than
+ * a completed product, so the visual language has to say that before
+ * anyone reads a word of copy. No entrance animation of its own:
+ * `Lab.tsx` already staggers the whole grid in as a group, and
+ * wrapping each card in its own `Reveal` on top of that would animate
+ * every card twice.
  *
- * Unlike `LabBuildCard`, this card takes no `accent` - concepts stay
+ * Unlike `LabBuildCard`, this card takes no `accent`: concepts stay
  * uncolored on purpose, all sharing one dashed red border, so color
  * alone tells the shipped ones apart from the sketches.
  */

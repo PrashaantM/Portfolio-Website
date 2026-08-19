@@ -128,8 +128,8 @@ function EmberExtinguish({ position }: { position: [number, number, number] }) {
  * meshes, drifting slowly upward with per-particle sway and looping
  * back to the bottom once off the top. Additive to, not a replacement
  * for, Lab's existing denser/audio-reactive CSS `ParticleField`
- * (`src/components/ParticleField.tsx`) — that one stays exactly as
- * tuned. The glow sprite is a radial gradient painted on an offscreen
+ * (`src/components/ParticleField.tsx`), which stays exactly as tuned.
+ * The glow sprite is a radial gradient painted on an offscreen
  * canvas at runtime, the same "nothing sourced" reasoning as the
  * existing noise-background SVG in `motifs.css`.
  *
